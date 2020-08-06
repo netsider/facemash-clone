@@ -37,8 +37,10 @@ $(function () {
             //dataType: "json",
             type: 'POST',
             success: function (response){
-					$('#scoreOne').html(Number(response.body.playerOneNewScore).toFixed(0));
-					$('#scoreTwo').html(Number(response.body.playerTwoNewScore).toFixed(0));
+					$('#playerTwo').html(response.body.playerTwo);
+					$('#playerOne').html(response.body.playerOne);
+					$('#scoreOne').html(Number(response.body.playerOneNewScore).toFixed(2));
+					$('#scoreTwo').html(Number(response.body.playerTwoNewScore).toFixed(2));
 					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
 					console.log(response);
             }
@@ -60,8 +62,10 @@ $(function () {
 				}),
             type: 'POST',
             success: function (response){
-					$('#scoreTwo').html(Number(response.body.playerTwoNewScore).toFixed(0));
-					$('#scoreOne').html(Number(response.body.playerOneNewScore).toFixed(0));
+					$('#playerTwo').html(response.body.playerTwo);
+					$('#playerOne').html(response.body.playerOne);
+					$('#scoreTwo').html(Number(response.body.playerTwoNewScore).toFixed(2));
+					$('#scoreOne').html(Number(response.body.playerOneNewScore).toFixed(2));
 					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
 					console.log(response);
             }
