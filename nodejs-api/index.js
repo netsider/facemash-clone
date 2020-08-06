@@ -27,7 +27,7 @@ app.get("/", (req, res, next) => {
 
 // app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // If you don't use app.use(bodyParser.json());
 app.post("/submitPlayer", (req, res, next) => {
-	let winnerELO = loserELO = winnerNewScore = loserNewScore = playerOneNewScore = playerTwoNewScore = 0;
+	let playerOneNewScore = playerTwoNewScore = 0;
 
 	let playerOne = req.body.playerOne;
 	let playerTwo = req.body.playerTwo;
