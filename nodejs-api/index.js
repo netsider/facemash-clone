@@ -53,7 +53,7 @@ app.post("/submitPlayer", (req, res, next) => {
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
 	let playerTwoNewELO = ELO(playerTwoNewScore, playerOneNewScore);
 	
-	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore };
+	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo };
 	
 	// Request
 	// console.log(req.body);
