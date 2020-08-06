@@ -3,16 +3,37 @@
 // Version 0.1
 const bodyParser = require('body-parser');
 const express = require('express');
+const fs = require('fs');
 const app = express();
 const port = 3000;
 const k = 32;
+
+const publicDir = "files";
+const scorePath = publicDir + "/Scores/";
+const photoPath = publicDir + "/Pictures/";
+const picObj = fs.readdirSync(photoPath);
+
+let startingScore = 1500;
+let playerScoresObj = {};
+for (let item of picObj) {
+	let file = item.substring(0, item.length - 4);
+	let filePath = scorePath + file + ".txt";
+	playerScoresObj[item] = startingScore;
+}
+
+let playerNameArray = Object.keys(playerScoresObj);
+
+console.log(picObj);
+console.log(playerScoresObj);
+console.log(playerNameArray);
+
+
+
 
 // app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
-// Make start button to generate players first?
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // Request domain
@@ -23,6 +44,23 @@ app.use(function(req, res, next) {
 
 app.get("/", (req, res, next) => {
 	// res.json( {Data: "JSON Data."} );
+});
+
+app.post("/getPlayers", (req, res, next) => {
+	let p1 = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	let p2 = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	
+	while(p1 === p2){
+		p2 = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	}
+	p1score = playerScoresObj[p1];
+	p2score = playerScoresObj[p2];
+	
+	console.log("Player 1: " + p1);
+	console.log("Player 2: " + p2);
+	console.log("Player 1 Score: " + p1score);
+	console.log("Player 2 Score: " + p2score);
+
 });
 
 // app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // If you don't use app.use(bodyParser.json());
