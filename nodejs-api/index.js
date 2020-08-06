@@ -16,19 +16,14 @@ const picObj = fs.readdirSync(photoPath);
 let startingScore = 1500;
 let playerScoresObj = {};
 for (let item of picObj) {
-	let file = item.substring(0, item.length - 4);
-	let filePath = scorePath + file + ".txt";
 	playerScoresObj[item] = startingScore;
 }
 
 let playerNameArray = Object.keys(playerScoresObj);
 
-console.log(picObj);
-console.log(playerScoresObj);
-console.log(playerNameArray);
-
-
-
+// console.log(picObj);
+// console.log(playerScoresObj);
+// console.log(playerNameArray);
 
 // app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
