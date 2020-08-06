@@ -8,14 +8,17 @@
 <body>
 <br>
 <center>
-<form>
-	Player 1: <div id="playerOne">Allison</div><br><br>
-	Player 2: <div id="playerTwo">Henry</div><br><br>
-	Score 1: <div id="scoreOne">1500</div><br><br>
-	Score 2: <div id="scoreTwo">1500</div><br><br>
-	Output: <textarea id="form_out" rows="4" cols="60"></textarea><br>
-	<button type="button" id="btn" class="btn">Player One</button> <button type="button" id="btn2" class="btn">Player Two</button>
-</form></center>
+<div id="aform" class="form">
+	<form>
+		<div class="title">Player 1:</div><div id="playerOne">Allison</div><br><br>
+		<div class="title">Player 2:</div><div id="playerTwo">Henry</div><br><br>
+		<div class="title">Score 1:</div><div id="scoreOne">1500</div><br><br>
+		<div class="title">Score 2:</div><div id="scoreTwo">1500</div><br><br>
+		Output: <textarea id="form_out" rows="4" cols="60"></textarea><br>
+		<button type="button" id="btn" class="btn">Player One</button> <button type="button" id="btn2" class="btn">Player Two</button>
+	</form>
+</div>
+</center>
 <script>
 $(function () {
    $('#btn').click(function (){
@@ -34,7 +37,8 @@ $(function () {
             //dataType: "json",
             type: 'POST',
             success: function (response){
-					$('#scoreOne').html(Number(response.data.scoreOne) + 1);
+					$('#scoreOne').html(Number(response.body.playerOneNewScore).toFixed(0));
+					$('#scoreTwo').html(Number(response.body.playerTwoNewScore).toFixed(0));
 					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
 					console.log(response);
             }
@@ -56,7 +60,8 @@ $(function () {
 				}),
             type: 'POST',
             success: function (response){
-					$('#scoreOneOne').val(Number(response.data.scoreOne) + 1);
+					$('#scoreTwo').html(Number(response.body.playerTwoNewScore).toFixed(0));
+					$('#scoreOne').html(Number(response.body.playerOneNewScore).toFixed(0));
 					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
 					console.log(response);
             }
