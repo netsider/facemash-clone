@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Russell's ELO Experiment</title>
+	<title>Russell's Facemash Clone, PHP Version (formerly and AKA, a lot of stuff)</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
