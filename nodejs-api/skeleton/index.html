@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+</head>
+<body>
+
+<center><br>
+<form>
+	Name: <input type="text" id="uname" value=""><br><br>
+	Score: <input type="text" id="score" value=""><br><br>
+	Output: <textarea id="form_out" rows="4"></textarea><br>
+	<button type="button" id="btn" class="btn">Submit</button> <!-- actionmethod -->
+</form>
+</center>
+
+<script>
+$(function () {
+   $('#btn').click(function () {
+        $.ajax({
+            url: "http://localhost:3000/submitPlayer",
+				headers: {
+					'Content-Type':'application/json',
+					//'User-Agent': 'Mozilla/5.0' // Throws eror: Refused to set unsafe header "User-Agent"
+				},
+				data: JSON.stringify({
+					username: document.getElementById("uname").value,
+					password: document.getElementById("score").value
+					<!-- password: "DUMBSHIT" -->
+				}),
+            //dataType: "json",
+            type: 'POST',
+            success: function (response) {
+					console.log("Client Response Received!");
+               $('#form_out').val(response.data.username + " : " + response.data.password);
+					
+					console.log(response);
+            }
+        });
+	});
+	
+});
+</script>
