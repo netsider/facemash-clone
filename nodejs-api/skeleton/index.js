@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
 })
 
 app.get("/", (req, res, next) => {
-	res.json( {Data: "JSON Data."} );
+	// res.json( {Data: "JSON Data."} );
 });
 
 // app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // If you don't use app.use(bodyParser.json())
