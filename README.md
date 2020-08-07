@@ -9,7 +9,9 @@ This project originally began as an experiment into the algorith the original ve
 
 <br><strong>FAQ:</strong><br>
 
-<br><strong>Recent Changes/Updates:</strong><br>
-• See the <kbd>change.log</kbd> file in each folder.
+
+<br><strong>Recent Changes/To-Do:</strong><br>
+• Finish NodeJS skeleton.<br>
+• <strike>Start NodeJS and API skeleton.</strike> DONE 8-6-2020/8-7-2020<br>
 
 
