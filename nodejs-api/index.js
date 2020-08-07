@@ -7,18 +7,16 @@ const fs = require('fs');
 const app = express();
 const port = 3000;
 const k = 32;
-
 const publicDir = "files";
 const scorePath = publicDir + "/Scores/";
 const photoPath = publicDir + "/Pictures/";
 const picObj = fs.readdirSync(photoPath);
+//const startingScore = ;
 
-let startingScore = 1500;
 let playerScoresObj = {};
 for (let item of picObj) {
-	playerScoresObj[item] = startingScore;
+	playerScoresObj[item] = 1500;
 }
-
 let playerNameArray = Object.keys(playerScoresObj);
 
 // console.log(picObj);
@@ -33,7 +31,8 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // Request domain
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.type('json');
+  res.type("json");
+  // res.type('json');
   next();
 })
 
@@ -55,7 +54,6 @@ app.post("/getPlayers", (req, res, next) => {
 	console.log("Player 2: " + p2);
 	console.log("Player 1 Score: " + p1score);
 	console.log("Player 2 Score: " + p2score);
-
 });
 
 // app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // If you don't use app.use(bodyParser.json());
@@ -78,8 +76,8 @@ app.post("/submitPlayer", (req, res, next) => {
 		playerOneNewScore = playerOneOldScore + (k * (1 - playerOneELO));
 		playerTwoNewScore = playerTwoOldScore + (k * (0 - playerTwoELO));
 	}else{
-		playerTwoNewScore = playerTwoOldScore + (k * (1 - playerTwoELO));
 		playerOneNewScore = playerOneOldScore + (k * (0 - playerOneELO));
+		playerTwoNewScore = playerTwoOldScore + (k * (1 - playerTwoELO));
 		loser = "playerOne";
 	}
 	
