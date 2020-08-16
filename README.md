@@ -18,9 +18,9 @@ This project originally began as an experiment into the algorith the original ve
 <br><strong>Recent Changes (NodeJS version):</strong><br>
 • Finish skeleton.<br>
 • Make app perform shutdown.<br>
-• Incorporate stuff from old readme back into this one.<br>
-• Incorporate this file back into readme.txt, since it'll have its own repo soon?<br>
 • Make score pop up as an on-screen overlay notification.<br>
+• <strike>Incorporate stuff from old readme back into this one.</strike> DONE 8-16-2020<br>
+• <strike>Incorporate this file back into readme.txt, since it'll have its own repo soon?</strike> DONE 8-16-2020<br>
 • <strike>Make this folder have its own repo, for easier deployment.</strike> DONE 8-15-2020<br>
 • <strike>Start NodeJS and API skeleton.</strike> DONE 8-6-2020/8-7-2020<br>
 • <strike>Make sizeof() function only run at startup, like reading player scores.</strike> DONE 7-28-2020<br>
