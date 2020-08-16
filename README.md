@@ -1,4 +1,4 @@
-<h1>Russell's Facemash Clone (/facemash-clone)</h1>
+<h1>Russell's Facemash Clone</h1>
 <strong>Note: This project contains code from two reposities: <a href="https://github.com/netsider/ELO-Dopple">ELO-Dopple</a> (index_non_dopple.php, mainly), and <a href="https://github.com/netsider/ELO-Dopple-node">ELO-Dopple-node</a> (as the /non-dopple/ folder).  This project is also referred to as different names in those GitHub reposities (like "ELO-Node-Regular-Voting-App", and others).  See overview of files/folders below for more information.</strong><br>
 
 <br><strong>How This Project Started:</strong><br>
