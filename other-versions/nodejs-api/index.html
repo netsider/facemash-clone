@@ -20,6 +20,22 @@
 </div>
 </center>
 <script>
+window.onload = (event) => {
+  $.ajax({
+            url: "http://localhost:3000/getPlayers",
+				headers: {
+					'Content-Type':'application/json',
+				},
+				data: JSON.stringify({
+					data: "true"
+				}),
+            type: 'POST',
+            success: function (response){
+					console.log(response.body);
+            }
+        });
+};
+
 $(function () {
    $('#btn').click(function (){
         $.ajax({
@@ -67,6 +83,7 @@ $(function () {
 					$('#scoreTwo').html(Number(response.body.playerTwoNewScore).toFixed(2));
 					$('#scoreOne').html(Number(response.body.playerOneNewScore).toFixed(2));
 					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
+					<!-- $('#form_out').val(response.data); // Why can't you do this? -->
 					console.log(response);
             }
         });

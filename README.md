@@ -1,5 +1,5 @@
 <h1>Russell's Facemash Clone</h1>
-<strong>Note: This project contains code from two reposities: <a href="https://github.com/netsider/ELO-Dopple">ELO-Dopple</a> (index_non_dopple.php, mainly), and <a href="https://github.com/netsider/ELO-Dopple-node">ELO-Dopple-node</a> (as the /non-dopple/ folder).  This project is also referred to as different names in those GitHub reposities (like "ELO-Node-Regular-Voting-App", and others).  See overview of files/folders below for more information.</strong><br>
+<strong>Note: This project contains updated/current code from two older reposities: <a href="https://github.com/netsider/ELO-Dopple">ELO-Dopple</a> (index_non_dopple.php, mainly), and <a href="https://github.com/netsider/ELO-Dopple-node">ELO-Dopple-node</a> (as the /non-dopple/ folder).  This project is also referred to as different names in those GitHub reposities (like "ELO-Node-Regular-Voting-App", and others).  See overview of files/folders below for more information.</strong><br>
 
 
 <h2>Overview of Files/Folders in this Repository:</h2>
@@ -14,6 +14,12 @@ This project originally began as an experiment into the algorith the original ve
 
 <br><strong>Recent Changes (All Versions):</strong><br>
 • Move/other-versions to own repos?<br>
+
+<br><strong>Recent Changes (NodeJS API version):</strong><br>
+• Find out why scores don't persist when page reloaded.<br>
+• Make picture show for each player.<br>
+• Finish skeleton.<br>
+• <strike>Make page get initial player information from server.</strike> DONE 8-16-2020<br>
 
 <br><strong>Recent Changes (NodeJS version):</strong><br>
 • Finish skeleton.<br>
@@ -55,9 +61,6 @@ This project originally began as an experiment into the algorith the original ve
 • <strike>Change meaning of buttons and their labels, since they mean different things now</strike>. DONE.<br>
 • <strike>Make hidden field for second player.</strike> DONE.<br>
 • <strike>Make non-dopple version.</strike>DONE.<br>
-
-<br><strong>Recent Changes (NodeJS API version):</strong><br>
-• Finish skeleton.<br>
 
 <br><strong>Recent Changes (PHP version):</strong><br>
 • None yet.<br>

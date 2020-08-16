@@ -19,9 +19,9 @@ for (let item of picObj) {
 }
 let playerNameArray = Object.keys(playerScoresObj);
 
-// console.log(picObj);
-// console.log(playerScoresObj);
-// console.log(playerNameArray);
+console.log(picObj);
+console.log(playerScoresObj);
+console.log(playerNameArray);
 
 // app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -36,24 +36,24 @@ app.use(function(req, res, next) {
   next();
 })
 
-app.get("/", (req, res, next) => {
+// app.get("/", (req, res, next) => {
 	// res.json( {Data: "JSON Data."} );
-});
+// });
 
 app.post("/getPlayers", (req, res, next) => {
-	let p1 = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)]; // To Do: Check range
-	let p2 = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	let playerOne = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)]; // To Do: Check range
+	let playerTwo = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
 	
-	while(p1 === p2){
-		p2 = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	while(playerOne === playerTwo){
+		playerTwo = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
 	}
-	p1score = playerScoresObj[p1];
-	p2score = playerScoresObj[p2];
+	let playerOneScore = playerScoresObj[playerOne];
+	let playerTwoScore = playerScoresObj[playerTwo];
 	
-	console.log("Player 1: " + p1);
-	console.log("Player 2: " + p2);
-	console.log("Player 1 Score: " + p1score);
-	console.log("Player 2 Score: " + p2score);
+	console.log("Player 1: " + playerOne + "Player 1 Score: " + playerOneScore);
+	console.log("Player 2: " + playerTwo + "Player 2 Score: " + playerTwoScore);
+
+	res.json( { "body": { playerOne: playerOne, playerTwo: playerTwo, playerOneScore: playerOneScore, playerTwoScore: playerTwoScore } } );
 });
 
 // app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // If you don't use app.use(bodyParser.json());
@@ -75,10 +75,12 @@ app.post("/submitPlayer", (req, res, next) => {
 	if(winner === "playerOne"){
 		playerOneNewScore = playerOneOldScore + (k * (1 - playerOneELO));
 		playerTwoNewScore = playerTwoOldScore + (k * (0 - playerTwoELO));
+		// Update score here
 	}else{
 		playerOneNewScore = playerOneOldScore + (k * (0 - playerOneELO));
 		playerTwoNewScore = playerTwoOldScore + (k * (1 - playerTwoELO));
 		loser = "playerOne";
+		// Update score here
 	}
 	
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
