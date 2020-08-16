@@ -5,8 +5,8 @@
 <h2>Overview of Files/Folders in this Repository:</h2>
 • <a href="https://github.com/netsider/facemash-clone/blob/master/index.js">/index.js</a> - The regular nodejs version of Facemash Clone.  This version is designed to be scalable, but may not always be 100% scalable since I'm still learning.<br>
 • <a href="https://github.com/netsider/facemash-clone/blob/master/index-v1.js">/index-v1.js</a> - The regular nodejs version of Facemash Clone, but almost completely non-scalable.<br>
-• <a href="https://github.com/netsider/facemash-clone/tree/master/other-versions/nodejs-api">/other-versions/nodejs-api/</a> - REST version of FaceMash Clone (previously <a href="https://github.com/netsider/ELO-Dopple-node">ELO-Dopple-node</a> - the /non-dopple/ folder).<br>
-• <a href="https://github.com/netsider/facemash-clone/tree/master/other-versions/php">/other-versions/php/</a> - PHP version of FaceMash Clone (previously <a href="https://github.com/netsider/ELO-Dopple">ELO-Dopple</a> - as index_non_dopple.php).<br>
+• <a href="https://github.com/netsider/facemash-clone/tree/master/other-versions/nodejs-api">/other-versions/nodejs-api/</a> - REST version of FaceMash Clone (previously <a href="https://github.com/netsider/ELO-Dopple-node">ELO-Dopple-node</a>, as the /non-dopple/ folder).<br>
+• <a href="https://github.com/netsider/facemash-clone/tree/master/other-versions/php">/other-versions/php/</a> - PHP version of FaceMash Clone (previously <a href="https://github.com/netsider/ELO-Dopple">ELO-Dopple</a>, as index_non_dopple.php).<br>
 
 <h2>FAQ:</strong></h2>
 <strong>How did this project start?</strong><br>
