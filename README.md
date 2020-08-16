@@ -13,7 +13,7 @@
 This project originally began as an experiment into the algorith the original version of Facemash (the predecessor to Facebook) uses, the ELO formula.  After figuring out how the ELO formula worked, I wanted to recreate a simple version of Facemash, since I couldn't find one.  While recreating Facemash, I realized the formula could also be used to rate other things, which led me to create the "Doppeganger version" of Facemash, which is used to rank how alike celebrities look instead of how attractive the person is, like Facemash.<br>
 
 <br><strong>Recent Changes (All Versions):</strong><br>
-• • Move/other-versions to own repos?<br>
+• Move/other-versions to own repos?<br>
 
 <br><strong>Recent Changes (NodeJS version):</strong><br>
 • Finish skeleton.<br>
