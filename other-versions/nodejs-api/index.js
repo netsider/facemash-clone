@@ -1,4 +1,4 @@
-// ELO-Node-Regular-Voting-App-API (FaceMash Clone - API version)
+// FaceMash Clone - API version
 // Made by Russell Rounds
 // Version 0.1
 const bodyParser = require('body-parser');
@@ -41,7 +41,7 @@ app.get("/", (req, res, next) => {
 });
 
 app.post("/getPlayers", (req, res, next) => {
-	let p1 = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	let p1 = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)]; // To Do: Check range
 	let p2 = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
 	
 	while(p1 === p2){

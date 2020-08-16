@@ -1,11 +1,11 @@
-<br><h3>ELO-Dopple-node\node-non-dopple</h3>
+<br><h3>facemash-clone</h3>
 
 <br><strong>To Do:</strong><br>
 • Make app perform shutdown.<br>
 • Incorporate stuff from old readme back into this one.<br>
 • Incorporate this file back into readme.txt, since it'll have its own repo soon?<br>
 • Make score pop up as an on-screen overlay notification.<br>
-• Make this folder have its own repo, for easier deployment.<br>
+• <strike>Make this folder have its own repo, for easier deployment.</strike><br>
 • <strike>Make sizeof() function only run at startup, like reading player scores.</strike> DONE 7-28-2020<br>
 • <strike>Finish changing app to use memory instead of files while running.</strike> DONE 7-27-2020<br>
 • <strike>Combine the last two of the three player generator functions together.</strike> DONE 7-27-2020<br>
