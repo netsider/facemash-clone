@@ -38,8 +38,9 @@ window.onload = (event) => {
 				}),
             type: 'POST',
             success: function (response){
-					$('#playerTwo').html(response.body.playerTwo);
-					$('#playerOne').html(response.body.playerOne);
+					
+					$('#playerTwo').html(response.body.playerTwo.substring(0, response.body.playerTwo.length - 4));
+					$('#playerOne').html(response.body.playerOne.substring(0, response.body.playerOne.length - 4));
 					$('#scoreOne').html(Number(response.body.playerOneScore).toFixed(2));
 					$('#scoreTwo').html(Number(response.body.playerTwoScore).toFixed(2));
 					$('#imgOne').html('<img src="files/Pictures/' + response.body.playerOne + '" width="150px" height="300px">');
@@ -98,6 +99,7 @@ $(function () {
 					$('#form_out').val(response.body.playerOneNewScore + " : " + response.body.playerTwoNewScore + " : " + response.body.playerOne + " : " + response.body.playerTwo);
 					<!-- $('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo); --> // original request
 					<!-- $('#form_out').val(response.data); // Why can't you do this? -->
+					<!-- $('#form_out').val(Object.keys(response.data)); //  -->
 					console.log(response);
             }
         });
