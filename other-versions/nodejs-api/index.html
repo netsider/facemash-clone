@@ -37,7 +37,6 @@ window.onload = (event) => {
 				}),
             type: 'POST',
             success: function (response){
-					
 					$('#playerTwo').html(response.body.playerTwo.substring(0, response.body.playerTwo.length - 4));
 					$('#playerOne').html(response.body.playerOne.substring(0, response.body.playerOne.length - 4));
 					$('#scoreOne').html(Number(response.body.playerOneScore).toFixed(2));
@@ -50,6 +49,7 @@ window.onload = (event) => {
 };
 
 $(function () {
+
    $('#btn').click(function (){
         $.ajax({
             url: "http://localhost:3000/submitPlayer",
@@ -75,7 +75,6 @@ $(function () {
             }
         });
 	});
-
    $('#btn2').click(function (){
         $.ajax({
             url: "http://localhost:3000/submitPlayer",
@@ -96,13 +95,13 @@ $(function () {
 					$('#scoreTwo').html(Number(response.body.playerTwoNewScore).toFixed(2));
 					$('#scoreOne').html(Number(response.body.playerOneNewScore).toFixed(2));
 					$('#form_out').val(response.body.playerOneNewScore + " : " + response.body.playerTwoNewScore + " : " + response.body.playerOne + " : " + response.body.playerTwo);
-					<!-- $('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo); --> // original request
 					<!-- $('#form_out').val(response.data); // Why can't you do this? -->
 					<!-- $('#form_out').val(Object.keys(response.data)); //  -->
 					console.log(response);
             }
         });
 	});
-
+	
+	
 });
 </script>
