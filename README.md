@@ -16,10 +16,12 @@ This project originally began as an experiment into the algorith the original ve
 • Move/other-versions to own repos?<br>
 
 <br><strong>Recent Changes (NodeJS API version):</strong><br>
+• Make it select a new player each time, somehow.<br>
+• Make it calculate and set picture aspect ratios.<br>
 • Host index.html somewhere.<br>
-• Make scores update on submit.<br>
-• Make picture show for each player.<br>
 • Finish skeleton.<br>
+• <strike>Make scores update on submit.</strike> DONE 8-17-2020<br>
+• <strike>Make picture show for each player.</strike> DONE 8-17-2020<br>
 • <strike>Make page get initial player information from server.</strike> DONE 8-16-2020<br>
 
 <br><strong>Recent Changes (NodeJS version):</strong><br>
