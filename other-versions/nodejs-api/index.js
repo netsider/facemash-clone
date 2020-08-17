@@ -74,12 +74,14 @@ app.post("/submitPlayer", (req, res, next) => {
 	if(winner === "playerOne"){
 		playerOneNewScore = playerOneOldScore + (k * (1 - playerOneELO));
 		playerTwoNewScore = playerTwoOldScore + (k * (0 - playerTwoELO));
-		// Update score here
+		playerScoresObj[playerOne] = playerOneNewScore;
+		playerScoresObj[playerTwo] = playerTwoNewScore;
 	}else{
 		playerOneNewScore = playerOneOldScore + (k * (0 - playerOneELO));
 		playerTwoNewScore = playerTwoOldScore + (k * (1 - playerTwoELO));
+		playerScoresObj[playerOne] = playerOneNewScore;
+		playerScoresObj[playerTwo] = playerTwoNewScore;
 		loser = "playerOne";
-		// Update score here
 	}
 	
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
