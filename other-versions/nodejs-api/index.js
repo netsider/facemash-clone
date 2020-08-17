@@ -81,20 +81,19 @@ app.post("/submitPlayer", (req, res, next) => {
 	}
 	
 	playerScoresObj[playerOne + ".jpg"] = playerOneNewScore;
-		playerScoresObj[playerTwo + ".jpg"] = playerTwoNewScore;
+	playerScoresObj[playerTwo + ".jpg"] = playerTwoNewScore;
 	
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
 	let playerTwoNewELO = ELO(playerTwoNewScore, playerOneNewScore);
 	
 	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo };
 	
-	// Request
 	// console.log(req.body);
-	
 	console.log(winnerLoserObject);
 	
-	// Response
-	let newObj = { "data": req.body, "body": winnerLoserObject };
+	let newObj = { "old": req.body, "body": winnerLoserObject };
+	// let newObj = { "body": winnerLoserObject };
+	
 	res.json(newObj);
 });
 
