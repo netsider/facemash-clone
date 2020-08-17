@@ -11,6 +11,7 @@ const sizeOf = require("image-size");
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.json);
 
 const publicDir = "files";
 app.use(express.static(__dirname + "/" + publicDir));
