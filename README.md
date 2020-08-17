@@ -16,6 +16,7 @@ This project originally began as an experiment into the algorith the original ve
 • Move/other-versions to own repos?<br>
 
 <br><strong>Recent Changes (NodeJS API version):</strong><br>
+• Host index.html somewhere.<br>
 • Make scores update on submit.<br>
 • Make picture show for each player.<br>
 • Finish skeleton.<br>

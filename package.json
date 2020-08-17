@@ -1,7 +1,7 @@
 {
-  "name": "elo-dopple-node",
+  "name": "facemash-clone",
   "version": "1.0.0",
-  "description": "<strong>Questions People May Have:</strong><br />\r • <strong>Is this project done/working?</strong> Kind of (technically yes), but it's a little buggy and rough.  It does work, however.  If you want to run it, just clone/download this whole folder/repo, since some files had to be created manually at first.<br/>",
+  "description": "",
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/netsider/ELO-Dopple.git"
+    "url": "git+https://github.com/netsider/facemash-clone.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/netsider/ELO-Dopple/issues"
+    "url": "https://github.com/netsider/facemash-clone/issues"
   },
-  "homepage": "https://github.com/netsider/ELO-Dopple#readme"
+  "homepage": "https://github.com/netsider/facemash-clone#readme"
 }

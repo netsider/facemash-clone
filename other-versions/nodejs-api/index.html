@@ -4,10 +4,17 @@
 	<title></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+	<style>
+	div {
+		display: inline;
+		<!-- display: inline-block; // Why does this make everything on one line? -->  
+	}
+	</style>
 </head>
 <body>
 <br>
 <center>
+<div id="wrapper"><div id="imgOne"></div><div id="imgTwo"></div></div>
 <div id="aform" class="form">
 	<form>
 		<div class="title">Player 1:</div><div id="playerOne">Allison</div><br><br>
@@ -31,6 +38,12 @@ window.onload = (event) => {
 				}),
             type: 'POST',
             success: function (response){
+					$('#playerTwo').html(response.body.playerTwo);
+					$('#playerOne').html(response.body.playerOne);
+					$('#scoreOne').html(Number(response.body.playerOneScore).toFixed(2));
+					$('#scoreTwo').html(Number(response.body.playerTwoScore).toFixed(2));
+					$('#imgOne').html('<img src="files/Pictures/' + response.body.playerOne + '" width="150px" height="300px">');
+					$('#imgTwo').html('<img src="files/Pictures/' + response.body.playerTwo + '" width="150px" height="300px">');
 					console.log(response.body);
             }
         });
