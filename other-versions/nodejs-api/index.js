@@ -74,15 +74,14 @@ app.post("/submitPlayer", (req, res, next) => {
 	if(winner === "playerOne"){
 		playerOneNewScore = playerOneOldScore + (k * (1 - playerOneELO));
 		playerTwoNewScore = playerTwoOldScore + (k * (0 - playerTwoELO));
-		playerScoresObj[playerOne + ".jpg"] = playerOneNewScore;
-		playerScoresObj[playerTwo + ".jpg"] = playerTwoNewScore;
 	}else{
 		playerOneNewScore = playerOneOldScore + (k * (0 - playerOneELO));
 		playerTwoNewScore = playerTwoOldScore + (k * (1 - playerTwoELO));
-		playerScoresObj[playerOne + ".jpg"] = playerOneNewScore;
-		playerScoresObj[playerTwo + ".jpg"] = playerTwoNewScore;
 		loser = "playerOne";
 	}
+	
+	playerScoresObj[playerOne + ".jpg"] = playerOneNewScore;
+		playerScoresObj[playerTwo + ".jpg"] = playerTwoNewScore;
 	
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
 	let playerTwoNewELO = ELO(playerTwoNewScore, playerOneNewScore);
