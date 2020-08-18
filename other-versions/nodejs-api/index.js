@@ -22,7 +22,7 @@ console.log(picObj);
 console.log(playerScoresObj);
 console.log(playerNameArray);
 
-// app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.urlencoded({extended: true})); // What's the diff?
 app.use(bodyParser.json());
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
