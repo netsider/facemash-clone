@@ -35,10 +35,6 @@ app.use(function(req, res, next) {
   next();
 })
 
-// app.get("/", (req, res, next) => {
-	// res.json( {Data: "JSON Data."} );
-// });
-
 app.post("/getPlayers", (req, res, next) => {
 	let playerOne = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
 	let playerTwo = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
