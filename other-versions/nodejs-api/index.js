@@ -80,16 +80,36 @@ app.post("/submitPlayer", (req, res, next) => {
 		loser = "playerOne";
 	}
 	
-	playerScoresObj[playerOne + ".jpg"] = playerOneNewScore;
-	playerScoresObj[playerTwo + ".jpg"] = playerTwoNewScore;
+	console.log(playerScoresObj);
+	
+	playerScoresObj[playerOne] = playerOneNewScore;
+	playerScoresObj[playerTwo] = playerTwoNewScore;
+	
+	console.log(playerScoresObj);
 	
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
 	let playerTwoNewELO = ELO(playerTwoNewScore, playerOneNewScore);
 	
-	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo };
+	// Generate new players
+	playerOneNew = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	playerTwoNew = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	
+	// console.log("playerOneNew: " + playerOneNew + " playerTwoNew: " + playerTwoNew);
+	
+	while(playerOneNew === playerTwoNew){
+		playerTwoNew = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	}
+	let playerOneScore = Number(playerScoresObj[playerOneNew]);
+	let playerTwoScore = Number(playerScoresObj[playerTwoNew]);
+	
+	// console.log("Player 1: " + playerOneNew + "Player 1 Score: " + playerOneScore);
+	// console.log("Player 2: " + playerTwoNew + "Player 2 Score: " + playerTwoScore);
+	
+	
+	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo, playerOneScore: playerOneScore, playerTwoScore: playerTwoScore, playerOneNew: playerOneNew, playerTwoNew: playerTwoNew, playerScoresObj: playerScoresObj};
 	
 	// console.log(req.body);
-	console.log(winnerLoserObject);
+	// console.log(winnerLoserObject);
 	
 	let newObj = { "old": req.body, "body": winnerLoserObject };
 	// let newObj = { "body": winnerLoserObject };
