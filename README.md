@@ -16,7 +16,8 @@ This project originally began as an experiment into the algorith the original ve
 • Move/other-versions to own repos?<br>
 
 <br><strong>Recent Changes (NodeJS API version):</strong><br>
-• Make it select a new player each time, somehow.<br>
+• Make checkbox to lock player, and make it do so.<br>
+• Make it select a new player each time.<br>
 • Make it calculate and set picture aspect ratios.<br>
 • Host index.html somewhere.<br>
 • Finish skeleton.<br>
