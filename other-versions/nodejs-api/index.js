@@ -18,9 +18,9 @@ for (let item of picObj) {
 }
 let playerNameArray = Object.keys(playerScoresObj);
 
-console.log(picObj);
+// console.log(picObj);
 console.log(playerScoresObj);
-console.log(playerNameArray);
+// console.log(playerNameArray);
 
 // app.use(bodyParser.urlencoded({extended: true})); // What's the diff?
 app.use(bodyParser.json());
@@ -100,7 +100,8 @@ app.post("/submitPlayer", (req, res, next) => {
 	
 	// console.log(req.body);
 	
-	let newObj = { "old": req.body, "body": winnerLoserObject };
+	// let newObj = { "old": req.body, "body": winnerLoserObject };
+	let newObj = { "body": winnerLoserObject };
 	
 	res.json(newObj);
 });
