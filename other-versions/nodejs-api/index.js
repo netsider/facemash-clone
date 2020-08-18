@@ -40,11 +40,11 @@ app.use(function(req, res, next) {
 // });
 
 app.post("/getPlayers", (req, res, next) => {
-	let playerOne = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)]; // To Do: Check range
-	let playerTwo = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+	let playerOne = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
+	let playerTwo = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
 	
 	while(playerOne === playerTwo){
-		playerTwo = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+		playerTwo = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
 	}
 	let playerOneScore = playerScoresObj[playerOne];
 	let playerTwoScore = playerScoresObj[playerTwo];
@@ -80,39 +80,31 @@ app.post("/submitPlayer", (req, res, next) => {
 		loser = "playerOne";
 	}
 	
-	console.log(playerScoresObj);
+	// console.log(playerScoresObj);
 	
 	playerScoresObj[playerOne] = playerOneNewScore;
 	playerScoresObj[playerTwo] = playerTwoNewScore;
 	
-	console.log(playerScoresObj);
+	// console.log(playerScoresObj);
 	
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
 	let playerTwoNewELO = ELO(playerTwoNewScore, playerOneNewScore);
 	
 	// Generate new players
-	playerOneNew = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
-	playerTwoNew = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
-	
-	// console.log("playerOneNew: " + playerOneNew + " playerTwoNew: " + playerTwoNew);
+	playerOneNew = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
+	playerTwoNew = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
 	
 	while(playerOneNew === playerTwoNew){
-		playerTwoNew = playerNameArray[getRandomIntInclusive(1, playerNameArray.length - 1)];
+		playerTwoNew = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
 	}
 	let playerOneScore = Number(playerScoresObj[playerOneNew]);
 	let playerTwoScore = Number(playerScoresObj[playerTwoNew]);
 	
-	// console.log("Player 1: " + playerOneNew + "Player 1 Score: " + playerOneScore);
-	// console.log("Player 2: " + playerTwoNew + "Player 2 Score: " + playerTwoScore);
-	
-	
 	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo, playerOneScore: playerOneScore, playerTwoScore: playerTwoScore, playerOneNew: playerOneNew, playerTwoNew: playerTwoNew, playerScoresObj: playerScoresObj};
 	
 	// console.log(req.body);
-	// console.log(winnerLoserObject);
 	
 	let newObj = { "old": req.body, "body": winnerLoserObject };
-	// let newObj = { "body": winnerLoserObject };
 	
 	res.json(newObj);
 });
