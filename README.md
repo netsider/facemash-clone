@@ -17,10 +17,11 @@ This project originally began as an experiment into the algorith the original ve
 
 <br><strong>Recent Changes (NodeJS API version):</strong><br>
 • Make checkbox to lock player, and make it do so.<br>
-• Make it select a new player each time.<br>
 • Make it calculate and set picture aspect ratios.<br>
 • Host index.html somewhere.<br>
 • Finish skeleton.<br>
+• <strike>Fix player selection object range.</strike> DONE 8-18-2020<br>
+• <strike>Make it select a new player each time.</strike> DONE 8-18-2020<br>
 • <strike>Fix player names.</strike> DONE 8-17-2020<br>
 • <strike>Make scores update on submit.</strike> DONE 8-17-2020<br>
 • <strike>Make picture show for each player.</strike> DONE 8-17-2020<br>
