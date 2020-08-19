@@ -16,7 +16,8 @@ This project originally began as an experiment into the algorith the original ve
 • Move/other-versions to own repos?<br>
 
 <br><strong>Recent Changes (NodeJS API version):</strong><br>
-• Sanitize user input.<br>
+• Sanitize user input (needed?).<br>
+• Eliminate uneeded variables from response object.<br>
 • Make it calculate and set picture aspect ratios.<br>
 • Host index.html somewhere.<br>
 • Finish skeleton.<br>
