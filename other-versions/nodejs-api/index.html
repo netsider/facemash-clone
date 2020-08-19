@@ -20,7 +20,9 @@
 		<div class="title">Player 2:</div><div id="playerTwo">Blank</div><br><br>
 		<div class="title">Score 1:</div><div id="scoreOne">0000</div><br><br>
 		<div class="title">Score 2:</div><div id="scoreTwo">0000</div><br><br>
-		Output: <textarea id="form_out" rows="10" cols="70"></textarea><br>
+		Output: <textarea id="form_out" rows="10" cols="70"></textarea><br><br>
+		 <input type="checkbox" id="lockPlayers" name="lockPlayers" value="1">
+  <label for="lockPlayers">Keep same players next round</label><br><br>
 		<button type="button" id="btn" class="btn">Player One</button> <button type="button" id="btn2" class="btn">Player Two</button>
 	</form>
 </div>
@@ -61,15 +63,16 @@ $(function () {
 					playerTwo: document.getElementById("playerTwo").innerHTML,
 					scoreOne: document.getElementById("scoreOne").innerHTML,
 					scoreTwo: document.getElementById("scoreTwo").innerHTML,
+					lockPlayers: $('#lockPlayers').is(":checked"),
 					winner: "playerOne"
 				}),
             //dataType: "json",
             type: 'POST',
             success: function (response){
-					$('#playerTwo').html(response.body.playerTwoNew);
-					$('#playerOne').html(response.body.playerOneNew);
-					$('#scoreOne').html(Number(response.body.playerOneScore).toFixed(2));
-					$('#scoreTwo').html(Number(response.body.playerTwoScore).toFixed(2));
+					$('#playerTwo').html(response.body.playerTwoToDisplay);
+					$('#playerOne').html(response.body.playerOneToDisplay);
+					$('#scoreOne').html(Number(response.body.playerOneScoreToDisplay).toFixed(2));
+					$('#scoreTwo').html(Number(response.body.playerTwoScoreToDisplay).toFixed(2));
 					$('#form_out').val(JSON.stringify(response.body.playerScoresObj, null, 4));
 					<!-- console.log(response); -->
             }
@@ -86,6 +89,7 @@ $(function () {
 					playerTwo: document.getElementById("playerTwo").innerHTML,
 					scoreOne: document.getElementById("scoreOne").innerHTML,
 					scoreTwo: document.getElementById("scoreTwo").innerHTML,
+					lockPlayers: $('#lockPlayers').is(":checked"),
 					winner: "playerTwo"
 				}),
             type: 'POST',

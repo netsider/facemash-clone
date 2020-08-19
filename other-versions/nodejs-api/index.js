@@ -1,6 +1,5 @@
-// FaceMash Clone - API version
+// facemash-clone, API version (https://github.com/netsider/facemash-clone/tree/master/other-versions/nodejs-api)
 // Made by Russell Rounds
-// Version 0.1
 const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
@@ -55,6 +54,8 @@ app.post("/getPlayers", (req, res, next) => {
 app.post("/submitPlayer", (req, res, next) => {
 	let playerOneNewScore = playerTwoNewScore = 0;
 
+	let lockPlayers = req.body.lockPlayers;
+	
 	let playerOne = req.body.playerOne;
 	let playerTwo = req.body.playerTwo;
 	
@@ -96,10 +97,32 @@ app.post("/submitPlayer", (req, res, next) => {
 	let playerOneScore = Number(playerScoresObj[playerOneNew]);
 	let playerTwoScore = Number(playerScoresObj[playerTwoNew]);
 	
-	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo, playerOneScore: playerOneScore, playerTwoScore: playerTwoScore, playerOneNew: playerOneNew, playerTwoNew: playerTwoNew, playerScoresObj: playerScoresObj};
+	let playerOneToDisplay = "";
+	let playerTwoToDisplay = "";
+	let playerOneScoreToDisplay = 0;
+	let playerTwoScoreToDisplay = 0;
+	
+	console.log("req.body.lockPlayers: " + req.body.lockPlayers);
+	
+	if(req.body.lockPlayers === true){
+		console.log("Locked!");
+		playerOneToDisplay = playerOne;
+		playerTwoToDisplay = playerTwo;
+	}else{
+		console.log("Not Locked!");
+		playerOneToDisplay = playerOneNew;
+		playerTwoToDisplay = playerTwoNew;
+	}
+	
+	playerOneScoreToDisplay = Number(playerScoresObj[playerOneToDisplay]);
+	playerTwoScoreToDisplay = Number(playerScoresObj[playerTwoToDisplay]);
+	
+	// console.log("playerOneScoreToDisplay: " + playerOneScoreToDisplay);
+	// console.log("playerTwoScoreToDisplay: " + playerTwoScoreToDisplay);
+	
+	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo, playerOneScore: playerOneScore, playerTwoScore: playerTwoScore, playerOneNew: playerOneNew, playerTwoNew: playerTwoNew, playerOneToDisplay: playerOneToDisplay, playerTwoToDisplay: playerTwoToDisplay, playerOneScoreToDisplay: playerOneScoreToDisplay, playerTwoScoreToDisplay: playerTwoScoreToDisplay, playerScoresObj: playerScoresObj};
 	
 	// console.log(req.body);
-	
 	// let newObj = { "old": req.body, "body": winnerLoserObject };
 	let newObj = { "body": winnerLoserObject };
 	
@@ -109,6 +132,7 @@ app.post("/submitPlayer", (req, res, next) => {
 function ELO(A, B){
 	return 1 / (1 + Math.pow(10,((B - A)/400)));
 };
+
 function getRandomIntInclusive(min, max) {
 		min = Math.ceil(min);
 		max = Math.floor(max);
