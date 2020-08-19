@@ -94,10 +94,10 @@ $(function () {
 				}),
             type: 'POST',
             success: function (response){
-					$('#playerTwo').html(response.body.playerTwoNew);
-					$('#playerOne').html(response.body.playerOneNew);
-					$('#scoreTwo').html(Number(response.body.playerTwoScore).toFixed(2));
-					$('#scoreOne').html(Number(response.body.playerOneScore).toFixed(2));
+					$('#playerTwo').html(response.body.playerTwoToDisplay);
+					$('#playerOne').html(response.body.playerOneToDisplay);
+					$('#scoreOne').html(Number(response.body.playerOneScoreToDisplay).toFixed(2));
+					$('#scoreTwo').html(Number(response.body.playerTwoScoreToDisplay).toFixed(2));
 					$('#form_out').val(JSON.stringify(response.body.playerScoresObj, null, 4));
 					<!-- console.log(response); -->
             }
