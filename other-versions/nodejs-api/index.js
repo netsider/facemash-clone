@@ -53,8 +53,6 @@ app.post("/getPlayers", (req, res, next) => {
 // app.post("/submitPlayer", bodyParser.json(), (req, res, next) => { // If you don't use app.use(bodyParser.json());
 app.post("/submitPlayer", (req, res, next) => {
 	let playerOneNewScore = playerTwoNewScore = 0;
-
-	let lockPlayers = req.body.lockPlayers;
 	
 	let playerOne = req.body.playerOne;
 	let playerTwo = req.body.playerTwo;
@@ -87,29 +85,26 @@ app.post("/submitPlayer", (req, res, next) => {
 	let playerOneNewELO = ELO(playerOneNewScore, playerTwoNewScore);
 	let playerTwoNewELO = ELO(playerTwoNewScore, playerOneNewScore);
 	
-	// Generate new players
 	playerOneNew = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
 	playerTwoNew = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
 	
 	while(playerOneNew === playerTwoNew){
 		playerTwoNew = playerNameArray[getRandomIntInclusive(0, playerNameArray.length - 1)];
 	}
-	let playerOneScore = Number(playerScoresObj[playerOneNew]);
-	let playerTwoScore = Number(playerScoresObj[playerTwoNew]);
 	
 	let playerOneToDisplay = "";
 	let playerTwoToDisplay = "";
 	let playerOneScoreToDisplay = 0;
 	let playerTwoScoreToDisplay = 0;
 	
-	console.log("req.body.lockPlayers: " + req.body.lockPlayers);
+	// console.log("req.body.lockPlayers: " + req.body.lockPlayers);
 	
 	if(req.body.lockPlayers === true){
-		console.log("Locked!");
+		// console.log("Locked!");
 		playerOneToDisplay = playerOne;
 		playerTwoToDisplay = playerTwo;
 	}else{
-		console.log("Not Locked!");
+		// console.log("Not Locked!");
 		playerOneToDisplay = playerOneNew;
 		playerTwoToDisplay = playerTwoNew;
 	}
@@ -117,10 +112,7 @@ app.post("/submitPlayer", (req, res, next) => {
 	playerOneScoreToDisplay = Number(playerScoresObj[playerOneToDisplay]);
 	playerTwoScoreToDisplay = Number(playerScoresObj[playerTwoToDisplay]);
 	
-	// console.log("playerOneScoreToDisplay: " + playerOneScoreToDisplay);
-	// console.log("playerTwoScoreToDisplay: " + playerTwoScoreToDisplay);
-	
-	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo, playerOneScore: playerOneScore, playerTwoScore: playerTwoScore, playerOneNew: playerOneNew, playerTwoNew: playerTwoNew, playerOneToDisplay: playerOneToDisplay, playerTwoToDisplay: playerTwoToDisplay, playerOneScoreToDisplay: playerOneScoreToDisplay, playerTwoScoreToDisplay: playerTwoScoreToDisplay, playerScoresObj: playerScoresObj};
+	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo, playerOneNew: playerOneNew, playerTwoNew: playerTwoNew, playerOneToDisplay: playerOneToDisplay, playerTwoToDisplay: playerTwoToDisplay, playerOneScoreToDisplay: playerOneScoreToDisplay, playerTwoScoreToDisplay: playerTwoScoreToDisplay, playerScoresObj: playerScoresObj};
 	
 	// console.log(req.body);
 	// let newObj = { "old": req.body, "body": winnerLoserObject };
