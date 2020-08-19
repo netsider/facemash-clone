@@ -43,9 +43,6 @@ app.post("/getPlayers", (req, res, next) => {
 	}
 	let playerOneScore = playerScoresObj[playerOne];
 	let playerTwoScore = playerScoresObj[playerTwo];
-	
-	// console.log("Player 1: " + playerOne + "Player 1 Score: " + playerOneScore);
-	// console.log("Player 2: " + playerTwo + "Player 2 Score: " + playerTwoScore);
 
 	res.json( { "body": { playerOne: playerOne, playerTwo: playerTwo, playerOneScore: playerOneScore, playerTwoScore: playerTwoScore } } );
 });
@@ -94,27 +91,22 @@ app.post("/submitPlayer", (req, res, next) => {
 	
 	let playerOneToDisplay = "";
 	let playerTwoToDisplay = "";
-	let playerOneScoreToDisplay = 0;
-	let playerTwoScoreToDisplay = 0;
-	
-	// console.log("req.body.lockPlayers: " + req.body.lockPlayers);
 	
 	if(req.body.lockPlayers === true){
-		// console.log("Locked!");
 		playerOneToDisplay = playerOne;
 		playerTwoToDisplay = playerTwo;
 	}else{
-		// console.log("Not Locked!");
 		playerOneToDisplay = playerOneNew;
 		playerTwoToDisplay = playerTwoNew;
 	}
 	
-	playerOneScoreToDisplay = Number(playerScoresObj[playerOneToDisplay]);
-	playerTwoScoreToDisplay = Number(playerScoresObj[playerTwoToDisplay]);
+	let playerOneScoreToDisplay = Number(playerScoresObj[playerOneToDisplay]);
+	let playerTwoScoreToDisplay = Number(playerScoresObj[playerTwoToDisplay]);
 	
 	let winnerLoserObject = { winner: winner, loser: loser, playerOneELO: playerOneELO, playerTwoELO: playerTwoELO, playerOneNewELO: playerOneNewELO, playerTwoNewELO: playerTwoNewELO, playerOneOldScore: playerOneOldScore, playerTwoOldScore: playerTwoOldScore, playerOneNewScore: playerOneNewScore, playerTwoNewScore: playerTwoNewScore, playerOne: playerOne, playerTwo: playerTwo, playerOneNew: playerOneNew, playerTwoNew: playerTwoNew, playerOneToDisplay: playerOneToDisplay, playerTwoToDisplay: playerTwoToDisplay, playerOneScoreToDisplay: playerOneScoreToDisplay, playerTwoScoreToDisplay: playerTwoScoreToDisplay, playerScoresObj: playerScoresObj};
 	
-	// console.log(req.body);
+	// console.log(winnerLoserObject);
+	
 	// let newObj = { "old": req.body, "body": winnerLoserObject };
 	let newObj = { "body": winnerLoserObject };
 	
