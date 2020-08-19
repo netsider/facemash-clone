@@ -74,6 +74,8 @@ $(function () {
 					$('#scoreOne').html(Number(response.body.playerOneScoreToDisplay).toFixed(2));
 					$('#scoreTwo').html(Number(response.body.playerTwoScoreToDisplay).toFixed(2));
 					$('#form_out').val(JSON.stringify(response.body.playerScoresObj, null, 4));
+					$('#imgOne').html('<img src="files/Pictures/' + response.body.playerOneToDisplay + '" width="150px" height="300px">');
+					$('#imgTwo').html('<img src="files/Pictures/' + response.body.playerTwoToDisplay + '" width="150px" height="300px">');
 					<!-- console.log(response); -->
             }
         });
