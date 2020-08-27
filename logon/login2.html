@@ -23,6 +23,8 @@
         function(googleUser) {
           document.getElementById('name').innerText = "Signed in: " +
               googleUser.getBasicProfile().getName();
+			let btn = document.getElementById('gSignInWrapper');
+			btn.style.display = 'none';
         }, function(error) {
           alert(JSON.stringify(error, undefined, 2));
         });
