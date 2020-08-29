@@ -52,7 +52,13 @@
 	playerTwoIsWinnerArray[1] = playerOne;
 	playerTwoIsWinnerArray = JSON.stringify(playerTwoIsWinnerArray);
 %>
-
+<div style="width: 100%; display: table; border: 1px solid black;" id="wrapper">
+<div style="width: 100%; display: table-row; border: 1px solid black;" id="wrapper">
+	<div style="width: 25%; display: table-cell; border: 1px solid black;" class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+	<div style="width: 50%; display: table-cell; border: 1px solid black;"></div>
+	<div style="width: 25% display: table-cell; border: 1px solid black;"><a href="#" onclick="signOut();">Sign out</a></div>
+</div>
+</div>
 <div style="width: 50%;">
 	<h2>Here are <u><%= playerOneName %></u> and <u><%= playerTwoName %></u>.</h2>
 	<p>We want you to <strong>pick the better picture</strong>!</p>
