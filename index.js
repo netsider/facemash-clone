@@ -114,7 +114,7 @@ app.post("/submitPlayer", function(req, res){
 		playerArray[0].lockPlayer = false;
 	}
 	
-	//console.log(winnerLoserObject);
+	// console.log(winnerLoserObject);
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
@@ -134,7 +134,7 @@ app.post("/resetScores", function(req, res){
 	
 	//for (let item of playerScoresObj) { // not iterable ?  
 	for (let key in playerScoresObj) {
-		playerScoresObj[key] = startingScore;
+		playerScoresObj[key] = Number(startingScore);
 		console.log("Resetting score of " + key);
 	}
 	
