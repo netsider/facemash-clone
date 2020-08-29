@@ -1,6 +1,6 @@
 // ELO-Node-Regular-Voting-App (see readme)
 // Made by Russell Rounds
-// Version 0.2
+// Version 0.3
 
 const http = require("http");
 const fs = require("fs");
@@ -21,7 +21,7 @@ app.listen(3000);
 const scorePath = publicDir + "/Selfie_Score/";
 const photoPath = publicDir + "/Selfies/";
 const k = 32;
-const startingScore = "0";
+const startingScore = "1500";
 const dlength = fs.readdirSync(photoPath).length - 1;
 const obj = fs.readdirSync(photoPath);
 
