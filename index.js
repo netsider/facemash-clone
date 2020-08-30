@@ -13,7 +13,7 @@ const app = express();
 // app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(bodyParser.json()); // support json encoded bodies
+// app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 
 
@@ -157,10 +157,11 @@ app.post("/transmitPlayerData", function(req, res){
 	}).on('end', () => {
 		body = Buffer.concat(body).toString();
 		// console.log(JSON.parse(body));
-		newBody = JSON.parse(body);
+		console.log(body);
+		// newBody = JSON.parse(body);
 	});
-	console.log(newBody);
-	console.log("newBody.emailAddress: " + newBody.emailAddress);
+	// console.log(newBody);
+	// console.log("newBody.emailAddress: " + newBody.emailAddress);
 	
 	
 	// console.log("req.data.idtoken: " + req.data.idtoken);
