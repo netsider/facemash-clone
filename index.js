@@ -1,4 +1,4 @@
-// ELO-Node-Regular-Voting-App (see readme)
+// Facemash-clone
 // Made by Russell Rounds
 // Version 0.3
 
@@ -69,7 +69,7 @@ for (let item of obj) {  //Compute aspect ratios, and read into object
 
 console.log("Starting...");
 
-app.get("/", function(req, res){
+app.get("/facemash", function(req, res){
 	let newPlayers = generatePlayers(null, null, "random");
 	res.render("node-dopple-main", {newPlayers: newPlayers});
 });
@@ -120,19 +120,7 @@ app.post("/submitPlayer", function(req, res){
 
 app.post("/resetScores", function(req, res){
 	//console.log("Resetting Scores...");
-	
-	// let scoreDirContents = fs.readdirSync(scorePath);
-	// let scorePathLength = (fs.readdirSync(scorePath).length);
-	// for (let i = 0; i < scorePathLength; i++) {
-		// let scoreFileTemp1 = scorePath + scoreDirContents[i];
-		// console.log("Resetting " + scoreFileTemp1);
-		// fs.writeFileSync(scoreFileTemp1, startingScore);
-		// if(scorePathLength - 1 === i){
-			// console.log("All " + scorePathLength +  " score files reset!");
-		// }
-	// }
-	
-	//for (let item of playerScoresObj) { // not iterable ?  
+	 
 	for (let key in playerScoresObj) {
 		playerScoresObj[key] = Number(startingScore);
 		console.log("Resetting score of " + key);
@@ -151,6 +139,12 @@ app.post("/resetScores", function(req, res){
 	}
 	
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
+});
+
+// app.post("/transmitPlayerData", bodyParser.json(), function(req, res){
+app.post("/transmitPlayerData", function(req, res){
+	console.log("Received request with player data...");
+	
 });
 
 function getAspectRatio(w, h){
