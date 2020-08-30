@@ -11,7 +11,7 @@ const sizeOf = require("image-size");
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(bodyParser.json);
+// app.use(bodyParser.json); // What's the difference?
 
 const publicDir = "files";
 app.use(express.static(__dirname + "/" + publicDir));
@@ -93,10 +93,7 @@ app.post("/submitPlayer", function(req, res){
 	
 	let winnerName = winner + ".jpg";
 	let loserName = loser + ".jpg";
-	
-	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perform batch write on shutdown
-	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
-	
+		
 	playerScoresObj[winner] = winnerNewScore;
 	playerScoresObj[loser] = loserNewScore;
 	
@@ -129,7 +126,7 @@ app.post("/resetScores", function(req, res){
 	let playerArray = [];
 	playerArray[0] = {};
 	let newPlayers = [];
-	playerArray[0].resetPressed = true;
+	
 	if(req.body.lockPlayer === "true"){
 		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
 		playerArray[0].lockPlayer = true;
@@ -141,7 +138,6 @@ app.post("/resetScores", function(req, res){
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
-// app.post("/transmitPlayerData", bodyParser.json(), function(req, res){
 app.post("/transmitPlayerData", function(req, res){
 	console.log("Received request with player data...");
 	
