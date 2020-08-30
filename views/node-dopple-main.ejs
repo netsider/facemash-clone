@@ -164,8 +164,8 @@ function onSignIn(googleUser){
 	console.log(userObject);
 	console.log("Sending Ajax...");
 	$.ajax({
-        url: "http://russellrounds.com/transmitPlayerData",
-        //url: "http://localhost:3000/transmitPlayerData",
+        //url: "http://russellrounds.com/transmitPlayerData",
+        url: "/transmitPlayerData",
 		headers: {
 			'Content-Type':'application/json',
 		},
