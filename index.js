@@ -172,20 +172,28 @@ app.post("/transmitPlayerData", function(req, res){
 	let userIDToken = req.body.userIDToken; // verify this
 	let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
 	
-	const {OAuth2Client} = require('google-auth-library');
-	const client = new OAuth2Client(clientID);
-	async function verify() {
-		const ticket = await client.verifyIdToken({
-			idToken: userIDToken,
-			audience: clientID,
-		});
-		const payload = ticket.getPayload();
-		const userid = payload['sub'];
-	}
-	verify().catch(console.error);
-
+	// https://developers.google.com/identity/sign-in/web/backend-auth
+	// const {OAuth2Client} = require('google-auth-library'); // NO FUCKING IDEA
+	// const client = new OAuth2Client(clientID);
+	// async function verify() {
+		// const ticket = await client.verifyIdToken({
+			// idToken: userIDToken,
+			// audience: clientID,
+		// });
+		// const payload = ticket.getPayload();
+		// const userid = payload['sub'];
+	// }
+	// verify().catch(console.error);
 	// console.log(client);
 	
+	var parts = userIDToken.split('.');
+	var headerBuf = new Buffer.from(parts[0], 'base64');
+	var bodyBuf = new Buffer.from(parts[1], 'base64');
+	var header = JSON.parse(headerBuf.toString());
+	var body = JSON.parse(bodyBuf.toString());
+	
+	console.log(header);
+	console.log(body);
 	
 	let obj = {
 		email: req.body.emailAddress,
