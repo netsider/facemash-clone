@@ -69,6 +69,14 @@ for (let item of obj) {  //Compute aspect ratios, and read into object
 
 console.log("Starting...");
 
+app.get("/", function(req, res){
+	fs.readFile('index.html',function (err, data){
+        res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
+        res.write(data);
+        res.end();
+    });
+});
+
 app.get("/facemash", function(req, res){
 	let newPlayers = generatePlayers(null, null, "random");
 	res.render("node-dopple-main", {newPlayers: newPlayers});
