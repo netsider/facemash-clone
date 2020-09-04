@@ -175,8 +175,8 @@ app.post("/transmitPlayerData", function(req, res){
 		const userid = payload['sub'];
 	}
 	verify().catch(console.error);
-	// console.log(verify().catch(console.error));
-	// console.log(userid);
+
+	// console.log(client);
 	
 	
 	let obj = {
