@@ -10,12 +10,8 @@ const bodyParser = require("body-parser");
 const sizeOf = require("image-size");
 const app = express();
 
-
-//app.use(bodyParser.urlencoded({extended: true}));
-
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
-// app.use(bodyParser.json());
 
 const publicDir = "files";
 app.use(express.static(__dirname + "/" + publicDir));
