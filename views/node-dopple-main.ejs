@@ -174,23 +174,12 @@ function onSignIn(googleUser){
         type: 'POST',
         success: function (response){
 			console.log("Success!");
-			<!-- console.log(response); -->
+			console.log(response);
         },
 		error: function (error) {
 			console.log(error);
 		}
     });
-	
-	console.log("Trying 2nd...");
-	let xhr = new XMLHttpRequest();
-	xhr.open('POST', '/transmitPlayerData');
-	//xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.onload = function() {
-		console.log('Signed in as: ' + xhr.responseText);
-	};
-	//xhr.send('idtoken=' + id_token);
-	xhr.send('emailAddress=' + profile.getEmail());
 	
 	document.getElementById("menu").innerHTML = "<center>Hello " + profile.getName() + "!</center>";
 };
