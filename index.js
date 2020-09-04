@@ -160,7 +160,7 @@ app.post("/transmitPlayerData", function(req, res){
 	console.log("req.body.userIDToken: " + req.body.userIDToken);
 	
 	let obj = {
-		data: "fuck"
+		data: "Some data."
 	}
 	
 	res.json(obj);
