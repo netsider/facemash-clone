@@ -141,7 +141,6 @@ app.post("/resetScores", function(req, res){
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
-// app.post("/transmitPlayerData", bodyParser.json(), function(req, res){
 app.post("/transmitPlayerData", function(req, res){
 	console.log("Received request with player data...");
 	
@@ -159,6 +158,12 @@ app.post("/transmitPlayerData", function(req, res){
 	console.log(req.body);
 
 	console.log("req.body.userIDToken: " + req.body.userIDToken);
+	
+	let obj = {
+		data: "fuck"
+	}
+	
+	res.json(obj);
 });
 
 function getAspectRatio(w, h){
