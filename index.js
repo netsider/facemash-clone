@@ -161,13 +161,11 @@ app.post("/transmitPlayerData", function(req, res){
 	console.log("req.body.imageURL: " + req.body.imageURL);
 	console.log("req.body.emailAddress: " + req.body.emailAddress);
 	
-	let email = req.body.emailAddress;
-	let imageURL = req.body.imageURL;
 	let userIDToken = req.body.userIDToken; // verify this
 	
 	let obj = {
-		email: email,
-		imageURL: imageURL
+		email: req.body.emailAddress,
+		imageURL: req.body.imageURL
 	}
 	
 	res.json(obj);
