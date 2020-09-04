@@ -10,12 +10,12 @@ const bodyParser = require("body-parser");
 const sizeOf = require("image-size");
 const app = express();
 
-// app.use(bodyParser.json());
+
 //app.use(bodyParser.urlencoded({extended: true}));
 
-// app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
-
+// app.use(bodyParser.json());
 
 const publicDir = "files";
 app.use(express.static(__dirname + "/" + publicDir));
@@ -149,23 +149,20 @@ app.post("/resetScores", function(req, res){
 app.post("/transmitPlayerData", function(req, res){
 	console.log("Received request with player data...");
 	
-	// console.log(req.data);
-	let newBody = 0;
-	let body = [];
-	req.on('data', (chunk) => {
-		body.push(chunk);
-	}).on('end', () => {
-		body = Buffer.concat(body).toString();
+	// let newBody = 0;
+	// let body = [];
+	// req.on('data', (chunk) => {
+		// body.push(chunk);
+	// }).on('end', () => {
+		// body = Buffer.concat(body).toString();
 		// console.log(JSON.parse(body));
-		console.log(body);
+		// console.log(body);
 		// newBody = JSON.parse(body);
-	});
-	// console.log(newBody);
-	// console.log("newBody.emailAddress: " + newBody.emailAddress);
-	
-	
-	// console.log("req.data.idtoken: " + req.data.idtoken);
-	// console.log("req.body.idtoken: " + req.body.idtoken);
+	// });
+
+	console.log(req.body);
+
+	console.log("req.body.userIDToken: " + req.body.userIDToken);
 });
 
 function getAspectRatio(w, h){
