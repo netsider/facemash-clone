@@ -165,14 +165,10 @@ app.post("/transmitPlayerData", function(req, res){
 		// newBody = JSON.parse(body);
 	// });
 
-	console.log(req.body);
-
-	console.log("req.body.userIDToken: " + req.body.userIDToken);
-	console.log("req.body.imageURL: " + req.body.imageURL);
-	console.log("req.body.emailAddress: " + req.body.emailAddress);
-	
-	let userIDToken = req.body.userIDToken; // verify this
-	let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
+	// console.log(req.body);
+	// console.log("req.body.userIDToken: " + req.body.userIDToken);
+	// console.log("req.body.imageURL: " + req.body.imageURL);
+	// console.log("req.body.emailAddress: " + req.body.emailAddress);
 	
 	// https://developers.google.com/identity/sign-in/web/backend-auth
 	// const {OAuth2Client} = require('google-auth-library'); // NO FUCKING IDEA
@@ -188,19 +184,19 @@ app.post("/transmitPlayerData", function(req, res){
 	// verify().catch(console.error);
 	// console.log(client);
 	
-	var parts = userIDToken.split('.');
-	var headerBuf = new Buffer.from(parts[0], 'base64');
-	var bodyBuf = new Buffer.from(parts[1], 'base64');
-	var header = JSON.parse(headerBuf.toString());
-	var body = JSON.parse(bodyBuf.toString());
+	// var parts = userIDToken.split('.');
+	// var headerBuf = new Buffer.from(parts[0], 'base64');
+	// var bodyBuf = new Buffer.from(parts[1], 'base64');
+	// var header = JSON.parse(headerBuf.toString());
+	// var body = JSON.parse(bodyBuf.toString());
+	// console.log(header);
+	// console.log(body);
 	
-	console.log(header);
-	console.log(body);
+	// let userIDToken = req.body.userIDToken;
+	let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
 	
-	// Get JWK Keys for token verifcation
-	let url = "https://www.googleapis.com/oauth2/v2/certs";
-	let jwkKeys = "";
-	https.get(url,(res) => {
+	// Get JWK Keys and perform token verifcation
+	https.get("https://www.googleapis.com/oauth2/v2/certs",(res) => {
 		let body = "";
 		res.on("data", (chunk) => {
         body += chunk;
@@ -209,9 +205,13 @@ app.post("/transmitPlayerData", function(req, res){
 		res.on("end", () => {
         try {
             let json = JSON.parse(body);
-			jwkKeys = json;
-			console.log("Keys Retrieved:");
-			console.log(jwkKeys);
+			console.log("Retrieved:");
+			console.log(json);
+			if (jws.verify(req.body.userIDToken, json)){
+				console.log("Token VERIFIED!");
+			}else{
+				console.log("Token not verified!");
+			}
         } catch (error) {
             console.error(error.message);
         };
@@ -220,11 +220,12 @@ app.post("/transmitPlayerData", function(req, res){
 		console.error(error.message);
 	});
 	
-	
 	let obj = {
 		email: req.body.emailAddress,
 		imageURL: req.body.imageURL
 	}
+	
+	console.log(obj);
 	
 	res.json(obj);
 });
