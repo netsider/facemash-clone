@@ -165,7 +165,6 @@ app.post("/transmitPlayerData", function(req, res){
 		// newBody = JSON.parse(body);
 	// });
 
-	// console.log(req.body);
 	// console.log("req.body.userIDToken: " + req.body.userIDToken);
 	// console.log("req.body.imageURL: " + req.body.imageURL);
 	// console.log("req.body.emailAddress: " + req.body.emailAddress);
@@ -195,19 +194,20 @@ app.post("/transmitPlayerData", function(req, res){
 	// let userIDToken = req.body.userIDToken;
 	let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
 	
+	console.log(req.body);
+	
 	// Get JWK Keys and perform token verifcation
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res) => {
 		let body = "";
 		res.on("data", (chunk) => {
         body += chunk;
 		});
-
 		res.on("end", () => {
         try {
             let json = JSON.parse(body);
 			console.log("Retrieved:");
 			console.log(json);
-			if (jws.verify(req.body.userIDToken, json)){
+			if (jws.verify(req.body.userIDToken, JSON.parse(body))){
 				console.log("Token VERIFIED!");
 			}else{
 				console.log("Token not verified!");
