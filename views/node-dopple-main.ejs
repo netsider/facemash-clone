@@ -71,8 +71,8 @@
 <div style="display: table; border-bottom: 1px solid black;" class="wrapper fullWidth">
 	<div style="display: table-row;" class="fullWidth">
 		<div style="width: 25%; display: table-cell;"><div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="250" data-height="50" data-longtitle="true"></div></div>
-		<div style="width: 50%; display: table-cell;" class="wrapper" id="menu">Menu</div>
-		<div style="width: 25% display: table-cell;" class="wrapper"><a href="#" onclick="signOut();">Sign out</a></div>
+		<div style="width: 50%; display: table-cell;" class="wrapper" id="menu">Center</div>
+		<div style="width: 25% display: table-cell;" class="wrapper">Menu</div>
 	</div>
 </div>
 <center>
@@ -161,7 +161,7 @@ function onSignIn(googleUser){
 		"userIDToken": id_token,
 	};
 	
-	//console.log(userObject);
+	console.log(userObject);
 	console.log("Sending Ajax...");
 	$.ajax({
         //url: "http://russellrounds.com/transmitPlayerData",
@@ -181,7 +181,7 @@ function onSignIn(googleUser){
 		}
     });
 	
-	document.getElementById("menu").innerHTML = "<center>You are signed in as: " + profile.getName() + "!</center>";
+	document.getElementById("menu").innerHTML = '<center>You are signed in as: ' + profile.getName() + '! (<a href="#" onclick="signOut();">Sign out</a>)</center>';
 };
 	
 function onFailure(error) {
@@ -208,4 +208,4 @@ function renderButton() {
 };
 </script>
 </body>
-</html> 
+</html>
