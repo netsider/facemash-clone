@@ -9,6 +9,8 @@ const ejs = require("ejs");
 const bodyParser = require("body-parser");
 const sizeOf = require("image-size");
 const app = express();
+const jws = require('jws-jwk');
+const https = require('https');
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
@@ -195,6 +197,30 @@ app.post("/transmitPlayerData", function(req, res){
 	console.log(header);
 	console.log(body);
 	
+	// Get JWK Keys for token verifcation
+	let url = "https://www.googleapis.com/oauth2/v2/certs";
+	let jwkKeys = "";
+	https.get(url,(res) => {
+		let body = "";
+		res.on("data", (chunk) => {
+        body += chunk;
+		});
+
+		res.on("end", () => {
+        try {
+            let json = JSON.parse(body);
+			jwkKeys = json;
+			console.log("Keys Retrieved:");
+			console.log(jwkKeys);
+        } catch (error) {
+            console.error(error.message);
+        };
+		});
+	}).on("error", (error) => {
+		console.error(error.message);
+	});
+	
+	
 	let obj = {
 		email: req.body.emailAddress,
 		imageURL: req.body.imageURL
@@ -202,6 +228,7 @@ app.post("/transmitPlayerData", function(req, res){
 	
 	res.json(obj);
 });
+
 
 function getAspectRatio(w, h){
 	return Number((h / w).toPrecision(4));
