@@ -14,6 +14,11 @@
 	.playerImage {
 		width: 50%;
 	}
+	.center {
+		vertical-align: middle;
+		text-align: center;
+		padding: 15px 0;
+	}
 	#menu {
 		vertical-align: middle;
 	}
@@ -68,14 +73,15 @@
 	playerTwoIsWinnerArray[1] = playerOne;
 	playerTwoIsWinnerArray = JSON.stringify(playerTwoIsWinnerArray);
 %>
-<div style="display: table; border-bottom: 1px solid black;" class="wrapper fullWidth">
+<center>
+<div style="display: table; border-bottom: 1px solid green;" class="wrapper fullWidth">
 	<div style="display: table-row;" class="fullWidth">
 		<div style="width: 25%; display: table-cell;"><div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="250" data-height="50" data-longtitle="true"></div></div>
 		<div style="width: 50%; display: table-cell;" class="wrapper" id="menu">Center</div>
-		<div style="width: 25% display: table-cell;" class="wrapper">Menu</div>
+		<div style="width: 25% display: table-cell;" class="wrapper center">Menu</div>
 	</div>
 </div>
-<center>
+
 <div class="wrapper fullWidth">
 	<h2>Here are <u><%= playerOneName %></u> and <u><%= playerTwoName %></u>.</h2>
 	<p>We want you to <strong>pick the better picture</strong>!</p>
