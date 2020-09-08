@@ -85,6 +85,8 @@ app.get("/facemash", function(req, res){
 });
 
 app.post("/submitPlayer", function(req, res){
+	console.log(req.body);
+	console.log(req.data);
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
@@ -204,9 +206,9 @@ app.post("/transmitPlayerData", function(req, res){
 		});
 		res.on("end", () => {
         try {
-            let json = JSON.parse(body);
-			console.log("Retrieved:");
-			console.log(json);
+            // let json = JSON.parse(body);
+			// console.log("Retrieved:");
+			// console.log(json);
 			if (jws.verify(req.body.userIDToken, JSON.parse(body))){
 				console.log("Token VERIFIED!");
 			}else{
