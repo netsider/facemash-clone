@@ -96,14 +96,19 @@
 
 <div class="row justify-content-md-center">
 	<div class="col-12">
-	<form name="imageForm" id="imageForm">
+	<form name="imageForm" id="playerOneImageForm">
 		<div id="playerOneImage"><img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage"></div>
+		<input name="playerName" type="hidden" value="<%= playerOneIsWinnerArray %>">
+	</form>
+	<form name="imageForm" id="playerTwoImageForm">
 		<div id="playerTwoImage"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage"></div>
+		<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
+	</form>
 		<div style="visibility: hidden; display: none;" id="playerOneImageData" value="123"><%= playerOneIsWinnerArray %></div><div style="visibility: hidden;  display: none;" id="playerTwoImageData"><%= playerTwoIsWinnerArray %></div>
 		<!-- <input type="image" height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerName" value="<%= playerOneIsWinnerArray %>"> -->
 		<!-- <input type="image" height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerName" value="<%= playerTwoIsWinnerArray %>"> -->
 		<!-- <input type="hidden" name="playerName" value="<%= playerOneIsWinnerArray %>" > -->
-	</form>
+	
 	</div>
 </div>
 
@@ -161,22 +166,34 @@
 
 function init(){
 
+console.log($('#playerOneImageData').html());
+		
+
 	$('#playerOneImage').on('click', function (e) {
 	//$("#playerOneImage").click(function(){ // What's the diff??
 		
-		console.log($('#playerOneImageData').html());
+		//document.forms['playerOneImageForm'].submit();
+		
+		
+		//$.ajax({
+			//type: 'POST',
+			//url: "/submitPlayer",
+			//data: { playerName: $('#playerOneImageData').html() }, 
+			//success: function(response) {
+				//console.log("Form submitted successfully! (response received)");
+			//},
+			//error: function() {
+				//console.log("There was an error submitting the form/image!");
+			//}
+		//});
 		
 		$.ajax({
 			type: 'POST',
 			url: "/submitPlayer",
-			data: { playerName: $('#playerOneImageData').html() }, 
-			success: function(response) {
-				console.log("Form submitted successfully! (response received)");
-			},
-			error: function() {
-				console.log("There was an error submitting the form/image!");
-			}
-		});
+			data: { playerName: $("#playerOneImageData") },
+			
+			success: function(response) { console.log("Maybe it fucking worked") },
+			});
 		
 	});
 	
