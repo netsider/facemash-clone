@@ -87,7 +87,7 @@ app.get("/facemash", function(req, res){
 
 app.post("/submitPlayer", function(req, res){
 	console.log(req.body);
-	// console.log(req.data);
+
 	let newBody = 0;
 	let body = [];
 	req.on('data', (chunk) => {
@@ -98,8 +98,7 @@ app.post("/submitPlayer", function(req, res){
 		console.log(body);
 		newBody = JSON.parse(body);
 	});
-	// console.log(body);
-	// console.log(newBody);
+
 	
 	let unserialized = JSON.parse(req.body.playerName);
 	console.log(unserialized);
