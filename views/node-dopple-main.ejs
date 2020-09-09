@@ -108,7 +108,10 @@
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 	</form>
-		<div style="visibility: hidden; display: none;" id="playerOneImageData" value="123"><%= playerOneIsWinnerArray %></div><div style="visibility: hidden;  display: none;" id="playerTwoImageData"><%= playerTwoIsWinnerArray %></div>
+		<div style="visibility: hidden; display: none;" id="playerOneImageData" value="123"><%= playerOneIsWinnerArray %></div>
+		<div style="visibility: hidden;  display: none;" id="playerTwoImageData"><%= playerTwoIsWinnerArray %></div>
+		<div style="visibility: hidden;  display: none;" id="playerTwoHidden"><%= playerTwo %></div>
+		<div style="visibility: hidden;  display: none;" id="playerOneHidden"><%= playerOne %></div>
 		<!-- <input type="image" height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerName" value="<%= playerOneIsWinnerArray %>"> -->
 		<!-- <input type="image" height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerName" value="<%= playerTwoIsWinnerArray %>"> -->
 		<!-- <input type="hidden" name="playerName" value="<%= playerOneIsWinnerArray %>" > -->
@@ -180,12 +183,12 @@ function init(){
 		//$.ajax({ // Why doesn't this trigger new reload of page?????
 			//type: 'POST',
 			//url: "/submitPlayer",
-			//data: { playerName: $('#playerOneImageData').html() }, 
+			//data: { playerName: $('#playerOneImageData').html(), playerOneHidden: $('#playerOneHidden').html(), playerTwoHidden: $('#playerTwoHidden').html() }, 
 			//success: function(response) {
 			//	console.log("Form submitted successfully! (response received)");
 			//},
 			//error: function() {
-			//	console.log("There was an error submitting the form/image!");
+				//console.log("There was an error submitting the form/image!");
 			//}
 		//});		
 	});
