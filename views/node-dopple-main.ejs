@@ -96,13 +96,13 @@
 
 <div class="row justify-content-md-center">
 	<div class="col-12">
-	<form name="imageForm" id="playerOneImageForm">
+	<form name="imageForm" id="playerOneImageForm" action="/submitPlayer" method="POST">
 		<div id="playerOneImage"><img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage"></div>
 		<input name="playerName" type="hidden" value="<%= playerOneIsWinnerArray %>">
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 	</form>
-	<form name="imageForm" id="playerTwoImageForm">
+	<form name="imageForm" id="playerTwoImageForm" action="/submitPlayer" method="POST">
 		<div id="playerTwoImage"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage"></div>
 		<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
@@ -175,19 +175,19 @@ console.log($('#playerOneImageData').html());
 	$('#playerOneImage').on('click', function (e) {
 	//$("#playerOneImage").click(function(){ // What's the diff??
 		
-		//document.forms['playerOneImageForm'].submit();
+		document.forms['playerOneImageForm'].submit();
 		
-		$.ajax({ // Why doesn't this trigger new reload of page?????
-			type: 'POST',
-			url: "/submitPlayer",
-			data: { playerName: $('#playerOneImageData').html() }, 
-			success: function(response) {
-				console.log("Form submitted successfully! (response received)");
-			},
-			error: function() {
-				console.log("There was an error submitting the form/image!");
-			}
-		});
+		//$.ajax({ // Why doesn't this trigger new reload of page?????
+			//type: 'POST',
+			//url: "/submitPlayer",
+			//data: { playerName: $('#playerOneImageData').html(), playerOneHidden: $('playerOneHidden').val(), playerTwoHidden: $('playerTwoHidden').val }, 
+			//success: function(response) {
+			//	console.log("Form submitted successfully! (response received)");
+			//},
+			//error: function() {
+			//	console.log("There was an error submitting the form/image!");
+			//}
+		//});
 				
 	});
 	
