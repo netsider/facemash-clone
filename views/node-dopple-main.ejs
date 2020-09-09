@@ -161,33 +161,18 @@
 
 function init(){
 
-console.log($('#playerOneImageData').contents());
+
+
 
 	$('#playerOneImage').on('click', function (e) {
 	//$("#playerOneImage").click(function(){ // What's the diff??
 		
-		var oForm = document.forms['addComment'];
-		const formInputs = oForm.getElementById("playerOneImageData");
-		let formData = new FormData();
-		for (let input of formInputs) {
-			formData.append(input.name, input.value);
-		}
-
-	fetch(oForm.action,
-    {
-        method: oForm.method,
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-    .catch(error => console.log(error.message))
-    .finally(() => console.log("Done"));
-		
+		console.log($('#playerOneImageData').html());
 		
 		$.ajax({
 			type: 'POST',
 			url: "/submitPlayer",
-			data: { playerName: $("#playerOneImageData").contents() }, 
+			data: { playerName: $('#playerOneImageData').html() }, 
 			success: function(response) {
 				console.log("Form submitted successfully! (response received)");
 			},
