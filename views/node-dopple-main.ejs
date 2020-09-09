@@ -99,10 +99,14 @@
 	<form name="imageForm" id="playerOneImageForm">
 		<div id="playerOneImage"><img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage"></div>
 		<input name="playerName" type="hidden" value="<%= playerOneIsWinnerArray %>">
+		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
+		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 	</form>
 	<form name="imageForm" id="playerTwoImageForm">
 		<div id="playerTwoImage"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage"></div>
 		<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
+		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
+		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 	</form>
 		<div style="visibility: hidden; display: none;" id="playerOneImageData" value="123"><%= playerOneIsWinnerArray %></div><div style="visibility: hidden;  display: none;" id="playerTwoImageData"><%= playerTwoIsWinnerArray %></div>
 		<!-- <input type="image" height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerName" value="<%= playerOneIsWinnerArray %>"> -->
