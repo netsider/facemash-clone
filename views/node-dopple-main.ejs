@@ -170,7 +170,7 @@
 
 function init(){
 
-console.log($('#playerOneImageData').html());
+//console.log($('#playerOneImageData').html());
 		
 	$('#playerOneImage').on('click', function (e) {
 	//$("#playerOneImage").click(function(){ // What's the diff??
@@ -180,25 +180,19 @@ console.log($('#playerOneImageData').html());
 		//$.ajax({ // Why doesn't this trigger new reload of page?????
 			//type: 'POST',
 			//url: "/submitPlayer",
-			//data: { playerName: $('#playerOneImageData').html(), playerOneHidden: $('playerOneHidden').val(), playerTwoHidden: $('playerTwoHidden').val }, 
+			//data: { playerName: $('#playerOneImageData').html() }, 
 			//success: function(response) {
 			//	console.log("Form submitted successfully! (response received)");
 			//},
 			//error: function() {
 			//	console.log("There was an error submitting the form/image!");
 			//}
-		//});
-				
+		//});		
 	});
 	
-		$('#playerTwoImage').on('click', function (e) {
-	//$("#playerOneImage").click(function(){ // What's the diff??
-		
+	$('#playerTwoImage').on('click', function (e) {
 		document.forms['playerTwoImageForm'].submit();
-				
 	});
-	
-	
 }
 
 function onSignIn(googleUser){
@@ -224,7 +218,6 @@ function onSignIn(googleUser){
 	//console.log(userObject);
 	console.log("Sending Ajax...");
 	$.ajax({
-        //url: "http://russellrounds.com/transmitPlayerData",
         url: "/transmitPlayerData",
 		headers: {
 			'Content-Type':'application/json',
@@ -235,13 +228,13 @@ function onSignIn(googleUser){
         success: function (response){
 			console.log("Success!");
 			console.log(response);
+			document.getElementById("menu").innerHTML = '<center>You are signed in as: ' + profile.getName() + '! (<a href="#" onclick="signOut();">Sign out</a>)</center>';
         },
 		error: function (error) {
 			console.log(error);
 		}
     });
 	
-	document.getElementById("menu").innerHTML = '<center>You are signed in as: ' + profile.getName() + '! (<a href="#" onclick="signOut();">Sign out</a>)</center>';
 };
 	
 function onFailure(error) {
