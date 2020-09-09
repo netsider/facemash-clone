@@ -12,8 +12,9 @@ const app = express();
 const jws = require('jws-jwk');
 const https = require('https');
 
-app.use(bodyParser.json()); // support json encoded bodies
+//app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
+app.use(express.json());
 
 const publicDir = "files";
 app.use(express.static(__dirname + "/" + publicDir));
@@ -86,8 +87,22 @@ app.get("/facemash", function(req, res){
 
 app.post("/submitPlayer", function(req, res){
 	console.log(req.body);
-	console.log(req.data);
+	// console.log(req.data);
+	let newBody = 0;
+	let body = [];
+	req.on('data', (chunk) => {
+		body.push(chunk);
+	}).on('end', () => {
+		body = Buffer.concat(body).toString();
+		console.log(JSON.parse(body));
+		console.log(body);
+		newBody = JSON.parse(body);
+	});
+	// console.log(body);
+	// console.log(newBody);
+	
 	let unserialized = JSON.parse(req.body.playerName);
+	console.log(unserialized);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
 	
@@ -126,7 +141,7 @@ app.post("/submitPlayer", function(req, res){
 		playerArray[0].lockPlayer = false;
 	}
 	
-	// console.log(winnerLoserObject);
+	console.log(winnerLoserObject);
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
@@ -196,7 +211,7 @@ app.post("/transmitPlayerData", function(req, res){
 	// let userIDToken = req.body.userIDToken;
 	let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
 	
-	console.log(req.body);
+	// console.log(req.body);
 	
 	// Get JWK Keys and perform token verifcation
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res) => {
@@ -205,18 +220,16 @@ app.post("/transmitPlayerData", function(req, res){
         body += chunk;
 		});
 		res.on("end", () => {
-        try {
-            // let json = JSON.parse(body);
-			// console.log("Retrieved:");
-			// console.log(json);
-			if (jws.verify(req.body.userIDToken, JSON.parse(body))){
-				console.log("Token VERIFIED!");
-			}else{
-				console.log("Token not verified!");
-			}
-        } catch (error) {
-            console.error(error.message);
-        };
+			try {
+				// console.log(JSON.parse(body));
+				if (jws.verify(req.body.userIDToken, JSON.parse(body))){
+					console.log("Token VERIFIED!");
+				}else{
+					console.log("Token NOT verified!");
+				}
+			} catch (error) {
+				console.error(error.message);
+			};
 		});
 	}).on("error", (error) => {
 		console.error(error.message);
@@ -224,10 +237,10 @@ app.post("/transmitPlayerData", function(req, res){
 	
 	let obj = {
 		email: req.body.emailAddress,
-		imageURL: req.body.imageURL
+		imageURL: req.body.imageURL,
+		tokenVerified: false
 	}
-	
-	console.log(obj);
+	// console.log(obj);
 	
 	res.json(obj);
 });
