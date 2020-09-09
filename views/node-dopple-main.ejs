@@ -174,7 +174,7 @@ console.log($('#playerOneImageData').html());
 		
 		document.forms['playerOneImageForm'].submit();
 		
-		<!-- $.ajax({ -->
+		<!-- $.ajax({ --> // Why doesn't this trigger new reload of page?????
 			<!-- type: 'POST', -->
 			<!-- url: "/submitPlayer", -->
 			<!-- data: { playerName: $('#playerOneImageData').html() },  -->
@@ -192,18 +192,6 @@ console.log($('#playerOneImageData').html());
 	//$("#playerOneImage").click(function(){ // What's the diff??
 		
 		document.forms['playerTwoImageForm'].submit();
-		
-		<!-- $.ajax({ -->
-			<!-- type: 'POST', -->
-			<!-- url: "/submitPlayer", -->
-			<!-- data: { playerName: $('#playerOneImageData').html() },  -->
-			<!-- success: function(response) { -->
-				<!-- console.log("Form submitted successfully! (response received)"); -->
-			<!-- }, -->
-			<!-- error: function() { -->
-				<!-- console.log("There was an error submitting the form/image!"); -->
-			<!-- } -->
-		<!-- }); -->
 				
 	});
 	
