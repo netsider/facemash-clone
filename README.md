@@ -34,7 +34,7 @@ This project originally began as an experiment into the algorith the original ve
 • <strike>Make page get initial player information from server.</strike> DONE 8-16-2020<br>
 
 <br><strong>Recent Changes (NodeJS version):</strong><br>
-• FIX checkbox (not looking forward to this retarded crap).<br>
+• <strike>FIX checkbox (not looking forward to this retarded crap).</strike><br> DONE 9-9-2020
 • Finish skeleton.<br>
 • Make app perform shutdown.<br>
 • Make score pop up as an on-screen overlay notification.<br>
