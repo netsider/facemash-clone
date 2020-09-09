@@ -175,26 +175,18 @@ console.log($('#playerOneImageData').html());
 		//document.forms['playerOneImageForm'].submit();
 		
 		
-		//$.ajax({
-			//type: 'POST',
-			//url: "/submitPlayer",
-			//data: { playerName: $('#playerOneImageData').html() }, 
-			//success: function(response) {
-				//console.log("Form submitted successfully! (response received)");
-			//},
-			//error: function() {
-				//console.log("There was an error submitting the form/image!");
-			//}
-		//});
-		
 		$.ajax({
 			type: 'POST',
 			url: "/submitPlayer",
-			data: { playerName: $("#playerOneImageData") },
-			
-			success: function(response) { console.log("Maybe it fucking worked") },
-			});
-		
+			data: { playerName: $('#playerOneImageData').html() }, 
+			success: function(response) {
+				console.log("Form submitted successfully! (response received)");
+			},
+			error: function() {
+				console.log("There was an error submitting the form/image!");
+			}
+		});
+				
 	});
 	
 	
