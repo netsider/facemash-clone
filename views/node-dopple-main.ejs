@@ -212,6 +212,20 @@ function init(){
 	
 	$('#playerTwoImage').on('click', function (e) {
 		e.preventDefault();
+		
+		let locked = false;
+		let $lock = $('[id="lockPlayer"]');
+		let $lock2 = $('[id="lockPlayer2"]');
+		let $lock3 = $('[id="lockPlayer3"]');
+		
+		console.log($lock);
+		if ($lock.prop('checked')){
+			console.log('lockPlayer checked!');
+			$lock2.prop("checked", true);
+			$lock3.prop("checked", true);
+			$lock.prop("checked", true);
+		}
+		
 		document.forms['playerTwoImageForm'].submit();
 	});
 }
