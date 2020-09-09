@@ -168,23 +168,22 @@ function init(){
 
 console.log($('#playerOneImageData').html());
 		
-
 	$('#playerOneImage').on('click', function (e) {
 	//$("#playerOneImage").click(function(){ // What's the diff??
 		
-		document.forms['playerOneImageForm'].submit();
+		//document.forms['playerOneImageForm'].submit();
 		
-		<!-- $.ajax({ --> // Why doesn't this trigger new reload of page?????
-			<!-- type: 'POST', -->
-			<!-- url: "/submitPlayer", -->
-			<!-- data: { playerName: $('#playerOneImageData').html() },  -->
-			<!-- success: function(response) { -->
-				<!-- console.log("Form submitted successfully! (response received)"); -->
-			<!-- }, -->
-			<!-- error: function() { -->
-				<!-- console.log("There was an error submitting the form/image!"); -->
-			<!-- } -->
-		<!-- }); -->
+		$.ajax({ // Why doesn't this trigger new reload of page?????
+			type: 'POST',
+			url: "/submitPlayer",
+			data: { playerName: $('#playerOneImageData').html() }, 
+			success: function(response) {
+				console.log("Form submitted successfully! (response received)");
+			},
+			error: function() {
+				console.log("There was an error submitting the form/image!");
+			}
+		});
 				
 	});
 	
