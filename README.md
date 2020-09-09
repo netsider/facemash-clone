@@ -37,7 +37,8 @@ This project originally began as an experiment into the algorith the original ve
 • Finish skeleton.<br>
 • Make app perform shutdown.<br>
 • Make score pop up as an on-screen overlay notification.<br>
-• Make Login with Google verify token, now that it's half working.<br>
+• <strike>IMAGES NOW CLICKABLE (JESUS THIS WAS A LOT OF WORK FOR SOMETHING SO SMALL, JAVASCRIPT/STANDARDS/WHOEVERCONTROLSTHATCRAP PEOPLE!)</strike. DONE 9-9-2020.
+• <strike>Make Login with Google verify token, now that it's half working.</strike><br> DONE 9-7-2020
 • <strike>Start implementing Login With Google</strike> DONE 8-30-2020
 • <strike>Setup on server with SSL (and NodeJS as reverse proxy), so Login with Google can be implemented.</strike> DONE 8-29-2020
 • <strike>Incorporate stuff from old readme back into this one.</strike> DONE 8-16-2020<br>
