@@ -87,19 +87,7 @@ app.get("/facemash", function(req, res){
 
 app.post("/submitPlayer", function(req, res){
 	console.log(req.body);
-	
-	if (req.body.lockPlayer2) {
-        console.log("true");
- } else {
-        console.log("false");
- }
- 
- if (req.body.lockPlayer3) {
-        console.log("true");
- } else {
-        console.log("false");
- }
-	
+
 	let newBody = 0;
 	let body = [];
 	req.on('data', (chunk) => {
