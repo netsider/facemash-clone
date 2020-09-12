@@ -106,14 +106,14 @@
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 		<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
-		<button type="submit" name="playerName" value="<%= playerOneIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-3x" aria-hidden="true" id="playerOneButton"></i></button>
+		<button type="submit" name="playerOneSubmitButton" value="<%= playerOneIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-3x" aria-hidden="true" id="playerOneButton"></i></button>
 	</form>
 	<form name="imageForm" id="playerTwoImageForm" action="/submitPlayer" method="POST"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage">
 		<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 		<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
-		<button type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-3x" aria-hidden="true" id="playerTwoButton"></i></button>
+		<button type="submit" name="playerTwoSubmitButton" value="<%= playerTwoIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-3x" aria-hidden="true" id="playerTwoButton"></i></button>
 	</form>
 </div>
 
