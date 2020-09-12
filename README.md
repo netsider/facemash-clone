@@ -34,11 +34,12 @@ This project originally began as an experiment into the algorith the original ve
 • <strike>Make page get initial player information from server.</strike> DONE 8-16-2020<br>
 
 <br><strong>Recent Changes (NodeJS version):</strong><br>
-• <strike>FIX checkbox (not looking forward to this retarded crap).</strike><br> DONE 9-9-2020
+
 • Finish skeleton.<br>
 • Make app perform shutdown.<br>
 • Make score pop up as an on-screen overlay notification.<br>
-• <strike>IMAGES NOW CLICKABLE (JESUS THIS WAS A LOT OF WORK FOR SOMETHING SO SMALL, JAVASCRIPT/STANDARDS/WHOEVERCONTROLSTHATCRAP PEOPLE!)</strike. DONE 9-9-2020.
+• <strike>FIX checkbox (not looking forward to this retarded crap).</strike><br> DONE 9-9-2020
+• <strike>IMAGES NOW CLICKABLE</strike. DONE 9-9-2020.
 • <strike>Make Login with Google verify token, now that it's half working.</strike><br> DONE 9-7-2020
 • <strike>Start implementing Login With Google</strike> DONE 8-30-2020
 • <strike>Setup on server with SSL (and NodeJS as reverse proxy), so Login with Google can be implemented.</strike> DONE 8-29-2020
