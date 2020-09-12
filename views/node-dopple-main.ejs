@@ -112,13 +112,6 @@
 		<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none">
 	</form>
 	
-	
-	
-	<!-- <div style="visibility: hidden; display: none;" id="playerOneImageData" value="123"><%= playerOneIsWinnerArray %></div> -->
-	<!-- <div style="visibility: hidden;  display: none;" id="playerTwoImageData"><%= playerTwoIsWinnerArray %></div> -->
-	<!-- <div style="visibility: hidden;  display: none;" id="playerTwoHidden"><%= playerTwo %></div> -->
-	<!-- <div style="visibility: hidden;  display: none;" id="playerOneHidden"><%= playerOne %></div> -->
-	
 	</div>
 </div>
 
@@ -263,8 +256,8 @@ function signOut() {
 function renderButton() {
    gapi.signin2.render('g-signin2', {
 		'scope': 'profile email',
-      'width': 200,
-      'height': 50,
+      'width': 150,
+      'height': 45,
       'longtitle': true,
       'theme': 'dark',
       'onsuccess': onSignIn,
