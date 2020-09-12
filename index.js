@@ -59,7 +59,6 @@ for (let item of obj) { // Read scores into memory, or write new file
 }
 //console.log(playerScoresObj);
 
-
 let playerAspectRatioObj = {};
 for (let item of obj) {  //Compute aspect ratios, and read into object
 	let player = item.substring(0, item.length - 4);
