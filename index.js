@@ -59,6 +59,7 @@ for (let item of obj) { // Read scores into memory, or write new file
 }
 //console.log(playerScoresObj);
 
+
 let playerAspectRatioObj = {};
 for (let item of obj) {  //Compute aspect ratios, and read into object
 	let player = item.substring(0, item.length - 4);
@@ -86,7 +87,19 @@ app.get("/facemash", function(req, res){
 
 app.post("/submitPlayer", function(req, res){
 	console.log(req.body);
-
+	
+	if (req.body.lockPlayer2) {
+        console.log("true");
+ } else {
+        console.log("false");
+ }
+ 
+ if (req.body.lockPlayer3) {
+        console.log("true");
+ } else {
+        console.log("false");
+ }
+	
 	let newBody = 0;
 	let body = [];
 	req.on('data', (chunk) => {
@@ -98,6 +111,7 @@ app.post("/submitPlayer", function(req, res){
 		newBody = JSON.parse(body);
 	});
 
+	
 	let unserialized = JSON.parse(req.body.playerName);
 	console.log(unserialized);
 	let winner = unserialized[0].toString();
@@ -118,7 +132,7 @@ app.post("/submitPlayer", function(req, res){
 	let winnerName = winner + ".jpg";
 	let loserName = loser + ".jpg";
 	
-	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perform batch write on shutdown
+	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perfo`rm batch write on shutdown
 	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
 	
 	playerScoresObj[winner] = winnerNewScore;
@@ -138,7 +152,7 @@ app.post("/submitPlayer", function(req, res){
 		playerArray[0].lockPlayer = false;
 	}
 	
-	console.log(winnerLoserObject);
+	// console.log(winnerLoserObject);
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
@@ -183,20 +197,6 @@ app.post("/transmitPlayerData", function(req, res){
 	// console.log("req.body.imageURL: " + req.body.imageURL);
 	// console.log("req.body.emailAddress: " + req.body.emailAddress);
 	
-	// https://developers.google.com/identity/sign-in/web/backend-auth
-	// const {OAuth2Client} = require('google-auth-library'); // NO FUCKING IDEA
-	// const client = new OAuth2Client(clientID);
-	// async function verify() {
-		// const ticket = await client.verifyIdToken({
-			// idToken: userIDToken,
-			// audience: clientID,
-		// });
-		// const payload = ticket.getPayload();
-		// const userid = payload['sub'];
-	// }
-	// verify().catch(console.error);
-	// console.log(client);
-	
 	// var parts = userIDToken.split('.');
 	// var headerBuf = new Buffer.from(parts[0], 'base64');
 	// var bodyBuf = new Buffer.from(parts[1], 'base64');
@@ -210,6 +210,7 @@ app.post("/transmitPlayerData", function(req, res){
 	
 	// console.log(req.body);
 	
+	// Make this accept a callback so I can use the return data
 	// Get JWK Keys and perform token verifcation
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res) => {
 		let body = "";
@@ -221,8 +222,12 @@ app.post("/transmitPlayerData", function(req, res){
 				// console.log(JSON.parse(body));
 				if (jws.verify(req.body.userIDToken, JSON.parse(body))){
 					console.log("Token VERIFIED!");
+					let result = true;
+					sendVerifyRequest(result);
 				}else{
 					console.log("Token NOT verified!");
+					let result = false;
+					sendVerifyRequest(result);
 				}
 			} catch (error) {
 				console.error(error.message);
@@ -232,14 +237,18 @@ app.post("/transmitPlayerData", function(req, res){
 		console.error(error.message);
 	});
 	
-	let obj = {
-		email: req.body.emailAddress,
-		imageURL: req.body.imageURL,
-		tokenVerified: false
+	function sendVerifyRequest (result) {
+		console.log("Function called!");
+		let obj = {
+			email: req.body.emailAddress,
+			imageURL: req.body.imageURL,
+			tokenVerified: result
+		}
+		console.log("Sending request...");
+		console.log(obj);
+		res.json(obj);
 	}
-	// console.log(obj);
 	
-	res.json(obj);
 });
 
 
