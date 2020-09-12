@@ -99,7 +99,6 @@ app.post("/submitPlayer", function(req, res){
 		newBody = JSON.parse(body);
 	});
 
-	
 	let unserialized = JSON.parse(req.body.playerName);
 	console.log(unserialized);
 	let winner = unserialized[0].toString();
