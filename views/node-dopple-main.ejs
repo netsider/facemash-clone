@@ -197,7 +197,7 @@ function init(){
 		
 		document.forms['playerOneImageForm'].submit();
 		
-		//$.ajax({ // Why doesn't this trigger new reload of page?????
+		//$.ajax({ // Why doesn't this trigger new reload of page?????  (I get why, but is there anyway to use this in this existing app, the way it is now?)
 			//type: 'POST',
 			//url: "/submitPlayer",
 			//data: { playerName: $('#playerOneImageData').html(), playerOneHidden: $('#playerOneHidden').html(), playerTwoHidden: $('#playerTwoHidden').html() }, 
@@ -231,8 +231,7 @@ function init(){
 }
 
 function onSignIn(googleUser){
-	console.log("Success!");
-	
+		
 	let auth2 = gapi.auth2.getAuthInstance();
 	console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
 		
@@ -251,7 +250,7 @@ function onSignIn(googleUser){
 	};
 	
 	//console.log(userObject);
-	console.log("Sending Ajax...");
+	<!-- console.log("Sending Ajax..."); -->
 	$.ajax({
         url: "/transmitPlayerData",
 		headers: {
@@ -261,7 +260,7 @@ function onSignIn(googleUser){
 		//data: userObject,
         type: 'POST',
         success: function (response){
-			console.log("Success!");
+			<!-- console.log("Success!"); -->
 			console.log(response);
 			document.getElementById("menu").innerHTML = '<center>You are signed in as: ' + profile.getName() + '! (<a href="#" onclick="signOut();">Sign out</a>)</center>';
         },
