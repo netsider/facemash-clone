@@ -168,22 +168,22 @@ function init(){
 	console.log("Init() function called...");
 		
 	$('#playerOneImage').on('click', function (e) { //$("#playerOneImage").click(function(){ // What's the diff??
-		e.preventDefault();
+		//e.preventDefault();
 		setGhostCheckBoxesAndSubmit("playerOneImageForm");		
 	});
 	
 	$('#playerTwoImage').on('click', function (e) {
-		e.preventDefault();
+		//e.preventDefault();
 		setGhostCheckBoxesAndSubmit("playerTwoImageForm");
 	});
 	
 	$('#playerOneButton').on('click', function (e) {
-		e.preventDefault();
+		//e.preventDefault();
 		setGhostCheckBoxesAndSubmit("playerOneImageForm");
 	});
 	
 	$('#playerTwoButton').on('click', function (e) {
-		e.preventDefault();
+		//e.preventDefault();
 		setGhostCheckBoxesAndSubmit("playerTwoImageForm");
 	});
 	
@@ -257,6 +257,7 @@ function renderButton() { // How is this being called without it being called in
 };
 
 function setGhostCheckBoxesAndSubmit(form){
+	//e.preventDefault(); // Why does this make it so the image can't be clicked on?
 	if ($('[id="lockPlayer"]').prop('checked')){
 		$('[id="lockPlayer"]').prop("checked", true);
 		$('[id="lockPlayer2"]').prop("checked", true);
