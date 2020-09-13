@@ -115,7 +115,7 @@
 		<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
-		<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
+		<input type="checkbox" id="lockPlayer3" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
 		<button name="playerTwoSubmitButton" value="<%= playerTwoIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerTwoButton"></i></button>
 	</form>
 </div>
@@ -169,13 +169,13 @@
 </center>
 <script>
 
-document.addEventListener("DOMContentLoaded", function(){
-	console.log("Fuck yee");
-	if ($('[id="lockPlayer"]').prop('checked')){
-		$('[id="lockPlayer"]').prop("checked", true);
-		$('[id="lockPlayer2"]').prop("checked", true);
-	}
-});
+//document.addEventListener("DOMContentLoaded", function(){
+//	console.log("Fuck yee");
+//	if ($('[id="lockPlayer"]').prop('checked')){
+//		$('[id="lockPlayer"]').prop("checked", true);
+//		$('[id="lockPlayer2"]').prop("checked", true);
+//	}
+//});
 
 function init(){
 	console.log("Init() function called...");
@@ -190,22 +190,17 @@ function init(){
 		setGhostCheckBoxesAndSubmit("imageForm2");
 	});
 	
-	$('#playerOneSubmitButton').on('click', function (e) {
-		e.preventDefault();
-		if ($('[id="lockPlayer"]').prop('checked')){
-			$('[id="lockPlayer"]').prop("checked", true);
-			$('[id="lockPlayer2"]').prop("checked", true);
-		}
+	$('#playerOneButton').on('click', function (e) {
+		//e.preventDefault();
 		setGhostCheckBoxesAndSubmit("imageForm1");
 	});
 	
-	$('#playerTwoSubmitButton').on('click', function (e) {
+	$('#playerTwoButton').on('click', function (e) {
 		//e.preventDefault();
 		setGhostCheckBoxesAndSubmit("imageForm2");
 	});
-	
-	
-} // init()
+		
+}
 
 function onSignIn(googleUser){
 	console.log("Sign-in function called...!");
@@ -276,8 +271,9 @@ function renderButton() { // How is this being called without it being called in
 function setGhostCheckBoxesAndSubmit(form){
 	//e.preventDefault(); // Why does this make it so the image can't be clicked on?
 	if ($('[id="lockPlayer"]').prop('checked')){
-		$('[id="lockPlayer"]').prop("checked", true);
+		//$('[id="lockPlayer"]').prop("checked", true);
 		$('[id="lockPlayer2"]').prop("checked", true);
+		$('[id="lockPlayer3"]').prop("checked", true);
 	}
 	document.forms[form].submit();
 }
