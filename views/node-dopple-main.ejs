@@ -28,6 +28,10 @@
 			align-items: center;
 		
 		}
+		.hidden {
+			display: none;
+			visibility: hidden;
+		}
 		#menu {
 			vertical-align: middle;
 		}
@@ -106,14 +110,14 @@
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 		<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
-		<button type="submit" name="playerOneSubmitButton" value="<%= playerOneIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-3x" aria-hidden="true" id="playerOneButton"></i></button>
+		<button type="submit" name="playerOneSubmitButton" value="<%= playerOneIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerOneButton"></i></button>
 	</form>
 	<form name="imageForm" id="playerTwoImageForm" action="/submitPlayer" method="POST"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage">
 		<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 		<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
-		<button type="submit" name="playerTwoSubmitButton" value="<%= playerTwoIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-3x" aria-hidden="true" id="playerTwoButton"></i></button>
+		<button type="submit" name="playerTwoSubmitButton" value="<%= playerTwoIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerTwoButton"></i></button>
 	</form>
 </div>
 
@@ -126,7 +130,7 @@
 			<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 			<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 
-		<div id="debugFormBox" style="display: none;visibility: hidden;" class="wrapper">
+		<div id="debugFormBox" class="wrapper hidden">
 			<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" checked>
 			<% }else{ %>
@@ -139,7 +143,7 @@
 	</div>
 </div>
 
-<div id="scoreBoard" style="width: 100%; display: none;visibility: hidden;" class="wrapper">
+<div id="scoreBoard" style="width: 100%;" class="wrapper hidden">
 	<%
 		if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed !== true){
 				playerArray.forEach(function(currentArray){
