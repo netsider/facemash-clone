@@ -41,16 +41,16 @@
 	};
 	
 	//For Debugging
-	// if(typeof playerArray === "undefined" && typeof newPlayers !== "undefined"){
-		// console.log("No Buttons Pressed (initial load).");
-	// }else{
-		// console.log("Button Pressed!");
-		// if(playerArray[0].lockPlayer === true){
-			// console.log("Player Locked! (client)");
-		// }else{
-			// console.log("Player NOT Locked! (client)");
-		// }
-	// };
+	 if(typeof playerArray === "undefined" && typeof newPlayers !== "undefined"){
+		 console.log("No Buttons Pressed (initial load).");
+	 }else{
+		 console.log("Button Pressed!");
+		 if(playerArray[0].lockPlayer === true){
+			 console.log("Player Locked! (client)");
+		 }else{
+			 console.log("Player NOT Locked! (client)");
+		 }
+	 };
 	
 	const photoPath  = "Selfies/";
 	const newImgWidth = 240;
@@ -126,7 +126,8 @@
 			<!-- <input type="hidden" name="playerOneHidden" value="<%= playerOne %>" > -->
 
 		<div id="debugFormBox" class="wrapper">
-			<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
+			
+			<% if(playerArray[0].lockPlayer === true){ %>
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" checked>
 			<% }else{ %>
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true">
@@ -166,9 +167,17 @@
 </center>
 <script>
 
+document.addEventListener("DOMContentLoaded", function(){
+	console.log("Fuck yee");
+	if ($('[id="lockPlayer"]').prop('checked')){
+		$('[id="lockPlayer"]').prop("checked", true);
+		$('[id="lockPlayer2"]').prop("checked", true);
+	}
+});
+
 function init(){
 	console.log("Init() function called...");
-		
+	
 	$('#playerOneImage').on('click', function (e) { //$("#playerOneImage").click(function(){ // What's the diff??
 		//e.preventDefault();
 		setGhostCheckBoxesAndSubmit("imageForm1");		
@@ -179,12 +188,12 @@ function init(){
 		setGhostCheckBoxesAndSubmit("imageForm2");
 	});
 	
-	$('#playerOneButton').on('click', function (e) {
+	$('#playerOneSubmitButton').on('click', function (e) {
 		//e.preventDefault();
 		setGhostCheckBoxesAndSubmit("imageForm1");
 	});
 	
-	$('#playerTwoButton').on('click', function (e) {
+	$('#playerTwoSubmitButton').on('click', function (e) {
 		//e.preventDefault();
 		setGhostCheckBoxesAndSubmit("imageForm2");
 	});
