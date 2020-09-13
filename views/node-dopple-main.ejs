@@ -102,14 +102,16 @@
 </div>
 
 <div class="wrapper fullWidth center">
-	<form name="imageForm" id="playerOneImageForm" action="/submitPlayer" method="POST"><img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage">
+	<form name="imageForm1" id="playerOneImageForm" action="/submitPlayer" method="POST">
+		<img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage">
 		<input name="playerName" type="hidden" value="<%= playerOneIsWinnerArray %>">
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
 		<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
 		<button name="playerOneSubmitButton" value="<%= playerOneIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerOneButton"></i></button>
 	</form>
-	<form name="imageForm" id="playerTwoImageForm" action="/submitPlayer" method="POST"><img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage">
+	<form name="imageForm2" id="playerTwoImageForm" action="/submitPlayer" method="POST">
+		<img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage">
 		<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
 		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
 		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
@@ -169,22 +171,22 @@ function init(){
 		
 	$('#playerOneImage').on('click', function (e) { //$("#playerOneImage").click(function(){ // What's the diff??
 		//e.preventDefault();
-		setGhostCheckBoxesAndSubmit("playerOneImageForm");		
+		setGhostCheckBoxesAndSubmit("imageForm1");		
 	});
 	
 	$('#playerTwoImage').on('click', function (e) {
 		//e.preventDefault();
-		setGhostCheckBoxesAndSubmit("playerTwoImageForm");
+		setGhostCheckBoxesAndSubmit("imageForm2");
 	});
 	
 	$('#playerOneButton').on('click', function (e) {
 		//e.preventDefault();
-		setGhostCheckBoxesAndSubmit("playerOneImageForm");
+		setGhostCheckBoxesAndSubmit("imageForm1");
 	});
 	
 	$('#playerTwoButton').on('click', function (e) {
 		//e.preventDefault();
-		setGhostCheckBoxesAndSubmit("playerTwoImageForm");
+		setGhostCheckBoxesAndSubmit("imageForm2");
 	});
 	
 	
