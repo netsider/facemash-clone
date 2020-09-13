@@ -15,8 +15,8 @@ This project originally began as an experiment into the algorith the original ve
 <br><strong>Recent Changes (All Versions):</strong><br>
 • Make both Bootstrap and Foundation responsive/mobile versions of one/more of these.<br>
 • Make strict version of one/more of these?. <br>
-• See how TS version Randy made is any different than regular. <br>
 • Move/other-versions to own repos?<br>
+• <strike>See how TS version Randy made is any different than regular.</strike> (It's not)<br>
 
 <br><strong>Recent Changes (NodeJS API version):</strong><br>
 • Sanitize user input (needed?).<br>
@@ -34,7 +34,6 @@ This project originally began as an experiment into the algorith the original ve
 • <strike>Make page get initial player information from server.</strike> DONE 8-16-2020<br>
 
 <br><strong>Recent Changes (NodeJS version):</strong><br>
-
 • Finish skeleton.<br>
 • Make app perform shutdown.<br>
 • Make score pop up as an on-screen overlay notification.<br>
