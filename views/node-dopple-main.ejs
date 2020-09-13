@@ -265,12 +265,9 @@ function renderButton() { // How is this being called without it being called in
 };
 
 function setGhostCheckBoxesAndSubmit(form){
-	let $lock = $('[id="lockPlayer"]');
-	let $lock2 = $('[id="lockPlayer2"]');
-	if ($lock.prop('checked')){
-		//console.log('lockPlayer checked!');
-		$lock.prop("checked", true);
-		$lock2.prop("checked", true);
+	if ($('[id="lockPlayer"]').prop('checked')){
+		$('[id="lockPlayer"]').prop("checked", true);
+		$('[id="lockPlayer2"]').prop("checked", true);
 	}
 	document.forms[form].submit();
 }
