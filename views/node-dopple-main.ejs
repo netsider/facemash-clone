@@ -127,7 +127,7 @@
 
 		<div id="debugFormBox" class="wrapper">
 			
-			<% if(playerArray[0].lockPlayer === true){ %>
+			<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" checked>
 			<% }else{ %>
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true">
