@@ -37,6 +37,11 @@ This project originally began as an experiment into the algorith the original ve
 • Finish skeleton.<br>
 • Make app perform shutdown.<br>
 • Make score pop up as an on-screen overlay notification.<br>
+• Make something happen when you hover over buttons and images.<br>
+• Make something happen when you click button or image.<br>
+• Make debug form pop up in box/overlay. <br>
+• <strike>Change image sizes so height is the same each time but width changes (depending on aspect ratio), so both buttons are at same height (current they're at different heights each time).</strike> DONE 9-14-2020<br>
+• <strike>Make buttons look like like buttons (thumbs up icon, remove border from button, etc.)</strike> DONE 9-13-2020<br>
 • <strike>FIX checkbox (not looking forward to this retarded crap).</strike><br> DONE 9-9-2020
 • <strike>IMAGES NOW CLICKABLE</strike. DONE 9-9-2020.
 • <strike>Make Login with Google verify token, now that it's half working.</strike><br> DONE 9-7-2020
