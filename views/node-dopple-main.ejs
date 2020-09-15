@@ -23,7 +23,6 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-		
 		}
 		.hidden {
 			display: none;
@@ -128,7 +127,7 @@
 	<div style="display: table-row;" class="fullWidth">
 		<div style="width: 25%; display: table-cell;"><div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="250" data-height="50" data-longtitle="true"></div></div>
 		<div style="width: 50%; display: table-cell;" class="wrapper" id="menu">Center</div>
-		<div style="width: 25% display: table-cell;" class="wrapper center">Menu</div>
+		<div style="width: 25%; display: table-cell; vertical-align: middle;" class="wrapper">Menu</div>
 	</div>
 </div>
 
@@ -170,9 +169,9 @@
 		<div id="debugFormBox" class="wrapper">
 			
 			<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
-				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" checked>
+				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("unlockIt")' checked>
 			<% }else{ %>
-				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true">
+				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockIt")'>
 			<% }; %>
 		</div>	
 </div>
@@ -182,6 +181,8 @@
 	<span class="tooltiptext" id="tooltiptext2">Hey, what's up?</span>
 	<span class="tooltiptext" id="tooltiptext3">Thinking of image on the left, eh?</span>
 	<span class="tooltiptext" id="tooltiptext4">Thinking of image on the right, eh?</span>
+	<span class="tooltiptext" id="tooltiptext5">Yeah, lock that sucker down!</span>
+	<span class="tooltiptext" id="tooltiptext6">Choosing random players again!</span>
 </div>
 <div id="scoreBoard" style="width: 100%;" class="wrapper hidden">
 	<%
@@ -223,30 +224,59 @@
 //});
 
 function imageFunction(which){
-	if (which === "initial"){ // Use cookies or localstorage to make this one be called once.
-		document.getElementById("tooltiptext2").style.visibility = "visible";
-		document.getElementById("tooltiptext3").style.visibility = "hidden";
-		document.getElementById("tooltiptext").style.visibility = "hidden";
-		document.getElementById("tooltiptext4").style.visibility = "hidden";
-		setTimeout(function(){
-			document.getElementById("tooltiptext2").style.visibility = "hidden";
-		}, 1500);
-	}
 	if (which === "self"){
 		document.getElementById("tooltiptext").style.visibility = "visible";
 		document.getElementById("tooltiptext3").style.visibility = "hidden";
 		document.getElementById("tooltiptext2").style.visibility = "hidden";
 		document.getElementById("tooltiptext4").style.visibility = "hidden";
+		document.getElementById("tooltiptext5").style.visibility = "hidden";
+		document.getElementById("tooltiptext6").style.visibility = "hidden";
 		setTimeout(function(){
 			document.getElementById("tooltiptext").style.visibility = "hidden";
 		}, 2500);
 		
 	}
+	if (which === "initial"){ // Use cookies or localstorage to make this one be called once.
+		document.getElementById("tooltiptext").style.visibility = "hidden";
+		document.getElementById("tooltiptext2").style.visibility = "visible";
+		document.getElementById("tooltiptext3").style.visibility = "hidden";
+		document.getElementById("tooltiptext4").style.visibility = "hidden";
+		document.getElementById("tooltiptext5").style.visibility = "hidden";
+		document.getElementById("tooltiptext6").style.visibility = "hidden";
+		setTimeout(function(){
+			document.getElementById("tooltiptext2").style.visibility = "hidden";
+		}, 2500);
+	}
+	if (which === "lockIt"){
+		document.getElementById("tooltiptext").style.visibility = "hidden";
+		document.getElementById("tooltiptext2").style.visibility = "hidden";
+		document.getElementById("tooltiptext3").style.visibility = "hidden";
+		document.getElementById("tooltiptext4").style.visibility = "hidden";
+		document.getElementById("tooltiptext5").style.visibility = "visible";
+		document.getElementById("tooltiptext6").style.visibility = "hidden";
+		setTimeout(function(){
+			document.getElementById("tooltiptext5").style.visibility = "hidden";
+		}, 2500);
+	}
+	if (which === "lockIt"){
+		document.getElementById("tooltiptext").style.visibility = "hidden";
+		document.getElementById("tooltiptext2").style.visibility = "hidden";
+		document.getElementById("tooltiptext3").style.visibility = "hidden";
+		document.getElementById("tooltiptext4").style.visibility = "hidden";
+		document.getElementById("tooltiptext5").style.visibility = "hidden";
+		document.getElementById("tooltiptext6").style.visibility = "visible";
+		setTimeout(function(){
+			document.getElementById("tooltiptext6").style.visibility = "hidden";
+		}, 2500);
+	}
+
 	if (which === "image"){
 		document.getElementById("tooltiptext").style.visibility = "hidden";
 		document.getElementById("tooltiptext2").style.visibility = "hidden";
-		document.getElementById("tooltiptext4").style.visibility = "hidden";
 		document.getElementById("tooltiptext3").style.visibility = "visible";
+		document.getElementById("tooltiptext4").style.visibility = "hidden";
+		document.getElementById("tooltiptext5").style.visibility = "hidden";
+		document.getElementById("tooltiptext6").style.visibility = "hidden";
 		setTimeout(function(){
 			document.getElementById("tooltiptext3").style.visibility = "hidden";
 		}, 2500);
@@ -256,17 +286,23 @@ function imageFunction(which){
 		document.getElementById("tooltiptext2").style.visibility = "hidden";
 		document.getElementById("tooltiptext3").style.visibility = "hidden";
 		document.getElementById("tooltiptext4").style.visibility = "visible";
+		document.getElementById("tooltiptext5").style.visibility = "hidden";
+		document.getElementById("tooltiptext6").style.visibility = "hidden";
 		setTimeout(function(){
 			document.getElementById("tooltiptext4").style.visibility = "hidden";
 		}, 2500);
 	}
-	
 	if (which === "clear"){
-		document.getElementById("tooltiptext").style.visibility = "hidden";
-		document.getElementById("tooltiptext2").style.visibility = "hidden";
-		document.getElementById("tooltiptext3").style.visibility = "hidden";
-		document.getElementById("tooltiptext4").style.visibility = "hidden";
+		clearAll();
 	}
+}
+
+function clearAll(){
+	document.getElementById("tooltiptext").style.visibility = "hidden";
+	document.getElementById("tooltiptext2").style.visibility = "hidden";
+	document.getElementById("tooltiptext3").style.visibility = "hidden";
+	document.getElementById("tooltiptext4").style.visibility = "hidden";
+	document.getElementById("tooltiptext5").style.visibility = "hidden";
 }
 
 function init(){
