@@ -40,7 +40,7 @@ This project originally began as an experiment into the algorith the original ve
 • Make something happen when you hover over buttons and images.<br>
 • Make something happen when you click button or image.<br>
 • Make debug form pop up in box/overlay. <br>
-• <span style="color:blue">Figure out why button has to be pressed twice sometimes, but image doesn't.</span><br>
+• <font color="red">Figure out why button has to be pressed twice sometimes, but image doesn't.</font><br>
 • <strike>Change image sizes so height is the same each time but width changes (depending on aspect ratio), so both buttons are at same height (current they're at different heights each time).</strike> DONE 9-14-2020<br>
 • <strike>Make function to calculate new width based on aspect ratio, given a height.</strike> DONE 9-14-2020
 • <strike>Make buttons look like "like" buttons (thumbs up icon, remove border from button, etc.)</strike> DONE 9-13-2020<br>
