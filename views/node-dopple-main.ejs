@@ -29,6 +29,9 @@
 			display: none;
 			visibility: hidden;
 		}
+		.likeBtn {
+			border: none;
+		}
 		#menu {
 			vertical-align: middle;
 		}
@@ -38,6 +41,10 @@
 <% 
 	function getNewHeightInAspectRatio(width, aspectRatio){
 		return Math.floor(width * aspectRatio);
+	};
+	
+	function getNewWidthInAspectRatio(height, aspectRatio){
+		return Math.floor(height / aspectRatio);
 	};
 	
 	//For Debugging
@@ -54,6 +61,7 @@
 	
 	const photoPath  = "Selfies/";
 	const newImgWidth = 240;
+	const newImgHeight = 300;
 		
 	let playerOne = newPlayers[0][0];
 	let playerOneName = newPlayers[0][1];
@@ -72,6 +80,9 @@
 	
 	let playerOneImgHeight = getNewHeightInAspectRatio(newImgWidth, playerOneAR);
 	let playerTwoImgHeight = getNewHeightInAspectRatio(newImgWidth, playerTwoAR);
+	
+	let playerOneImgWidth = getNewWidthInAspectRatio(newImgHeight, playerOneAR);
+	let playerTwoImgWidth = getNewWidthInAspectRatio(newImgHeight, playerTwoAR);
 
 	let playerOneIsWinnerArray = [];
 	playerOneIsWinnerArray[0] = playerOne;
@@ -102,22 +113,28 @@
 </div>
 
 <div class="wrapper fullWidth center">
-	<form name="imageForm1" id="playerOneImageForm" action="/submitPlayer" method="POST">
-		<img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage">
-		<input name="playerName" type="hidden" value="<%= playerOneIsWinnerArray %>">
-		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
-		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
-		<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
-		<button name="playerOneSubmitButton" value="<%= playerOneIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerOneButton"></i></button>
-	</form>
-	<form name="imageForm2" id="playerTwoImageForm" action="/submitPlayer" method="POST">
-		<img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage">
-		<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
-		<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
-		<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
-		<input type="checkbox" id="lockPlayer3" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
-		<button name="playerTwoSubmitButton" value="<%= playerTwoIsWinnerArray %>" class="btn btn-success"><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerTwoButton"></i></button>
-	</form>
+	<div>	
+		<form name="imageForm1" id="playerOneImageForm" action="/submitPlayer" method="POST">
+			<!-- <img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage"> -->
+			<img height="<%= newImgHeight %>px" width="<%= playerOneImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage">
+			<input name="playerName" type="hidden" value="<%= playerOneIsWinnerArray %>">
+			<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
+			<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
+			<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
+		</form>
+		<button name="playerOneSubmitButton" value="<%= playerOneIsWinnerArray %>" class="btn btn-success likeBtn"><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerOneButton"></i></button>
+	</div>
+	<div>
+		<form name="imageForm2" id="playerTwoImageForm" action="/submitPlayer" method="POST">
+			<!-- <img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage"> -->
+			<img height="<%= newImgHeight %>px" width="<%= playerTwoImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage">
+			<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
+			<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
+			<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
+			<input type="checkbox" id="lockPlayer3" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
+		</form>
+		<button name="playerTwoSubmitButton" value="<%= playerTwoIsWinnerArray %>" class="btn btn-success likeBtn"><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerTwoButton"></i></button>
+	</div>
 </div>
 
 <div class="wrapper fullWidth center">
@@ -178,7 +195,7 @@
 //});
 
 function init(){
-	console.log("Init() function called...");
+	//console.log("Init() function called...");
 	
 	$('#playerOneImage').on('click', function (e) { //$("#playerOneImage").click(function(){ // What's the diff??
 		//e.preventDefault();

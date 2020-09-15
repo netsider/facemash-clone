@@ -88,18 +88,17 @@ app.get("/facemash", function(req, res){
 app.post("/submitPlayer", function(req, res){
 	console.log(req.body);
 
-	let newBody = 0;
-	let body = [];
-	req.on('data', (chunk) => {
-		body.push(chunk);
-	}).on('end', () => {
-		body = Buffer.concat(body).toString();
-		console.log(JSON.parse(body));
-		console.log(body);
-		newBody = JSON.parse(body);
-	});
+	// let newBody = 0;
+	// let body = [];
+	// req.on('data', (chunk) => {
+		// body.push(chunk);
+	// }).on('end', () => {
+		// body = Buffer.concat(body).toString();
+		// console.log(JSON.parse(body));
+		// console.log(body);
+		// newBody = JSON.parse(body);
+	// });
 
-	
 	let unserialized = JSON.parse(req.body.playerName);
 	console.log(unserialized);
 	let winner = unserialized[0].toString();
@@ -137,7 +136,7 @@ app.post("/submitPlayer", function(req, res){
 		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
 	}else{
 		newPlayers = generatePlayers(winner, loser, "random");
-		playerArray[0].lockPlayer = false;
+		//playerArray[0].lockPlayer = false;
 	}
 	
 	// console.log(winnerLoserObject);
@@ -168,7 +167,10 @@ app.post("/resetScores", function(req, res){
 });
 
 app.post("/transmitPlayerData", function(req, res){
-	console.log("Received request with player data...");
+	// console.log("Received request with player data...");
+	
+	// console.log(req.data);
+	// console.log(req.body);
 	
 	// let newBody = 0;
 	// let body = [];
@@ -209,13 +211,14 @@ app.post("/transmitPlayerData", function(req, res){
 			try {
 				// console.log(JSON.parse(body));
 				if (jws.verify(req.body.userIDToken, JSON.parse(body))){
-					console.log("Token VERIFIED!");
+					// console.log("Token VERIFIED!");
 					let result = true;
 					sendVerifyRequest(result);
 				}else{
-					console.log("Token NOT verified!");
+					// console.log("Token NOT verified!");
 					let result = false;
 					sendVerifyRequest(result);
+					//displaySecurePage(result);
 				}
 			} catch (error) {
 				console.error(error.message);
@@ -226,14 +229,14 @@ app.post("/transmitPlayerData", function(req, res){
 	});
 	
 	function sendVerifyRequest (result) {
-		console.log("Function called!");
+		// console.log("Function called!");
 		let obj = {
 			email: req.body.emailAddress,
 			imageURL: req.body.imageURL,
 			tokenVerified: result
 		}
-		console.log("Sending request...");
-		console.log(obj);
+		// console.log("Sending request...");
+		// console.log(obj);
 		res.json(obj);
 	}
 	
