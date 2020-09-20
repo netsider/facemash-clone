@@ -25,6 +25,14 @@ app.get("/", function(req, res){
     });
 });
 
-app.post("/route", function(req, res){
+app.get('/route1', function(req, res, next) {
+  res.send('respond with a resource');
+});
 
+app.post("/route2", function(req, res){
+
+});
+
+app.get('/route3', function(req, res, next) {
+  res.render('index', { title: 'Express' });
 });
