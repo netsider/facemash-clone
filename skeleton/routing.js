@@ -39,6 +39,8 @@ app.get('/route3', function(req, res, next) {
 
 
 
+// https://expressjs.com/en/guide/routing.html
+
 app.get('/flights/:from-:to', function (req, res) { // http://localhost:3000/flights/LAX-SFO
   console.log(req.params); // { "userId": "34", "bookId": "8989" }
 })
@@ -69,3 +71,17 @@ app.get('/example/b', function (req, res, next) {
 }, function (req, res) {
   res.send('Hello from B!')
 })
+
+
+
+// You can create chainable route handlers for a route path by using app.route()
+// app.route('/book')
+  // .get(function (req, res) {
+    // res.send('Get a random book')
+  // })
+  // .post(function (req, res) {
+    // res.send('Add a book')
+  // })
+  // .put(function (req, res) {
+    // res.send('Update the book')
+  // })
