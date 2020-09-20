@@ -34,5 +34,5 @@ app.post("/route2", function(req, res){
 });
 
 app.get('/route3', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  //res.render('index', { title: 'Express' });
 });
