@@ -39,7 +39,7 @@
 			position: fixed;
 			left: 1%;
 			bottom: -100px;
-			z-index: 10;
+			<!-- z-index: 10; -->
 			height: 25%;
 		}
 		#russImage{
@@ -216,7 +216,7 @@
 
 <script>
 $(document).ready(function() {
-		$('#playerOneSubmitButton').on('click touchstart', function() {
+		$('#playerOneSubmitButton').on('hover touchstart', function() {
 			window.location.href = "/submitPlayer";
 		});
 });
@@ -315,9 +315,6 @@ function init(){
 	
 	//imageFunction("initial");
 	
-	
-	
-	
 	$('#playerOneImage').on('click', function (e) { //$("#playerOneImage").click(function(){ // What's the diff??
 		setGhostCheckBoxesAndSubmit("imageForm1");		
 	});
@@ -333,6 +330,15 @@ function init(){
 	$('#playerTwoButton').on('click', function (e) {
 		setGhostCheckBoxesAndSubmit("imageForm2");
 	});
+	
+	// Touch Events
+	//$('#playerOneButton').on('touchstart', function (e) {
+	//	setGhostCheckBoxesAndSubmit("imageForm1");
+	//});
+		
+	//$('#playerTwoButton').on('touchstart', function (e) {
+	//	setGhostCheckBoxesAndSubmit("imageForm2");
+	//});
 		
 }
 
