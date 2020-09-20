@@ -9,6 +9,7 @@
 		button {
 			width: 65px;
 			height: 65px;
+			cursor: pointer; // doesn't work
 		}
 		.wrapper {
 			border: 0px solid black;
@@ -214,7 +215,11 @@
 </center>
 
 <script>
-
+$(document).ready(function() {
+		$('#playerOneSubmitButton').on('click touchstart', function() {
+			window.location.href = "/submitPlayer";
+		});
+});
 //document.addEventListener("DOMContentLoaded", function(){
 //	console.log("Fuck yee");
 //	if ($('[id="lockPlayer"]').prop('checked')){
@@ -258,7 +263,7 @@ function imageFunction(which){
 			document.getElementById("tooltiptext5").style.visibility = "hidden";
 		}, 2500);
 	}
-	if (which === "lockIt"){
+	if (which === "unlockIt"){
 		document.getElementById("tooltiptext").style.visibility = "hidden";
 		document.getElementById("tooltiptext2").style.visibility = "hidden";
 		document.getElementById("tooltiptext3").style.visibility = "hidden";
@@ -309,6 +314,9 @@ function init(){
 	//console.log("Init() function called...");
 	
 	//imageFunction("initial");
+	
+	
+	
 	
 	$('#playerOneImage').on('click', function (e) { //$("#playerOneImage").click(function(){ // What's the diff??
 		setGhostCheckBoxesAndSubmit("imageForm1");		
