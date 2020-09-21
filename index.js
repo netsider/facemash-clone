@@ -146,8 +146,8 @@ app.post("/submitPlayer", function(req, res){
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
 	
-	let winnerOldScore = playerScoresObj[winner];
-	let loserOldScore = playerScoresObj[loser];
+	let winnerOldScore = Number(playerScoresObj[winner]);
+	let loserOldScore = Number(playerScoresObj[loser]);
 
 	let winnerELO = ELO(winnerOldScore, loserOldScore);
 	let loserELO = ELO(loserOldScore, winnerOldScore);
@@ -204,7 +204,7 @@ app.post("/submitPlayer", function(req, res){
 		//playerArray[0].lockPlayer = false;
 	}
 	
-	// console.log(winnerLoserObject);
+	console.log(winnerLoserObject);
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
