@@ -37,19 +37,27 @@ const sqlConfig = {
         user: 'admin',
         password: pwd,
         server: 'database-2.cdfzx85agpmp.us-east-1.rds.amazonaws.com', 
-        database: 'FUCKHEAD' 
+        database: 'FUCKHEAD'
     };
 //console.log(pwd);
 
 sql.connect(sqlConfig, function (err) {
 	if (err) console.log(err);
 	let request = new sql.Request();
-        
-    // query to the database and get the records
-    request.query('select * from dbo.toys6', function (err, recordset) {
+    
+	// Create table if it doesn't exist
+	let q = "if not exists (select * from sysobjects where name='facemash_clone' and xtype='U')" + " CREATE SEQUENCE dbo.MySequenceFacemash_clone START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo.facemash_clone ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequenceFacemash_clone), [name] [nvarchar](64) NOT NULL, [score] [bigint] NOT NULL);";
+	request.query(q, function (err, recordset) {
     	if (err) console.log(err);
 		console.log(recordset);        
     });
+	
+	// Test Query
+	// request.query("INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, 'Test1', 1500);", function (err, recordset) {
+    	// if (err) console.log(err);
+		// console.log(recordset);        
+    // });
+	
  });
 
 
