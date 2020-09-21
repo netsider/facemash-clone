@@ -34,6 +34,7 @@ This project originally began as an experiment into the algorith the original ve
 • <strike>Make page get initial player information from server.</strike> DONE 8-16-2020<br>
 
 <br><strong>Recent Changes (NodeJS version):</strong><br>
+• Fix Virtual Russ.<br>
 • Finish skeleton.<br>
 • Make app perform shutdown.<br>
 • Make score pop up as an on-screen overlay notification.<br>
@@ -43,6 +44,7 @@ This project originally began as an experiment into the algorith the original ve
 • Add database connectivity.<br>
 • Fix buttons so they can be pressed on mobile.<br>
 • <strong>Figure out why button has to be pressed twice sometimes, but image doesn't.</strong><br>
+• <strike>Add database connectivity and score saving</strike> DONE 9-21-2020<br>
 • <strike>Change image sizes so height is the same each time but width changes (depending on aspect ratio), so both buttons are at same height (current they're at different heights each time).</strike> DONE 9-14-2020<br>
 • <strike>Make function to calculate new width based on aspect ratio, given a height.</strike> DONE 9-14-2020
 • <strike>Make buttons look like "like" buttons (thumbs up icon, remove border from button, etc.)</strike> DONE 9-13-2020<br>
