@@ -30,8 +30,7 @@ const startingScore = "1500";
 const dlength = fs.readdirSync(photoPath).length - 1;
 const obj = fs.readdirSync(photoPath);
 
-
-// Connect to Database
+// Config & Connect to DB
 const pwd = pass.sql();
 const sqlConfig = {
         user: 'admin',
@@ -48,9 +47,24 @@ sql.connect(sqlConfig, function (err) {
 	// Create table if it doesn't exist
 	let q = "if not exists (select * from sysobjects where name='facemash_clone' and xtype='U')" + " CREATE SEQUENCE dbo.MySequenceFacemash_clone START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo.facemash_clone ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequenceFacemash_clone), [name] [nvarchar](64) NOT NULL, [score] [bigint] NOT NULL);";
 	request.query(q, function (err, recordset) {
-    	if (err) console.log(err);
-		console.log(recordset);        
+    	if (err){
+			console.log(err);
+		}else{
+			console.log(recordset);
+		} 
     });
+	
+	for (let item of obj) {
+				let q = "INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, '" + item + "', 1500);";
+				request.query(q, function (err, recordset) {
+					if (err){
+						console.log(err);
+					}else{
+						console.log(recordset);
+						console.log("Adding " + item + " to database...");
+					}
+				});
+			}	
 	
 	// Test Query
 	// request.query("INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, 'Test1', 1500);", function (err, recordset) {
@@ -59,7 +73,6 @@ sql.connect(sqlConfig, function (err) {
     // });
 	
  });
-
 
 // Initial setup
 if(fs.existsSync(publicDir) !== true) {
@@ -77,11 +90,34 @@ if(fs.existsSync(scorePath) !== true){
 	console.log("Score directory not exists! Creating...");
 }
 
+
+// sql.connect(sqlConfig, function (err) {
+	// if (err) console.log(err);
+	// let request = new sql.Request();
+	
+	// for (let item of obj) {
+		// let q = "INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, '" + item "', 1500);";
+		// request.query(q, function (err, recordset) {
+			// if (err){
+				// console.log(err);
+			// }else{
+				// console.log(recordset);
+				// console.log("Adding " + item " to database...");
+			// }
+		// });
+	// }
+	
+// });
+
+
+	
+
 let playerScoresObj = {};
 for (let item of obj) { // Read scores into memory, or write new file
 	let file = item.substring(0, item.length - 4);
 	let filePath = scorePath + file + ".txt";
-
+	let filename = item;
+	
 	if(!fs.existsSync(filePath)){
 		console.log("Writing Score File " + filePath);
 		fs.writeFileSync(filePath, startingScore);
@@ -154,6 +190,8 @@ app.post("/submitPlayer", function(req, res){
 	
 	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perfo`rm batch write on shutdown
 	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
+	
+
 	
 	playerScoresObj[winner] = winnerNewScore;
 	playerScoresObj[loser] = loserNewScore;
@@ -245,12 +283,12 @@ app.post("/transmitPlayerData", function(req, res){
 				// console.log(JSON.parse(body));
 				if (jws.verify(req.body.userIDToken, JSON.parse(body))){
 					// console.log("Token VERIFIED!");
-					let result = true;
-					sendVerifyRequest(result);
+					//let result = true;
+					sendVerifyRequest(true);
 				}else{
 					// console.log("Token NOT verified!");
-					let result = false;
-					sendVerifyRequest(result);
+					//let result = false;
+					sendVerifyRequest(false);
 					//displaySecurePage(result);
 				}
 			} catch (error) {
@@ -274,7 +312,6 @@ app.post("/transmitPlayerData", function(req, res){
 	}
 	
 });
-
 
 function getAspectRatio(w, h){
 	return Number((h / w).toPrecision(4));
