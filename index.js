@@ -39,32 +39,34 @@ const sqlConfig = {
         database: 'FUCKHEAD'
     };
 //console.log(pwd);
+const workingTable = "facemash_clone_3";
 
 sql.connect(sqlConfig, function (err) {
 	if (err) console.log(err);
 	let request = new sql.Request();
     
 	// Create table if it doesn't exist
-	let q = "if not exists (select * from sysobjects where name='facemash_clone' and xtype='U')" + " CREATE SEQUENCE dbo.MySequenceFacemash_clone START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo.facemash_clone ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequenceFacemash_clone), [name] [nvarchar](64) NOT NULL, [score] [bigint] NOT NULL);";
+	// let q = "if not exists (select * from sysobjects where name='facemash_clone' and xtype='U')" + " CREATE SEQUENCE dbo.MySequenceFacemash_clone START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo.facemash_clone ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequenceFacemash_clone), [name] [nvarchar](64) NOT NULL, [score] [bigint] NOT NULL);";
+	let q = "if not exists (select * from sysobjects where name='" + workingTable + "' and xtype='U')" + " CREATE SEQUENCE dbo.MySequence" + workingTable + " START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo." + workingTable + " ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequence" + workingTable + "), [name] [nvarchar](64) NOT NULL, [score] [bigint] NOT NULL);";
 	request.query(q, function (err, recordset) {
     	if (err){
 			console.log(err);
 		}else{
 			console.log(recordset);
-		} 
-    });
-	
-	for (let item of obj) {
-				let q = "INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, '" + item + "', 1500);";
+			
+			for (let item of obj) { // Make this only insert values that don't exist
+				let q = "INSERT INTO dbo." + workingTable + " (id, name, score) VALUES (NEXT VALUE FOR dbo.MySequence" + workingTable + ", '" + item + "', " + startingScore + ");";
 				request.query(q, function (err, recordset) {
 					if (err){
 						console.log(err);
 					}else{
 						console.log(recordset);
-						console.log("Adding " + item + " to database...");
+						console.log("Added " + item + " to database...");
 					}
 				});
-			}	
+			}
+		} 
+    });
 	
 	// Test Query
 	// request.query("INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, 'Test1', 1500);", function (err, recordset) {
@@ -109,9 +111,6 @@ if(fs.existsSync(scorePath) !== true){
 	
 // });
 
-
-	
-
 let playerScoresObj = {};
 for (let item of obj) { // Read scores into memory, or write new file
 	let file = item.substring(0, item.length - 4);
@@ -123,7 +122,8 @@ for (let item of obj) { // Read scores into memory, or write new file
 		fs.writeFileSync(filePath, startingScore);
 		playerScoresObj[file] = startingScore;
 	}else{
-		playerScoresObj[file] = Number(fs.readFileSync(filePath));
+		// playerScoresObj[file] = Number(fs.readFileSync(filePath));
+		playerScoresObj[file] = startingScore; // Make this read from DB
 	}
 }
 //console.log(playerScoresObj);
@@ -190,8 +190,32 @@ app.post("/submitPlayer", function(req, res){
 	
 	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perfo`rm batch write on shutdown
 	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
+	// $tsql = 'UPDATE ' . $table . ' SET Score = ' . $LoserTotalPoints . ' WHERE Player = \'' . $Loser . '\'';
 	
-
+	// let q = "INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, '" + item + "', 1500);";
+	
+	let q = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';"
+	let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';"
+	sql.connect(sqlConfig, function (err) {
+		if (err) console.log(err);
+		let request = new sql.Request();
+		request.query(q, function (err, recordset) {
+			if (err){
+				console.log(err);
+			}else{
+				console.log(recordset);
+				console.log("Updated " + loserName + " score in database...");
+			}
+		});
+		request.query(q2, function (err, recordset) {
+			if (err){
+				console.log(err);
+			}else{
+				console.log(recordset);
+				console.log("Updated " + winnerName + " score in database...");
+			}
+		});
+	});
 	
 	playerScoresObj[winner] = winnerNewScore;
 	playerScoresObj[loser] = loserNewScore;
