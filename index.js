@@ -52,8 +52,7 @@ sql.connect(sqlConfig, function (err) {
     	if (err){
 			console.log(err);
 		}else{
-			console.log(recordset);
-			
+			console.log(recordset);	
 			for (let item of obj) { // Make this only insert values that don't exist
 				let q = "INSERT INTO dbo." + workingTable + " (id, name, score) VALUES (NEXT VALUE FOR dbo.MySequence" + workingTable + ", '" + item + "', " + startingScore + ");";
 				request.query(q, function (err, recordset) {
@@ -67,13 +66,6 @@ sql.connect(sqlConfig, function (err) {
 			}
 		} 
     });
-	
-	// Test Query
-	// request.query("INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, 'Test1', 1500);", function (err, recordset) {
-    	// if (err) console.log(err);
-		// console.log(recordset);        
-    // });
-	
  });
 
 // Initial setup
@@ -91,25 +83,6 @@ if(fs.existsSync(scorePath) !== true){
 	fs.mkdirSync(scorePath);
 	console.log("Score directory not exists! Creating...");
 }
-
-
-// sql.connect(sqlConfig, function (err) {
-	// if (err) console.log(err);
-	// let request = new sql.Request();
-	
-	// for (let item of obj) {
-		// let q = "INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, '" + item "', 1500);";
-		// request.query(q, function (err, recordset) {
-			// if (err){
-				// console.log(err);
-			// }else{
-				// console.log(recordset);
-				// console.log("Adding " + item " to database...");
-			// }
-		// });
-	// }
-	
-// });
 
 let playerScoresObj = {};
 for (let item of obj) { // Read scores into memory, or write new file
@@ -190,9 +163,6 @@ app.post("/submitPlayer", function(req, res){
 	
 	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perfo`rm batch write on shutdown
 	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
-	// $tsql = 'UPDATE ' . $table . ' SET Score = ' . $LoserTotalPoints . ' WHERE Player = \'' . $Loser . '\'';
-	
-	// let q = "INSERT INTO dbo.facemash_clone(id, name, score) VALUES (NEXT VALUE FOR dbo.MySequenceFacemash_clone, '" + item + "', 1500);";
 	
 	let q = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';"
 	let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';"
