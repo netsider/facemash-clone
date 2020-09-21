@@ -1,7 +1,6 @@
 // Facemash-clone
 // Made by Russell Rounds
 // Version 0.3
-// index.js
 
 const http = require("http");
 const fs = require("fs");
@@ -12,6 +11,8 @@ const sizeOf = require("image-size");
 const app = express();
 const jws = require('jws-jwk');
 const https = require('https');
+const sql = require("mssql");
+const pass = require('./pass.js');
 
 //app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
@@ -28,6 +29,29 @@ const k = 32;
 const startingScore = "1500";
 const dlength = fs.readdirSync(photoPath).length - 1;
 const obj = fs.readdirSync(photoPath);
+
+
+// Connect to Database
+const pwd = pass.sql();
+const sqlConfig = {
+        user: 'admin',
+        password: pwd,
+        server: 'database-2.cdfzx85agpmp.us-east-1.rds.amazonaws.com', 
+        database: 'FUCKHEAD' 
+    };
+//console.log(pwd);
+
+sql.connect(sqlConfig, function (err) {
+	if (err) console.log(err);
+	let request = new sql.Request();
+        
+    // query to the database and get the records
+    request.query('select * from dbo.toys6', function (err, recordset) {
+    	if (err) console.log(err);
+		console.log(recordset);        
+    });
+ });
+
 
 // Initial setup
 if(fs.existsSync(publicDir) !== true) {
