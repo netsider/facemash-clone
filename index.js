@@ -22,18 +22,19 @@ app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(express.json());
 
 const publicDir = "files";
-app.use(express.static(__dirname + "/" + publicDir)); // static middleware first
+app.use(express.static(__dirname + "/" + publicDir));
 app.set("view engine", "ejs");
 app.listen(3000);
 
-const scorePath = publicDir + "/Selfie_Score/";
-const photoPath = publicDir + "/Selfies/";
 const k = 32;
 const startingScore = "1500";
+const scorePath = publicDir + "/Selfie_Score/";
+const photoPath = publicDir + "/Selfies/";
 const dlength = fs.readdirSync(photoPath).length - 1;
 const obj = fs.readdirSync(photoPath);
 
 // Config & Connect to DB
+const workingTable = "facemash_clone_3";
 const pwd = pass.sql();
 const sqlConfig = {
         user: 'admin',
@@ -42,33 +43,30 @@ const sqlConfig = {
         database: 'FUCKHEAD'
     };
 //console.log(pwd);
-const workingTable = "facemash_clone_3";
-
+	
 sql.connect(sqlConfig, function (err) {
-	if (err) console.log(err);
-	let request = new sql.Request();
+		if (err) console.log(err);
+		let request = new sql.Request();
     
-	// Create table if it doesn't exist
-	// let q = "if not exists (select * from sysobjects where name='facemash_clone' and xtype='U')" + " CREATE SEQUENCE dbo.MySequenceFacemash_clone START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo.facemash_clone ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequenceFacemash_clone), [name] [nvarchar](64) NOT NULL, [score] [bigint] NOT NULL);";
-	let q = "if not exists (select * from sysobjects where name='" + workingTable + "' and xtype='U')" + " CREATE SEQUENCE dbo.MySequence" + workingTable + " START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo." + workingTable + " ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequence" + workingTable + "), [name] [nvarchar](64) NOT NULL, [score] [bigint] NOT NULL);";
-	request.query(q, function (err, recordset) {
-    	if (err){
-			console.log(err);
-		}else{
-			console.log(recordset);	
-			for (let item of obj) { // Make this only insert values that don't exist
-				let q = "INSERT INTO dbo." + workingTable + " (id, name, score) VALUES (NEXT VALUE FOR dbo.MySequence" + workingTable + ", '" + item + "', " + startingScore + ");";
-				request.query(q, function (err, recordset) {
-					if (err){
-						console.log(err);
-					}else{
-						console.log(recordset);
-						console.log("Added " + item + " to database...");
-					}
-				});
-			}
-		} 
-    });
+		let q = "if not exists (select * from sysobjects where name='" + workingTable + "' and xtype='U')" + " CREATE SEQUENCE dbo.MySequence" + workingTable + " START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo." + workingTable + " ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequence" + workingTable + "), [name] [nvarchar](64) NOT NULL, [score] [bigint] NOT NULL);";
+		request.query(q, function (err, recordset) {
+			if (err){
+				// console.log(err);
+			}else{
+				console.log(recordset);	
+				for (let item of obj) { // Make this only insert values that don't exist
+					let q = "INSERT INTO dbo." + workingTable + " (id, name, score) VALUES (NEXT VALUE FOR dbo.MySequence" + workingTable + ", '" + item + "', " + Number(startingScore) + ");"; // Change this back if it fucks up
+					request.query(q, function (err, recordset) {
+						if (err){
+							console.log(err);
+						}else{
+							console.log(recordset);
+							console.log("Added " + item + " to database...");
+						}
+					});
+				}
+			} 
+		});
 });
 
 // Initial setup
@@ -87,22 +85,39 @@ if(fs.existsSync(scorePath) !== true){
 	console.log("Score directory not exists! Creating...");
 }
 
+let arr = [];
 let playerScoresObj = {};
-for (let item of obj) { // Read scores into memory, or write new file
-	let file = item.substring(0, item.length - 4);
-	let filePath = scorePath + file + ".txt";
-	let filename = item;
+sql.connect(sqlConfig, function (err) {
 	
-	if(!fs.existsSync(filePath)){
-		console.log("Writing Score File " + filePath);
-		fs.writeFileSync(filePath, startingScore);
-		playerScoresObj[file] = startingScore;
+	
+	let request = new sql.Request();
+	if (err){
+		console.log(err);
 	}else{
-		// playerScoresObj[file] = Number(fs.readFileSync(filePath));
-		playerScoresObj[file] = Number(startingScore); // Make this read from DB
+		
+		for (let item of obj) {
+			// playerScoresObj[file] = Number(startingScore); // Default
+			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
+			request.query(q, function (err, recordset) {
+				if (err){
+					console.log(err);
+				}else{
+					let file = item.substring(0, item.length - 4);
+					let filePath = scorePath + file + ".txt";
+					console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
+					playerScoresObj[file] = Number(recordset.recordset[0].score);
+					arr.push(Number(recordset.recordset[0].score));
+				}
+			});
+		
+		
+		}
+	
 	}
-}
-//console.log(playerScoresObj);
+			
+});
+console.log(arr);
+console.log(playerScoresObj);
 
 
 let playerAspectRatioObj = {};
@@ -149,8 +164,10 @@ app.post("/submitPlayer", function(req, res){
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
 	
-	let winnerOldScore = Number(playerScoresObj[winner]);
-	let loserOldScore = Number(playerScoresObj[loser]);
+	// let winnerOldScore = Number(playerScoresObj[winner]);
+	let winnerOldScore = playerScoresObj[winner];
+	// let loserOldScore = Number(playerScoresObj[loser]);
+	let loserOldScore = playerScoresObj[loser];
 
 	let winnerELO = ELO(winnerOldScore, loserOldScore);
 	let loserELO = ELO(loserOldScore, winnerOldScore);
