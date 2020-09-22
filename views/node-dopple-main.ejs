@@ -36,10 +36,11 @@
 			vertical-align: middle;
 		}
 		#russBox{
+			visibility: hidden;
 			position: fixed;
 			left: 1%;
 			bottom: -100px;
-			<!-- z-index: 10; -->
+			z-index: 10;
 			height: 25%;
 		}
 		#russImage{
@@ -170,20 +171,20 @@
 		<div id="debugFormBox" class="wrapper">
 			
 			<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
-				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("unlockIt")' checked>
+				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockit")' checked>
 			<% }else{ %>
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockIt")'>
 			<% }; %>
+				<br><input type="button" id="vRussToggle" name="vRussToggle" value="Turn on Virtual Russ" onclick='vRussToggleFunction("on"), imageFunction("initial")'>
+				<br><input type="button" id="vRussToggle" name="vRussToggle" value="Turn off Virtual Russ" onclick='vRussToggleFunction("off"), imageFunction("bye")'>
 		</div>	
 </div>
 <div id="russBox" class="tooltip">
 	<img src="my_transparent_head_final.png" id="russImage" onmouseover='imageFunction("self")'>
 	<span class="tooltiptext" id="tooltiptext">Don't touch me!</span>
-	<span class="tooltiptext" id="tooltiptext2">Hey, what's up?</span>
-	<span class="tooltiptext" id="tooltiptext3">Thinking of image on the left, eh?</span>
-	<span class="tooltiptext" id="tooltiptext4">Thinking of image on the right, eh?</span>
-	<span class="tooltiptext" id="tooltiptext5">Yeah, lock that sucker down!</span>
-	<span class="tooltiptext" id="tooltiptext6">Choosing random players again!</span>
+	<span class="tooltiptext" id="tooltiptext2">Hello!</span>
+	<!-- <span class="tooltiptext" id="tooltiptext3">Toggling player lock...</span> -->
+	<span class="tooltiptext" id="tooltiptext4">Bye!</span>
 </div>
 <div id="scoreBoard" style="width: 100%;" class="wrapper hidden">
 	<%
@@ -228,14 +229,19 @@ $(document).ready(function() {
 //	}
 //});
 
+function vRussToggleFunction (toggle){
+	if(toggle === "on"){
+		document.getElementById("russBox").style.visibility = "visible";
+	}else{
+		document.getElementById("russBox").style.visibility = "hidden";
+	}
+}
+
 function imageFunction(which){
 	if (which === "self"){
 		document.getElementById("tooltiptext").style.visibility = "visible";
 		document.getElementById("tooltiptext3").style.visibility = "hidden";
 		document.getElementById("tooltiptext2").style.visibility = "hidden";
-		document.getElementById("tooltiptext4").style.visibility = "hidden";
-		document.getElementById("tooltiptext5").style.visibility = "hidden";
-		document.getElementById("tooltiptext6").style.visibility = "hidden";
 		setTimeout(function(){
 			document.getElementById("tooltiptext").style.visibility = "hidden";
 		}, 2500);
@@ -245,9 +251,6 @@ function imageFunction(which){
 		document.getElementById("tooltiptext").style.visibility = "hidden";
 		document.getElementById("tooltiptext2").style.visibility = "visible";
 		document.getElementById("tooltiptext3").style.visibility = "hidden";
-		document.getElementById("tooltiptext4").style.visibility = "hidden";
-		document.getElementById("tooltiptext5").style.visibility = "hidden";
-		document.getElementById("tooltiptext6").style.visibility = "hidden";
 		setTimeout(function(){
 			document.getElementById("tooltiptext2").style.visibility = "hidden";
 		}, 2500);
@@ -255,44 +258,16 @@ function imageFunction(which){
 	if (which === "lockIt"){
 		document.getElementById("tooltiptext").style.visibility = "hidden";
 		document.getElementById("tooltiptext2").style.visibility = "hidden";
-		document.getElementById("tooltiptext3").style.visibility = "hidden";
-		document.getElementById("tooltiptext4").style.visibility = "hidden";
-		document.getElementById("tooltiptext5").style.visibility = "visible";
-		document.getElementById("tooltiptext6").style.visibility = "hidden";
-		setTimeout(function(){
-			document.getElementById("tooltiptext5").style.visibility = "hidden";
-		}, 2500);
-	}
-	if (which === "unlockIt"){
-		document.getElementById("tooltiptext").style.visibility = "hidden";
-		document.getElementById("tooltiptext2").style.visibility = "hidden";
-		document.getElementById("tooltiptext3").style.visibility = "hidden";
-		document.getElementById("tooltiptext4").style.visibility = "hidden";
-		document.getElementById("tooltiptext5").style.visibility = "hidden";
-		document.getElementById("tooltiptext6").style.visibility = "visible";
-		setTimeout(function(){
-			document.getElementById("tooltiptext6").style.visibility = "hidden";
-		}, 2500);
-	}
-
-	if (which === "image"){
-		document.getElementById("tooltiptext").style.visibility = "hidden";
-		document.getElementById("tooltiptext2").style.visibility = "hidden";
 		document.getElementById("tooltiptext3").style.visibility = "visible";
-		document.getElementById("tooltiptext4").style.visibility = "hidden";
-		document.getElementById("tooltiptext5").style.visibility = "hidden";
-		document.getElementById("tooltiptext6").style.visibility = "hidden";
 		setTimeout(function(){
 			document.getElementById("tooltiptext3").style.visibility = "hidden";
 		}, 2500);
 	}
-	if (which === "image2"){
+	if (which === "bye"){
 		document.getElementById("tooltiptext").style.visibility = "hidden";
 		document.getElementById("tooltiptext2").style.visibility = "hidden";
-		document.getElementById("tooltiptext3").style.visibility = "hidden";
+		//document.getElementById("tooltiptext3").style.visibility = "hidden";
 		document.getElementById("tooltiptext4").style.visibility = "visible";
-		document.getElementById("tooltiptext5").style.visibility = "hidden";
-		document.getElementById("tooltiptext6").style.visibility = "hidden";
 		setTimeout(function(){
 			document.getElementById("tooltiptext4").style.visibility = "hidden";
 		}, 2500);
@@ -306,8 +281,6 @@ function clearAll(){
 	document.getElementById("tooltiptext").style.visibility = "hidden";
 	document.getElementById("tooltiptext2").style.visibility = "hidden";
 	document.getElementById("tooltiptext3").style.visibility = "hidden";
-	document.getElementById("tooltiptext4").style.visibility = "hidden";
-	document.getElementById("tooltiptext5").style.visibility = "hidden";
 }
 
 function init(){
