@@ -2,6 +2,9 @@
 // Made by Russell Rounds
 // Version 0.4
 
+// To Do:
+// Make NodeJS SQL Server skeleton/template
+
 const http = require("http");
 const fs = require("fs");
 const express  = require("express");
@@ -19,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(express.json());
 
 const publicDir = "files";
-app.use(express.static(__dirname + "/" + publicDir));
+app.use(express.static(__dirname + "/" + publicDir)); // static middleware first
 app.set("view engine", "ejs");
 app.listen(3000);
 
