@@ -66,7 +66,7 @@ sql.connect(sqlConfig, function (err) {
 			}
 		} 
     });
- });
+});
 
 // Initial setup
 if(fs.existsSync(publicDir) !== true) {
@@ -96,7 +96,7 @@ for (let item of obj) { // Read scores into memory, or write new file
 		playerScoresObj[file] = startingScore;
 	}else{
 		// playerScoresObj[file] = Number(fs.readFileSync(filePath));
-		playerScoresObj[file] = startingScore; // Make this read from DB
+		playerScoresObj[file] = Number(startingScore); // Make this read from DB
 	}
 }
 //console.log(playerScoresObj);
