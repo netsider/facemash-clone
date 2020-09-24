@@ -112,6 +112,8 @@ async function getAll(){
 		//arr.push(Number(recordset.recordset[0].score));
 		// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
 	}
+	Promise.allSettled(promises).
+		then((results) => results.forEach((result) => console.log("Label for Promise (2): ", result)));
 	return playerScoresObj; // When I add this, it now is not undefined, but has a value, 
 	//but still doesn't contain any values from the function readThatSHIT(item)
 }
