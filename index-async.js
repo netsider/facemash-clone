@@ -119,7 +119,7 @@ async function getTHAT(item){
 	// console.log("Label 3: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
 	// console.log("Label 3: ", { result: Promise.anySettled(Object.values(playerScoresObj)) });
 	
-	let result = await Promise.resolve(readThatSHIT(item)); // Working
+	let result = await Promise.resolve(readThatSHIT(item));
 	// let result = await readThatSHIT(item);
 	let p = Promise.resolve(result);
 	
