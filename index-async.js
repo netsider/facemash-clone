@@ -88,7 +88,6 @@ if(fs.existsSync(scorePath) !== true){
 let arr = [];
 let playerScoresObj = {};
 
-
 for (let item of obj) {
 	// playerScoresObj[file] = Number(startingScore); // Default
 	//let result = readThatSHIT(item);
