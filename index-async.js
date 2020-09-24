@@ -146,7 +146,8 @@ async function getTHAT(item){
 
 		
 function readThatSHIT(item){
-			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
+			// let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";// Works also
+			let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
 			
 			sql.connect(sqlConfig, function (err) {
 				let request = new sql.Request();
