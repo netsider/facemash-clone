@@ -123,6 +123,12 @@ async function getTHAT(item){
 	let result = await readThatSHIT(item);
 	let p = Promise.resolve(result);
 	console.log('Result: ', result);
+	console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
+	console.log({ result: Promise.all(Object.values(playerScoresObj)) });
+	console.log(Promise.all(Object.values(playerScoresObj)));
+	console.log(Promise.all(Object.values(playerScoresObj)));
+	// console.log(p.allSettled(Object.values(playerScoresObj)));
+	// console.log(p.allSettled(Object.values(playerScoresObj)));
 	p.then(function(v) {
 		console.log("V: ", v);
 		// return result;
