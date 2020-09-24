@@ -89,19 +89,23 @@ if(fs.existsSync(scorePath) !== true){
 let arr = [];
 let playerScoresObj = {};
 
-for (let item of obj) {
+async function getALL(){
+	for (let item of obj) {
 	// playerScoresObj[file] = Number(startingScore); // Default
 	//let result = readThatSHIT(item);
 	// let result = getTHAT(item);
 	// console.log(result);
 	// playerScoresObj[item] = Number(result);
-	let finalResult = getTHAT(item);
+	let finalResult = await getTHAT(item);
 	// playerScoresObj[item] = getTHAT(item);
+	console.log("finalResult: ", finalResult);
 	playerScoresObj[item] = finalResult;
 	// playerScoresObj[item] = readThatSHIT(item);
-	
 	let promises = [finalResult];
-	Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL 2: ", result)));
+	Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL 1: ", result)));
+	Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL 1: ", finalResult)));
+	
+	
 	
 	//arr.push(Number(recordset.recordset[0].score));
 	// console.log("Label 2: ", { result: Promise.all(Object.values(playerScoresObj)) });
@@ -112,6 +116,10 @@ for (let item of obj) {
 	// console.log(Promise.allSettled(Object.values(playerScoresObj)));
 	// console.log({ result: Promise.any(Object.values(playerScoresObj)) });
 
+	}
+	return playerScoresObj;
+	// let promises = [finalResult];
+	// Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL 2: ", result)));
 }
 // console.log("Label 2: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
 // console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
@@ -185,6 +193,18 @@ function readThatSHIT(item){
 // console.log(Promise.all(Object.values(playerScoresObj)));
 // console.log(Promise.allSettled(Object.values(playerScoresObj)));
 // console.log({ result: Promise.any(Object.values(playerScoresObj)) });
+
+let x = new Promise(function (resolve) {
+    setTimeout(function () {
+        resolve(getALL());
+    }, 3000);
+});
+
+x.then(function (v) {
+    console.log(x);
+})
+
+
 
 console.log(arr);
 console.log(playerScoresObj);
