@@ -99,17 +99,18 @@ for (let item of obj) {
 	//arr.push(Number(recordset.recordset[0].score));
 	// console.log("Label 2: ", { result: Promise.all(Object.values(playerScoresObj)) });
 	// console.log("Label 1: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
-	console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
-	console.log({ result: Promise.all(Object.values(playerScoresObj)) });
-	console.log(Promise.all(Object.values(playerScoresObj)));
-	console.log(Promise.allSettled(Object.values(playerScoresObj)));
+	// console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
+	// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
+	// console.log(Promise.all(Object.values(playerScoresObj)));
+	// console.log(Promise.allSettled(Object.values(playerScoresObj)));
 	// console.log({ result: Promise.any(Object.values(playerScoresObj)) });
+
 }
 // console.log("Label 2: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
-console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
-console.log({ result: Promise.all(Object.values(playerScoresObj)) });
-console.log(Promise.all(Object.values(playerScoresObj)));
-console.log(Promise.allSettled(Object.values(playerScoresObj)));
+// console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
+// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
+// console.log(Promise.all(Object.values(playerScoresObj)));
+// console.log(Promise.allSettled(Object.values(playerScoresObj)));
 // console.log({ result: Promise.any(Object.values(playerScoresObj)) });
 
 async function getTHAT(item){
@@ -118,15 +119,18 @@ async function getTHAT(item){
 	// console.log("Label 3: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
 	// console.log("Label 3: ", { result: Promise.anySettled(Object.values(playerScoresObj)) });
 	
-
-	// let result = await Promise.resolve(readThatSHIT(item)); // Working
-	let result = await readThatSHIT(item);
+	let result = await Promise.resolve(readThatSHIT(item)); // Working
+	// let result = await readThatSHIT(item);
 	let p = Promise.resolve(result);
-	console.log('Result: ', result);
-	console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
-	console.log({ result: Promise.all(Object.values(playerScoresObj)) });
-	console.log(Promise.all(Object.values(playerScoresObj)));
-	console.log(Promise.all(Object.values(playerScoresObj)));
+	
+	let promises = [p];
+	Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL: ", result)));
+	
+	// console.log('Result: ', result);
+	// console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
+	// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
+	// console.log(Promise.all(Object.values(playerScoresObj)));
+	// console.log(Promise.all(Object.values(playerScoresObj)));
 	// console.log(p.allSettled(Object.values(playerScoresObj)));
 	// console.log(p.allSettled(Object.values(playerScoresObj)));
 	p.then(function(v) {
@@ -165,11 +169,12 @@ function readThatSHIT(item){
 
 // console.log("Label 4: ", { result: Promise.all(Object.values(playerScoresObj)) });
 // console.log("Label 4: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
-console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
-console.log({ result: Promise.all(Object.values(playerScoresObj)) });
-console.log(Promise.all(Object.values(playerScoresObj)));
-console.log(Promise.allSettled(Object.values(playerScoresObj)));
+// console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
+// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
+// console.log(Promise.all(Object.values(playerScoresObj)));
+// console.log(Promise.allSettled(Object.values(playerScoresObj)));
 // console.log({ result: Promise.any(Object.values(playerScoresObj)) });
+
 console.log(arr);
 console.log(playerScoresObj);
 
