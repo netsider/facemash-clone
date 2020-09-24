@@ -97,18 +97,48 @@ for (let item of obj) {
 	// playerScoresObj[item] = Number(result);
 	playerScoresObj[item] = getTHAT(item);
 	//arr.push(Number(recordset.recordset[0].score));
+	// console.log("Label 2: ", { result: Promise.all(Object.values(playerScoresObj)) });
+	// console.log("Label 1: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
+	console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
+	console.log({ result: Promise.all(Object.values(playerScoresObj)) });
+	console.log(Promise.all(Object.values(playerScoresObj)));
+	console.log(Promise.allSettled(Object.values(playerScoresObj)));
+	// console.log({ result: Promise.any(Object.values(playerScoresObj)) });
 }
+// console.log("Label 2: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
+console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
+console.log({ result: Promise.all(Object.values(playerScoresObj)) });
+console.log(Promise.all(Object.values(playerScoresObj)));
+console.log(Promise.allSettled(Object.values(playerScoresObj)));
+// console.log({ result: Promise.any(Object.values(playerScoresObj)) });
 
 async function getTHAT(item){
-		//let result = await readThatSHIT(item);
-		return await readThatSHIT(item);
+	//let result = await readThatSHIT(item);
+	// console.log("Label 3: ", { result: Promise.all(Object.values(playerScoresObj)) });
+	// console.log("Label 3: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
+	// console.log("Label 3: ", { result: Promise.anySettled(Object.values(playerScoresObj)) });
+	
+
+	// let result = await Promise.resolve(readThatSHIT(item)); // Working
+	let result = await readThatSHIT(item);
+	let p = Promise.resolve(result);
+	console.log('Result: ', result);
+	p.then(function(v) {
+		console.log("V: ", v);
+		// return result;
+		return p;
+	});
+	
+	
+
+	// return await readThatSHIT(item);
 }
 
 		
 function readThatSHIT(item){
 			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
+			
 			sql.connect(sqlConfig, function (err) {
-					
 				let request = new sql.Request();
 				if (err){
 					console.log(err);
@@ -122,16 +152,18 @@ function readThatSHIT(item){
 							// return recordset.recordset[0];
 						}
 					});
-
-	
-		}
-			
+				}
 		});
-	
 }
 
 
-
+// console.log("Label 4: ", { result: Promise.all(Object.values(playerScoresObj)) });
+// console.log("Label 4: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
+console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
+console.log({ result: Promise.all(Object.values(playerScoresObj)) });
+console.log(Promise.all(Object.values(playerScoresObj)));
+console.log(Promise.allSettled(Object.values(playerScoresObj)));
+// console.log({ result: Promise.any(Object.values(playerScoresObj)) });
 console.log(arr);
 console.log(playerScoresObj);
 
@@ -147,6 +179,9 @@ for (let item of obj) {  //Compute aspect ratios, and read into object
 //console.log(playerAspectRatioObj);
 
 console.log("Starting...");
+
+console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
+console.log({ result: Promise.all(Object.values(playerScoresObj)) });
 
 app.get("/", function(req, res){
 	fs.readFile('index.html',function (err, data){
