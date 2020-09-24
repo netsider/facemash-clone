@@ -1,6 +1,7 @@
 // Facemash-clone
 // Made by Russell Rounds
 // Version 0.4
+// NOT WORKING
 
 // To Do:
 // Make NodeJS SQL Server skeleton/template
