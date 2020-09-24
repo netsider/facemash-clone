@@ -89,91 +89,42 @@ if(fs.existsSync(scorePath) !== true){
 let arr = [];
 let playerScoresObj = {};
 
-async function getALL(){
+let newScoresObj = getAll();
+
+console.log("Label for newScoresObj: ", newScoresObj);
+
+const promises = [newScoresObj];
+
+Promise.allSettled(promises).
+  // then((results) => results.forEach((result) => console.log("Label for Promise (1): ", result.status)));
+  then((results) => results.forEach((result) => console.log("Label for Promise (1): ", result)));
+
+async function getAll(){
 	for (let item of obj) {
-	// playerScoresObj[file] = Number(startingScore); // Default
-	//let result = readThatSHIT(item);
-	// let result = getTHAT(item);
-	// console.log(result);
-	// playerScoresObj[item] = Number(result);
-	let finalResult = await getTHAT(item);
-	// playerScoresObj[item] = getTHAT(item);
-	console.log("finalResult: ", finalResult);
-	console.log("Label 1: ", { result: Promise.all(Object.values(playerScoresObj)) });
-	playerScoresObj[item] = finalResult;
-	// playerScoresObj[item] = readThatSHIT(item);
-	let promises = [finalResult];
-	Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL 1: ", result)));
-	Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL 1: ", finalResult)));
-	Promise.allSettled(promises).then(([result]) => {
-		console.log("All Done!");
-		console.log("Result 2: ", result);
-	})
-	
-	//arr.push(Number(recordset.recordset[0].score));
-	// console.log("Label 2: ", { result: Promise.all(Object.values(playerScoresObj)) });
-	// console.log("Label 1: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
-	// console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
-	// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
-	// console.log(Promise.all(Object.values(playerScoresObj)));
-	// console.log(Promise.allSettled(Object.values(playerScoresObj)));
-	// console.log({ result: Promise.any(Object.values(playerScoresObj)) });
-
+		// playerScoresObj[file] = Number(startingScore); // Default
+		//let result = readThatSHIT(item);
+		// let result = getTHAT(item);
+		// console.log(result);
+		// playerScoresObj[item] = Number(result);
+		// playerScoresObj[item] = await getTHAT(item);
+		// playerScoresObj[item] = getTHAT(item);
+		playerScoresObj[item] = await readThatSHIT(item);
+		//arr.push(Number(recordset.recordset[0].score));
+		// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
 	}
-	return playerScoresObj;
-	console.log("Label 2: ", { result: Promise.all(Object.values(playerScoresObj)) });
-
+	return playerScoresObj; // When I add this, it now is not undefined, but has a value, but still doesn't contain any values from the function readThatSHIT(item)
 }
-// console.log("Label 2: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
-// console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
-// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
-// console.log(Promise.all(Object.values(playerScoresObj)));
-// console.log(Promise.allSettled(Object.values(playerScoresObj)));
-// console.log({ result: Promise.any(Object.values(playerScoresObj)) });
 
-async function getTHAT(item){
-	//let result = await readThatSHIT(item);
-	console.log("Label 3: ", { result: Promise.all(Object.values(playerScoresObj)) });
-	// console.log("Label 3: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
-	// console.log("Label 3: ", { result: Promise.anySettled(Object.values(playerScoresObj)) });
-	
-	let result = await Promise.resolve(readThatSHIT(item));
-	// let result = await readThatSHIT(item);
-	let p = Promise.resolve(result);
-	// let p = await Promise.resolve(readThatSHIT(item));
-	console.log("Result: ", result);
-	console.log(p);
-	let promises = [p];
-	console.log(promises);
-	Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL: ", result)));
-	Promise.allSettled(promises).then((results) => results.forEach((p) => console.log("PROMISE LABEL P: ", p)));
-	
-	// p.then(ajaxResult => console.log("P: ", ajaxResult));
-	
-	// console.log('Result: ', result);
-	// console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
-	// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
-	// console.log(Promise.all(Object.values(playerScoresObj)));
-	// console.log(Promise.all(Object.values(playerScoresObj)));
-	// console.log(p.allSettled(Object.values(playerScoresObj)));
-	// console.log(p.allSettled(Object.values(playerScoresObj)));
-	p.then(function(v) {
-		console.log("V: ", v);
-		console.log("R (p): ", p);
-		// return result;
-		
-		return p;
-	});
-	
-	// return await readThatSHIT(item);
-}
+// async function getTHAT(item){
+		// let result = await readThatSHIT(item);
+		// return await readThatSHIT(item);
+// }
 
 		
 function readThatSHIT(item){
-			// let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";// Works also
-			let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
-			
+			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
 			sql.connect(sqlConfig, function (err) {
+					
 				let request = new sql.Request();
 				if (err){
 					console.log(err);
@@ -187,47 +138,16 @@ function readThatSHIT(item){
 							// return recordset.recordset[0];
 						}
 					});
-				}
+
+	
+		}
+			
 		});
+	
 }
 
-// console.log("Label 4: ", { result: Promise.all(Object.values(playerScoresObj)) });
-// console.log("Label 4: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
-// console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
-// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
-// console.log(Promise.all(Object.values(playerScoresObj)));
-// console.log(Promise.allSettled(Object.values(playerScoresObj)));
-// console.log({ result: Promise.any(Object.values(playerScoresObj)) });
-
-
-
-
-// let x = new Promise(function (resolve) {
-    // setTimeout(function () {
-        // resolve(getALL());
-    // }, 3000);
-// });
-
-// x.then(function (v) {
-    // console.log(x);
-    // console.log(v);
-// })
-
-// .allSettled([x]).then(([result]) => {
-   // console.log(playerScoresObj);
-// })
-
-let shit = [getALL()];
-
-Promise.allSettled(shit).then(([result]) => {
-   //reach here regardless
-   // {status: "fulfilled", value: 33}
-   console.log("Fuck", result);
-   console.log("Fuck 2", playerScoresObj);
-})
-
-console.log(arr);
-console.log(playerScoresObj);
+console.log("An Array: ", arr);
+console.log("Label for playerScoresObj: ", playerScoresObj);
 
 
 let playerAspectRatioObj = {};
@@ -241,9 +161,6 @@ for (let item of obj) {  //Compute aspect ratios, and read into object
 //console.log(playerAspectRatioObj);
 
 console.log("Starting...");
-
-console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
-console.log({ result: Promise.all(Object.values(playerScoresObj)) });
 
 app.get("/", function(req, res){
 	fs.readFile('index.html',function (err, data){
