@@ -94,7 +94,14 @@ for (let item of obj) {
 	// let result = getTHAT(item);
 	// console.log(result);
 	// playerScoresObj[item] = Number(result);
-	playerScoresObj[item] = getTHAT(item);
+	let finalResult = getTHAT(item);
+	// playerScoresObj[item] = getTHAT(item);
+	playerScoresObj[item] = finalResult;
+	// playerScoresObj[item] = readThatSHIT(item);
+	
+	let promises = [finalResult];
+	Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL 2: ", result)));
+	
 	//arr.push(Number(recordset.recordset[0].score));
 	// console.log("Label 2: ", { result: Promise.all(Object.values(playerScoresObj)) });
 	// console.log("Label 1: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
@@ -121,9 +128,13 @@ async function getTHAT(item){
 	let result = await Promise.resolve(readThatSHIT(item));
 	// let result = await readThatSHIT(item);
 	let p = Promise.resolve(result);
+	// let p = await Promise.resolve(readThatSHIT(item));
 	
 	let promises = [p];
 	Promise.allSettled(promises).then((results) => results.forEach((result) => console.log("PROMISE LABEL: ", result)));
+	Promise.allSettled(promises).then((results) => results.forEach((p) => console.log("PROMISE LABEL P: ", p)));
+	
+	p.then(ajaxResult => console.log("P: ", ajaxResult));
 	
 	// console.log('Result: ', result);
 	// console.log({ result: Promise.allSettled(Object.values(playerScoresObj)) });
@@ -134,12 +145,12 @@ async function getTHAT(item){
 	// console.log(p.allSettled(Object.values(playerScoresObj)));
 	p.then(function(v) {
 		console.log("V: ", v);
+		console.log("R (p): ", p);
 		// return result;
+		
 		return p;
 	});
 	
-	
-
 	// return await readThatSHIT(item);
 }
 
@@ -165,7 +176,6 @@ function readThatSHIT(item){
 				}
 		});
 }
-
 
 // console.log("Label 4: ", { result: Promise.all(Object.values(playerScoresObj)) });
 // console.log("Label 4: ", { result: Promise.allSettled(Object.values(playerScoresObj)) });
