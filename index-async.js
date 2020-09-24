@@ -112,7 +112,8 @@ async function getAll(){
 		//arr.push(Number(recordset.recordset[0].score));
 		// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
 	}
-	return playerScoresObj; // When I add this, it now is not undefined, but has a value, but still doesn't contain any values from the function readThatSHIT(item)
+	return playerScoresObj; // When I add this, it now is not undefined, but has a value, 
+	//but still doesn't contain any values from the function readThatSHIT(item)
 }
 
 // async function getTHAT(item){
@@ -121,9 +122,9 @@ async function getAll(){
 // }
 
 		
-function readThatSHIT(item){
+async function readThatSHIT(item){
 			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
-			sql.connect(sqlConfig, function (err) {
+			await sql.connect(sqlConfig, function (err) {
 					
 				let request = new sql.Request();
 				if (err){
