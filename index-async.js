@@ -110,7 +110,6 @@ async function getAll(){
 		// playerScoresObj[item] = await getTHAT(item);
 		// playerScoresObj[item] = getTHAT(item);
 		playerScoresObj[item] = await readThatSHIT(item);
-		// await readThatSHIT(item);
 		//arr.push(Number(recordset.recordset[0].score));
 		// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
 	}
@@ -125,27 +124,28 @@ async function getAll(){
 		// return await readThatSHIT(item);
 // }
 
+		
 async function readThatSHIT(item){
 			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
 			let thisResult = 0;
-		let func = sql.connect(sqlConfig, function (err) {
+			let func = sql.connect(sqlConfig, function (err) {
 					
-				
-		});
-		
-		let request = new sql.Request();
+				let request = new sql.Request();
 				// if (err) console.log(err);
-		return request.query(q, function (err, recordset) {
-			// if (err) console.log(err);
-			console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
-			//thisResult = Number(recordset.recordset[0].score);
-			// return Number(recordset.recordset[0].score);
-			// return recordset.recordset[0];
-		});	
+				request.query(q, function (err, recordset) {
+					// if (err) console.log(err);
+					console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
+					thisResult = Number(recordset.recordset[0].score);
+					return Number(recordset.recordset[0].score);
+					// return recordset.recordset[0];
+				
+				});
+		
+			
+		});
 		// return "LV426";
-		// console.log("JavaShit: ", func);
-		// return thisResult;
-		// return func;
+
+		return thisResult;
 }
 
 console.log("An Array: ", arr);
