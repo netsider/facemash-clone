@@ -128,24 +128,24 @@ async function getAll(){
 async function readThatSHIT(item){
 			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
 			let thisResult = 0;
-			let func = sql.connect(sqlConfig, function (err) {
+		let func = sql.connect(sqlConfig, function (err) {
 					
-				let request = new sql.Request();
-				// if (err) console.log(err);
-				request.query(q, function (err, recordset) {
-					// if (err) console.log(err);
-					console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
-					//thisResult = Number(recordset.recordset[0].score);
-					return Number(recordset.recordset[0].score);
-					
-					// return recordset.recordset[0];
 				
-				});	
 		});
+		
+		let request = new sql.Request();
+				// if (err) console.log(err);
+		return request.query(q, function (err, recordset) {
+			// if (err) console.log(err);
+			console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
+			//thisResult = Number(recordset.recordset[0].score);
+			// return Number(recordset.recordset[0].score);
+			// return recordset.recordset[0];
+		});	
 		// return "LV426";
-		console.log("JavaShit: ", func);
+		// console.log("JavaShit: ", func);
 		// return thisResult;
-		return func;
+		// return func;
 }
 
 console.log("An Array: ", arr);
