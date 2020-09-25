@@ -98,6 +98,7 @@ const promises = [newScoresObj];
 Promise.allSettled(promises).
   // then((results) => results.forEach((result) => console.log("Label for Promise (1): ", result.status)));
   then((results) => results.forEach((result) => console.log("Label for Promise (1): ", result)));
+ 
 
 async function getAll(){
 	for (let item of obj) {
@@ -126,27 +127,25 @@ async function getAll(){
 		
 async function readThatSHIT(item){
 			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
-			await sql.connect(sqlConfig, function (err) {
+			let thisResult = 0;
+			let func = sql.connect(sqlConfig, function (err) {
 					
 				let request = new sql.Request();
-				if (err){
-					console.log(err);
-				}else{
-					request.query(q, function (err, recordset) {
-						if (err){
-							console.log(err);
-						}else{
-							console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
-							return Number(recordset.recordset[0].score);
-							// return recordset.recordset[0];
-						}
-					});
-
-	
-		}
+				// if (err) console.log(err);
+				request.query(q, function (err, recordset) {
+					// if (err) console.log(err);
+					console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
+					thisResult = Number(recordset.recordset[0].score);
+					return Number(recordset.recordset[0].score);
+					// return recordset.recordset[0];
+				
+				});
+		
 			
 		});
-	
+		// return "LV426";
+		console.log("JavaShit: ", func);
+		return thisResult;
 }
 
 console.log("An Array: ", arr);
