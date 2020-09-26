@@ -1,7 +1,6 @@
 // Facemash-clone
 // Made by Russell Rounds
 // Version 0.4
-// NOT WORKING
 
 // To Do:
 // Make NodeJS SQL Server skeleton/template
@@ -89,64 +88,34 @@ if(fs.existsSync(scorePath) !== true){
 let arr = [];
 let playerScoresObj = {};
 
-let newScoresObj = getAll();
+// turn it to an array of promises for database queries
+//const items = Object.keys(obj);
+let items = obj;
+console.log("obj: ", obj);
+console.log("Items: ", items);
 
-console.log("Label for newScoresObj: ", newScoresObj);
+let scorePromises = items.map(async (item) => { 
+	console.log("Item: " + item);
+	let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
+	await sql.connect(sqlConfig); 
+	let request = new sql.Request();
+	// console.log("Request [1]:", request.query(q));
+	return request.query(q);
+}); 
 
-const promises = [newScoresObj];
-
-Promise.allSettled(promises).
-  // then((results) => results.forEach((result) => console.log("Label for Promise (1): ", result.status)));
-  then((results) => results.forEach((result) => console.log("Label for Promise (1): ", result)));
- 
-
-async function getAll(){
-	for (let item of obj) {
-		// playerScoresObj[file] = Number(startingScore); // Default
-		//let result = readThatSHIT(item);
-		// let result = getTHAT(item);
-		// console.log(result);
-		// playerScoresObj[item] = Number(result);
-		// playerScoresObj[item] = await getTHAT(item);
-		// playerScoresObj[item] = getTHAT(item);
-		playerScoresObj[item] = await readThatSHIT(item);
-		//arr.push(Number(recordset.recordset[0].score));
-		// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
-	}
-	Promise.allSettled(promises).
-		then((results) => results.forEach((result) => console.log("Label for Promise (2): ", result)));
-	return playerScoresObj; // When I add this, it now is not undefined, but has a value, 
-	//but still doesn't contain any values from the function readThatSHIT(item)
-}
-
-// async function getTHAT(item){
-		// let result = await readThatSHIT(item);
-		// return await readThatSHIT(item);
-// }
-
-		
-async function readThatSHIT(item){
-			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
-			let thisResult = 0;
-			let func = sql.connect(sqlConfig, function (err) {
-					
-				let request = new sql.Request();
-				// if (err) console.log(err);
-				request.query(q, function (err, recordset) {
-					// if (err) console.log(err);
-					console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
-					thisResult = Number(recordset.recordset[0].score);
-					return Number(recordset.recordset[0].score);
-					// return recordset.recordset[0];
-				
-				});
-		
-			
-		});
-		// return "LV426";
-
-		return thisResult;
-}
+ // then when all the promises are resolved, transform it to the form you want
+Promise.all(scorePromises).then(resultsArray => { 
+  return resultsArray.reduce((playerScoresObj, recordset, index) => {
+    let key = items[index]; 
+    playerScoresObj[key] = Number(recordset.recordset[0].score);
+	console.log("recordset [1]: ", recordset);
+	console.log("recordset [2]: ", recordset[0]);
+	console.log("recordset [6]: ", recordset.score); // undefined
+	
+    // playerScoresObj[key] = Number(recordset.score);
+    return playerScoresObj; 
+  }, {})
+}).then(newScoreObj => console.log("Final Promise Result: ", newScoreObj));
 
 console.log("An Array: ", arr);
 console.log("Label for playerScoresObj: ", playerScoresObj);
