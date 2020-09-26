@@ -85,15 +85,9 @@ if(fs.existsSync(scorePath) !== true){
 	console.log("Score directory not exists! Creating...");
 }
 
-let arr = [];
+// Get player scores from database:
 let playerScoresObj = {};
-
-// turn it to an array of promises for database queries
-//const items = Object.keys(obj);
 let items = obj;
-console.log("obj: ", obj);
-console.log("Items: ", items);
-
 let scorePromises = items.map(async (item) => { 
 	console.log("Item: " + item);
 	let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
@@ -101,25 +95,14 @@ let scorePromises = items.map(async (item) => {
 	let request = new sql.Request();
 	// console.log("Request [1]:", request.query(q));
 	return request.query(q);
-}); 
-
- // then when all the promises are resolved, transform it to the form you want
+});
 Promise.all(scorePromises).then(resultsArray => { 
   return resultsArray.reduce((playerScoresObj, recordset, index) => {
     let key = items[index]; 
     playerScoresObj[key] = Number(recordset.recordset[0].score);
-	console.log("recordset [1]: ", recordset);
-	console.log("recordset [2]: ", recordset[0]);
-	console.log("recordset [6]: ", recordset.score); // undefined
-	
-    // playerScoresObj[key] = Number(recordset.score);
     return playerScoresObj; 
   }, {})
 }).then(newScoreObj => console.log("Final Promise Result: ", newScoreObj));
-
-console.log("An Array: ", arr);
-console.log("Label for playerScoresObj: ", playerScoresObj);
-
 
 let playerAspectRatioObj = {};
 for (let item of obj) {  //Compute aspect ratios, and read into object
@@ -147,7 +130,8 @@ app.get("/facemash", function(req, res){
 });
 
 app.post("/submitPlayer", function(req, res){
-	console.log(req.body);
+	console.log("/submitPlayer");
+	console.log("req.body: ", req.body);
 
 	// let newBody = 0;
 	// let body = [];
@@ -166,9 +150,11 @@ app.post("/submitPlayer", function(req, res){
 	let loser = unserialized[1].toString();
 	
 	// let winnerOldScore = Number(playerScoresObj[winner]);
-	let winnerOldScore = playerScoresObj[winner];
+	// let winnerOldScore = playerScoresObj[winner];
+	let winnerOldScore = newScoreObj[winner];
 	// let loserOldScore = Number(playerScoresObj[loser]);
-	let loserOldScore = playerScoresObj[loser];
+	// let loserOldScore = playerScoresObj[loser];
+	let loserOldScore = newScoreObj[loser];
 
 	let winnerELO = ELO(winnerOldScore, loserOldScore);
 	let loserELO = ELO(loserOldScore, winnerOldScore);
@@ -208,8 +194,10 @@ app.post("/submitPlayer", function(req, res){
 		});
 	});
 	
-	playerScoresObj[winner] = winnerNewScore;
-	playerScoresObj[loser] = loserNewScore;
+	// playerScoresObj[winner] = winnerNewScore;
+	newScoreObj[winner] = winnerNewScore;
+	// playerScoresObj[loser] = loserNewScore;
+	newScoreObj[loser] = loserNewScore;
 	
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	
@@ -225,7 +213,7 @@ app.post("/submitPlayer", function(req, res){
 		//playerArray[0].lockPlayer = false;
 	}
 	
-	console.log(winnerLoserObject);
+	console.log("winnerLoserObject: ", winnerLoserObject);
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
