@@ -154,11 +154,14 @@ app.post("/submitPlayer", function(req, res){
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
 	
+	winnerDBName = winner + ".jpg";
+	loserDBName = loser + ".jpg";
+	
 	// let winnerOldScore = Number(playerScoresObj[winner]);
-	let winnerOldScore = playerScoresObj[winner];
+	let winnerOldScore = playerScoresObj[winnerDBName];
 	// let winnerOldScore = newScoreObj[winner];
 	// let loserOldScore = Number(playerScoresObj[loser]);
-	let loserOldScore = playerScoresObj[loser];
+	let loserOldScore = playerScoresObj[loserDBName];
 	// let loserOldScore = newScoreObj[loser];
 
 	console.log("winnerOldScore:" + winnerOldScore);
@@ -202,9 +205,9 @@ app.post("/submitPlayer", function(req, res){
 		});
 	});
 	
-	playerScoresObj[winner] = winnerNewScore;
+	playerScoresObj[winnerDBName] = winnerNewScore;
 	// newScoreObj[winner] = winnerNewScore;
-	playerScoresObj[loser] = loserNewScore;
+	playerScoresObj[loserDBName] = loserNewScore;
 	// newScoreObj[loser] = loserNewScore;
 	
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
