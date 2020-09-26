@@ -1,6 +1,7 @@
 // Facemash-clone
 // Made by Russell Rounds
 // Version 0.4
+// NOT WORKING
 
 // To Do:
 // Make NodeJS SQL Server skeleton/template
@@ -88,52 +89,67 @@ if(fs.existsSync(scorePath) !== true){
 let arr = [];
 let playerScoresObj = {};
 
+let newScoresObj = getAll();
 
-for (let item of obj) {
-	// playerScoresObj[file] = Number(startingScore); // Default
-	//let result = readThatSHIT(item);
-	// let result = getTHAT(item);
-	// console.log(result);
-	// playerScoresObj[item] = Number(result);
-	playerScoresObj[item] = getTHAT(item);
-	//arr.push(Number(recordset.recordset[0].score));
+console.log("Label for newScoresObj: ", newScoresObj);
+
+const promises = [newScoresObj];
+
+Promise.allSettled(promises).
+  // then((results) => results.forEach((result) => console.log("Label for Promise (1): ", result.status)));
+  then((results) => results.forEach((result) => console.log("Label for Promise (1): ", result)));
+ 
+
+async function getAll(){
+	for (let item of obj) {
+		// playerScoresObj[file] = Number(startingScore); // Default
+		//let result = readThatSHIT(item);
+		// let result = getTHAT(item);
+		// console.log(result);
+		// playerScoresObj[item] = Number(result);
+		// playerScoresObj[item] = await getTHAT(item);
+		// playerScoresObj[item] = getTHAT(item);
+		playerScoresObj[item] = await readThatSHIT(item);
+		//arr.push(Number(recordset.recordset[0].score));
+		// console.log({ result: Promise.all(Object.values(playerScoresObj)) });
+	} //https://stackoverflow.com/questions/25399725/nodejs-get-async-return-value-callback
+	Promise.allSettled(promises).
+		then((results) => results.forEach((result) => console.log("Label for Promise (2): ", result)));
+	return playerScoresObj; // When I add this, it now is not undefined, but has a value, 
+	//but still doesn't contain any values from the function readThatSHIT(item)
 }
 
-async function getTHAT(item){
-		//let result = await readThatSHIT(item);
-		return await readThatSHIT(item);
-}
+// async function getTHAT(item){
+		// let result = await readThatSHIT(item);
+		// return await readThatSHIT(item);
+// }
 
 		
-function readThatSHIT(item){
+async function readThatSHIT(item){
 			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
-			sql.connect(sqlConfig, function (err) {
+			let thisResult = 0;
+			let func = sql.connect(sqlConfig, function (err) {
 					
 				let request = new sql.Request();
-				if (err){
-					console.log(err);
-				}else{
-					request.query(q, function (err, recordset) {
-						if (err){
-							console.log(err);
-						}else{
-							console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
-							return Number(recordset.recordset[0].score);
-							// return recordset.recordset[0];
-						}
-					});
-
-	
-		}
+				// if (err) console.log(err);
+				request.query(q, function (err, recordset) {
+					// if (err) console.log(err);
+					console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
+					thisResult = Number(recordset.recordset[0].score);
+					return Number(recordset.recordset[0].score);
+					// return recordset.recordset[0];
+				
+				});
+		
 			
 		});
-	
+		// return "LV426";
+
+		return thisResult;
 }
 
-
-
-console.log(arr);
-console.log(playerScoresObj);
+console.log("An Array: ", arr);
+console.log("Label for playerScoresObj: ", playerScoresObj);
 
 
 let playerAspectRatioObj = {};
