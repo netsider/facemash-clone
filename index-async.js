@@ -102,7 +102,11 @@ Promise.all(scorePromises).then(resultsArray => {
     playerScoresObj[key] = Number(recordset.recordset[0].score);
     return playerScoresObj; 
   }, {})
-}).then(newScoreObj => console.log("Final Promise Result: ", newScoreObj));
+}).then(newScoreObj => { 
+		console.log("Final Promise Result: ", newScoreObj);
+		playerScoresObj = newScoreObj;
+	}
+);
 
 let playerAspectRatioObj = {};
 for (let item of obj) {  //Compute aspect ratios, and read into object
@@ -114,6 +118,7 @@ for (let item of obj) {  //Compute aspect ratios, and read into object
 }
 //console.log(playerAspectRatioObj);
 
+console.log(playerScoresObj);
 console.log("Starting...");
 
 app.get("/", function(req, res){
@@ -132,7 +137,7 @@ app.get("/facemash", function(req, res){
 app.post("/submitPlayer", function(req, res){
 	console.log("/submitPlayer");
 	console.log("req.body: ", req.body);
-
+	console.log("playerScoresObj when /submitPlayer called: ", playerScoresObj);
 	// let newBody = 0;
 	// let body = [];
 	// req.on('data', (chunk) => {
@@ -150,12 +155,15 @@ app.post("/submitPlayer", function(req, res){
 	let loser = unserialized[1].toString();
 	
 	// let winnerOldScore = Number(playerScoresObj[winner]);
-	// let winnerOldScore = playerScoresObj[winner];
-	let winnerOldScore = newScoreObj[winner];
+	let winnerOldScore = playerScoresObj[winner];
+	// let winnerOldScore = newScoreObj[winner];
 	// let loserOldScore = Number(playerScoresObj[loser]);
-	// let loserOldScore = playerScoresObj[loser];
-	let loserOldScore = newScoreObj[loser];
+	let loserOldScore = playerScoresObj[loser];
+	// let loserOldScore = newScoreObj[loser];
 
+	console.log("winnerOldScore:" + winnerOldScore);
+	console.log("loserOldScore:" + loserOldScore);
+	
 	let winnerELO = ELO(winnerOldScore, loserOldScore);
 	let loserELO = ELO(loserOldScore, winnerOldScore);
 	
@@ -194,10 +202,10 @@ app.post("/submitPlayer", function(req, res){
 		});
 	});
 	
-	// playerScoresObj[winner] = winnerNewScore;
-	newScoreObj[winner] = winnerNewScore;
-	// playerScoresObj[loser] = loserNewScore;
-	newScoreObj[loser] = loserNewScore;
+	playerScoresObj[winner] = winnerNewScore;
+	// newScoreObj[winner] = winnerNewScore;
+	playerScoresObj[loser] = loserNewScore;
+	// newScoreObj[loser] = loserNewScore;
 	
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	
