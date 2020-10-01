@@ -43,7 +43,8 @@ const sqlConfig = {
         database: 'FUCKHEAD'
     };
 //console.log(pwd);
-	
+
+// Create table if not exists
 sql.connect(sqlConfig, function (err) {
 		if (err) console.log(err);
 		let request = new sql.Request();
