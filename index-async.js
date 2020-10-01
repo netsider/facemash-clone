@@ -12,10 +12,10 @@ const ejs = require("ejs");
 const bodyParser = require("body-parser");
 const sizeOf = require("image-size");
 const app = express();
-const jws = require('jws-jwk');
-const https = require('https');
+const jws = require("jws-jwk");
+const https = require("https");
 const sql = require("mssql");
-const pass = require('./pass.js');
+const pass = require("./pass.js");
 
 //app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
@@ -89,12 +89,12 @@ if(fs.existsSync(scorePath) !== true){
 let playerScoresObj = {};
 let items = obj;
 let scorePromises = items.map(async (item) => { 
-	console.log("Item: " + item);
+	// console.log("Item: " + item);
 	let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
 	await sql.connect(sqlConfig); 
 	let request = new sql.Request();
 	// console.log("Request [1]:", request.query(q));
-	return request.query(q);
+	return request.query(q); // Why isn't the "await" here, instead of on sql.connect()?
 });
 Promise.all(scorePromises).then(resultsArray => { 
   return resultsArray.reduce((playerScoresObj, recordset, index) => {
