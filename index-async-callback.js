@@ -88,13 +88,10 @@ if(fs.existsSync(scorePath) !== true){
 let arr = [];
 let playerScoresObj = {};
 sql.connect(sqlConfig, function (err) {
-	
-	
 	let request = new sql.Request();
 	if (err){
 		console.log(err);
 	}else{
-		
 		for (let item of obj) {
 			// playerScoresObj[file] = Number(startingScore); // Default
 			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
@@ -108,13 +105,9 @@ sql.connect(sqlConfig, function (err) {
 					playerScoresObj[file] = Number(recordset.recordset[0].score);
 					arr.push(Number(recordset.recordset[0].score));
 				}
-			});
-		
-		
+			});	
 		}
-	
 	}
-			
 });
 console.log(arr);
 console.log(playerScoresObj);
