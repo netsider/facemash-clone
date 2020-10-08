@@ -4,7 +4,7 @@
 
 // To Do:
 // Make NodeJS SQL Server skeleton/template
-// Make app not use in-memory score object, and only rely on DB instead
+// Make app not use in-memory score object, and only rely on DB
 
 const http = require("http");
 const fs = require("fs");
@@ -142,9 +142,9 @@ app.get("/facemash", function(req, res){
 
 
 app.post("/submitPlayer", function(req, res){
-	console.log("/submitPlayer");
-	console.log("req.body: ", req.body);
-	//console.log("playerScoresObj when /submitPlayer called: ", playerScoresObj);
+	
+	// Testing:
+	// console.log("/submitPlayer");
 	// let newBody = 0;
 	// let body = [];
 	// req.on('data', (chunk) => {
@@ -155,9 +155,11 @@ app.post("/submitPlayer", function(req, res){
 		// console.log(body);
 		// newBody = JSON.parse(body);
 	// });
-
+	// console.log(unserialized);
+	// console.log("req.body: ", req.body);
+	//console.log("playerScoresObj when /submitPlayer called: ", playerScoresObj);
+	
 	let unserialized = JSON.parse(req.body.playerName);
-	console.log(unserialized);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
 	
@@ -166,22 +168,18 @@ app.post("/submitPlayer", function(req, res){
 	
 	let winnerOldScore = 555;
 	let loserOldScore = 555;
-	// let winnerOldScore = Number(playerScoresObj[winner]);
-	// let winnerOldScore = playerScoresObj[winnerDBName];
 	
-	
-	// sql.connect(sqlConfig, function (err) {
-		// if (err) console.log(err);
 	let oldScoresObj = {};
 	let items = [winnerDBName, loserDBName];
 	let getOldScores = items.map(async (item) => { 
-		// console.log("Item: " + item);
 		let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
 		console.log("Trying query: ", q);
 		await sql.connect(sqlConfig); 
 		let request = new sql.Request();
 		console.log("Request [getOldScores]:", request.query(q));
-		return request.query(q);
+		let theQuery = request.query(q);
+		// console.log("Query Result: ", theQuery); // Pending
+		return theQuery;
 	});
 	
 	Promise.all(getOldScores).then(resultsArray => { 
@@ -194,17 +192,6 @@ app.post("/submitPlayer", function(req, res){
 		console.log("Final Promise Result (getOldScores): ", newOldScoreObj);
 		// oldScoresObj = newScoreObj;
 	});
-	
-	// let winnerOldScore = getScoreObjFromDB(winnerDBName);
-	
-	// console.log("winnerOldScore: ", winnerOldScore);
-	// let winnerOldScore = newScoreObj[winner];
-	// let loserOldScore = Number(playerScoresObj[loser]);
-	//let loserOldScore = playerScoresObj[loserDBName];
-	// let loserOldScore = newScoreObj[loser];
-
-	// console.log("winnerOldScore:" + winnerOldScore);
-	// console.log("loserOldScore:" + loserOldScore);
 	
 	let winnerELO = ELO(winnerOldScore, loserOldScore);
 	let loserELO = ELO(loserOldScore, winnerOldScore);
