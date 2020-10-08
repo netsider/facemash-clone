@@ -6,6 +6,7 @@
 // Make NodeJS SQL Server skeleton/template
 // Make app not use in-memory score object, and only rely on DB
 // Make generatePlayers read from DB
+// Finish making main route a chain of promises.
 
 const http = require("http");
 const fs = require("fs");
@@ -125,7 +126,7 @@ for (let item of obj) {  //Compute aspect ratios, and read into object
 console.log("Starting...");
 
 app.get('/', function(req, res){
-    res.sendfile('index.html', { root: __dirname + "/" } );
+    res.sendFile('index.html', { root: __dirname + "/" } );
 });
 
 // app.get("/", function(req, res){
@@ -167,10 +168,10 @@ app.post("/submitPlayer", function(req, res){
 	let winnerDBName = winner + ".jpg";
 	let loserDBName = loser + ".jpg";
 	
-	let winnerOldScore = 555;
-	let loserOldScore = 555;
+	//let winnerOldScore = 555;
+	//let loserOldScore = 555;
 	
-	let oldScoresObj = {};
+	//let oldScoresObj = {};
 	let items = [winnerDBName, loserDBName];
 	let getOldScores = items.map(async (item) => { 
 		let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
@@ -212,7 +213,6 @@ app.post("/submitPlayer", function(req, res){
 		let winnerNewScore = winnerOldScore + (k * (1 - winnerELO));
 		let loserNewScore = loserOldScore + (k * (0 - loserELO));
 	
-		// let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';";
 		let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "OUTPUT INSERTED.* WHERE name = '" + loserName + "';";
 		let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';";
 		
