@@ -5,6 +5,7 @@
 // To Do:
 // Make NodeJS SQL Server skeleton/template
 // Make app not use in-memory score object, and only rely on DB
+// Make generatePlayers read from DB
 
 const http = require("http");
 const fs = require("fs");
@@ -231,16 +232,16 @@ app.post("/submitPlayer", function(req, res){
 		// });
 	// });
 	
-	playerScoresObj[winnerDBName] = winnerNewScore;
+	// playerScoresObj[winnerDBName] = winnerNewScore;
 	// newScoreObj[winner] = winnerNewScore;
-	playerScoresObj[loserDBName] = loserNewScore;
+	// playerScoresObj[loserDBName] = loserNewScore;
 	// newScoreObj[loser] = loserNewScore;
 	
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	
 	let newPlayers = [];
 	let playerArray = [];
-	playerArray[0] = winnerLoserObject; //playerArray.push(winnerLoserObject);
+	playerArray[0] = winnerLoserObject;
 		
 	if(req.body.lockPlayer === "true"){
 		playerArray[0].lockPlayer = true;
