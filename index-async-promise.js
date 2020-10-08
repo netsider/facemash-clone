@@ -4,6 +4,7 @@
 
 // To Do:
 // Make NodeJS SQL Server skeleton/template
+// Make app not use in-memory score object, and only rely on DB instead
 
 const http = require("http");
 const fs = require("fs");
@@ -86,7 +87,7 @@ if(fs.existsSync(scorePath) !== true){
 	console.log("Score directory not exists! Creating...");
 }
 
-// Get player scores from DB:
+// Get player scores from DB (DON'T use for keeping of score, but keep for other purposes):
 let playerScoresObj = {};
 let items = obj;
 let scorePromises = items.map(async (item) => { 
@@ -97,6 +98,7 @@ let scorePromises = items.map(async (item) => {
 	// console.log("Request [1]:", request.query(q));
 	return request.query(q); // Why isn't the "await" here, instead of on sql.connect()?  Can I switch it, and it still work?
 });
+
 Promise.all(scorePromises).then(resultsArray => { 
   return resultsArray.reduce((playerScoresObj, recordset, index) => {
     let key = items[index]; 
@@ -119,7 +121,6 @@ for (let item of obj) {  //Compute aspect ratios, and read into object
 }
 //console.log(playerAspectRatioObj);
 
-console.log("playerScoresObj on load: ", playerScoresObj);
 console.log("Starting...");
 
 app.get('/', function(req, res){
@@ -140,11 +141,10 @@ app.get("/facemash", function(req, res){
 });
 
 
-
 app.post("/submitPlayer", function(req, res){
 	console.log("/submitPlayer");
 	console.log("req.body: ", req.body);
-	console.log("playerScoresObj when /submitPlayer called: ", playerScoresObj);
+	//console.log("playerScoresObj when /submitPlayer called: ", playerScoresObj);
 	// let newBody = 0;
 	// let body = [];
 	// req.on('data', (chunk) => {
@@ -161,18 +161,50 @@ app.post("/submitPlayer", function(req, res){
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
 	
-	winnerDBName = winner + ".jpg";
-	loserDBName = loser + ".jpg";
+	let winnerDBName = winner + ".jpg";
+	let loserDBName = loser + ".jpg";
 	
+	let winnerOldScore = 555;
+	let loserOldScore = 555;
 	// let winnerOldScore = Number(playerScoresObj[winner]);
-	let winnerOldScore = playerScoresObj[winnerDBName];
+	// let winnerOldScore = playerScoresObj[winnerDBName];
+	
+	
+	// sql.connect(sqlConfig, function (err) {
+		// if (err) console.log(err);
+	let oldScoresObj = {};
+	let items = [winnerDBName, loserDBName];
+	let getOldScores = items.map(async (item) => { 
+		// console.log("Item: " + item);
+		let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
+		console.log("Trying query: ", q);
+		await sql.connect(sqlConfig); 
+		let request = new sql.Request();
+		console.log("Request [getOldScores]:", request.query(q));
+		return request.query(q);
+	});
+	
+	Promise.all(getOldScores).then(resultsArray => { 
+		return resultsArray.reduce((oldScoresObj, recordset, index) => {
+			let key = items[index]; 
+			oldScoresObj[key] = Number(recordset.recordset[0].score);
+			return oldScoresObj; 
+		}, {})
+	}).then(newOldScoreObj => {
+		console.log("Final Promise Result (getOldScores): ", newOldScoreObj);
+		// oldScoresObj = newScoreObj;
+	});
+	
+	// let winnerOldScore = getScoreObjFromDB(winnerDBName);
+	
+	// console.log("winnerOldScore: ", winnerOldScore);
 	// let winnerOldScore = newScoreObj[winner];
 	// let loserOldScore = Number(playerScoresObj[loser]);
-	let loserOldScore = playerScoresObj[loserDBName];
+	//let loserOldScore = playerScoresObj[loserDBName];
 	// let loserOldScore = newScoreObj[loser];
 
-	console.log("winnerOldScore:" + winnerOldScore);
-	console.log("loserOldScore:" + loserOldScore);
+	// console.log("winnerOldScore:" + winnerOldScore);
+	// console.log("loserOldScore:" + loserOldScore);
 	
 	let winnerELO = ELO(winnerOldScore, loserOldScore);
 	let loserELO = ELO(loserOldScore, winnerOldScore);
@@ -189,28 +221,28 @@ app.post("/submitPlayer", function(req, res){
 	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perfo`rm batch write on shutdown
 	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
 	
-	let q = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';"
-	let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';"
-	sql.connect(sqlConfig, function (err) {
-		if (err) console.log(err);
-		let request = new sql.Request();
-		request.query(q, function (err, recordset) {
-			if (err){
-				console.log(err);
-			}else{
-				console.log(recordset);
-				console.log("Updated " + loserName + " score in database...");
-			}
-		});
-		request.query(q2, function (err, recordset) {
-			if (err){
-				console.log(err);
-			}else{
-				console.log(recordset);
-				console.log("Updated " + winnerName + " score in database...");
-			}
-		});
-	});
+	// let q = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';"
+	// let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';"
+	// sql.connect(sqlConfig, function (err) {
+		// if (err) console.log(err);
+		// let request = new sql.Request();
+		// request.query(q, function (err, recordset) {
+			// if (err){
+				// console.log(err);
+			// }else{
+				// console.log(recordset);
+				// console.log("Updated " + loserName + " score in database...");
+			// }
+		// });
+		// request.query(q2, function (err, recordset) {
+			// if (err){
+				// console.log(err);
+			// }else{
+				// console.log(recordset);
+				// console.log("Updated " + winnerName + " score in database...");
+			// }
+		// });
+	// });
 	
 	playerScoresObj[winnerDBName] = winnerNewScore;
 	// newScoreObj[winner] = winnerNewScore;
