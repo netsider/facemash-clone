@@ -185,12 +185,26 @@ app.post("/submitPlayer", function(req, res){
 	
 	Promise.all(getOldScores).then(resultsArray => { 
 		return resultsArray.reduce((oldScoresObj, recordset, index) => {
-			let key = items[index]; 
-			oldScoresObj[key] = Number(recordset.recordset[0].score);
+			let key = items[index];
+			let title = new String();
+			if(index === 1){
+				title = "winner";
+				titleName = "winnerName";
+			}else{
+				title = "loser";
+				titleName = "loserName";
+			}
+			oldScoresObj[title] = Number(recordset.recordset[0].score);
+			oldScoresObj[titleName] = key;
 			return oldScoresObj; 
 		}, {})
 	}).then(newOldScoreObj => {
 		console.log("Final Promise Result (getOldScores): ", newOldScoreObj);
+		let winnerOldScore = newOldScoreObj.winner;
+		let loserOldScore = newOldScoreObj.loser;
+		console.log(winnerOldScore);
+		console.log(loserOldScore);
+		
 		// oldScoresObj = newScoreObj;
 	});
 	
@@ -205,6 +219,24 @@ app.post("/submitPlayer", function(req, res){
 	
 	let winnerName = winner + ".jpg";
 	let loserName = loser + ".jpg";
+	
+	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
+	
+	let newPlayers = [];
+	let playerArray = [];
+	playerArray[0] = winnerLoserObject;
+		
+	if(req.body.lockPlayer === "true"){
+		playerArray[0].lockPlayer = true;
+		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
+	}else{
+		newPlayers = generatePlayers(winner, loser, "random");
+		//playerArray[0].lockPlayer = false;
+	}
+	
+	console.log("winnerLoserObject: ", winnerLoserObject);
+	
+	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 	
 	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perfo`rm batch write on shutdown
 	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
@@ -237,23 +269,7 @@ app.post("/submitPlayer", function(req, res){
 	// playerScoresObj[loserDBName] = loserNewScore;
 	// newScoreObj[loser] = loserNewScore;
 	
-	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	
-	let newPlayers = [];
-	let playerArray = [];
-	playerArray[0] = winnerLoserObject;
-		
-	if(req.body.lockPlayer === "true"){
-		playerArray[0].lockPlayer = true;
-		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
-	}else{
-		newPlayers = generatePlayers(winner, loser, "random");
-		//playerArray[0].lockPlayer = false;
-	}
-	
-	console.log("winnerLoserObject: ", winnerLoserObject);
-	
-	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
 app.post("/resetScores", function(req, res){
