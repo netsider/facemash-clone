@@ -4,6 +4,7 @@
 
 // To Do:
 // Make NodeJS SQL Server skeleton/template
+// Make app not use in-memory score object, and only rely on DB instead
 
 const http = require("http");
 const fs = require("fs");
@@ -12,10 +13,10 @@ const ejs = require("ejs");
 const bodyParser = require("body-parser");
 const sizeOf = require("image-size");
 const app = express();
-const jws = require('jws-jwk');
-const https = require('https');
+const jws = require("jws-jwk");
+const https = require("https");
 const sql = require("mssql");
-const pass = require('./pass.js');
+const pass = require("./pass.js");
 
 //app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
@@ -43,7 +44,8 @@ const sqlConfig = {
         database: 'FUCKHEAD'
     };
 //console.log(pwd);
-	
+
+// Create table if not exists
 sql.connect(sqlConfig, function (err) {
 		if (err) console.log(err);
 		let request = new sql.Request();
@@ -85,40 +87,29 @@ if(fs.existsSync(scorePath) !== true){
 	console.log("Score directory not exists! Creating...");
 }
 
-let arr = [];
+// Get player scores from DB (DON'T use for keeping of score, but keep for other purposes):
 let playerScoresObj = {};
-sql.connect(sqlConfig, function (err) {
-	
-	
+let items = obj;
+let scorePromises = items.map(async (item) => { 
+	// console.log("Item: " + item);
+	let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
+	await sql.connect(sqlConfig); 
 	let request = new sql.Request();
-	if (err){
-		console.log(err);
-	}else{
-		
-		for (let item of obj) {
-			// playerScoresObj[file] = Number(startingScore); // Default
-			let q = "SELECT score FROM dbo." + workingTable + " WHERE name LIKE '" + item +"'";
-			request.query(q, function (err, recordset) {
-				if (err){
-					console.log(err);
-				}else{
-					let file = item.substring(0, item.length - 4);
-					let filePath = scorePath + file + ".txt";
-					console.log("Score Retrieved for " + item + ": " + Number(recordset.recordset[0].score));
-					playerScoresObj[file] = Number(recordset.recordset[0].score);
-					arr.push(Number(recordset.recordset[0].score));
-				}
-			});
-		
-		
-		}
-	
-	}
-			
+	// console.log("Request [1]:", request.query(q));
+	return request.query(q); // Why isn't the "await" here, instead of on sql.connect()?  Can I switch it, and it still work?
 });
-console.log(arr);
-console.log(playerScoresObj);
 
+Promise.all(scorePromises).then(resultsArray => { 
+  return resultsArray.reduce((playerScoresObj, recordset, index) => {
+    let key = items[index]; 
+    playerScoresObj[key] = Number(recordset.recordset[0].score);
+    return playerScoresObj; 
+  }, {})
+}).then(newScoreObj => {
+		console.log("Final Promise Result: ", newScoreObj);
+		playerScoresObj = newScoreObj;
+	}
+);
 
 let playerAspectRatioObj = {};
 for (let item of obj) {  //Compute aspect ratios, and read into object
@@ -132,22 +123,28 @@ for (let item of obj) {  //Compute aspect ratios, and read into object
 
 console.log("Starting...");
 
-app.get("/", function(req, res){
-	fs.readFile('index.html',function (err, data){
-        res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
-        res.write(data);
-        res.end();
-    });
+app.get('/', function(req, res){
+    res.sendfile('index.html', { root: __dirname + "/" } );
 });
+
+// app.get("/", function(req, res){
+	// fs.readFile('index.html',function (err, data){
+        // res.writeHead(200, {'Content-Type': 'text/html','Content-Length':data.length});
+        // res.write(data);
+        // res.end();
+    // });
+// });
 
 app.get("/facemash", function(req, res){
 	let newPlayers = generatePlayers(null, null, "random");
 	res.render("node-dopple-main", {newPlayers: newPlayers});
 });
 
-app.post("/submitPlayer", function(req, res){
-	console.log(req.body);
 
+app.post("/submitPlayer", function(req, res){
+	console.log("/submitPlayer");
+	console.log("req.body: ", req.body);
+	//console.log("playerScoresObj when /submitPlayer called: ", playerScoresObj);
 	// let newBody = 0;
 	// let body = [];
 	// req.on('data', (chunk) => {
@@ -164,11 +161,51 @@ app.post("/submitPlayer", function(req, res){
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
 	
+	let winnerDBName = winner + ".jpg";
+	let loserDBName = loser + ".jpg";
+	
+	let winnerOldScore = 555;
+	let loserOldScore = 555;
 	// let winnerOldScore = Number(playerScoresObj[winner]);
-	let winnerOldScore = playerScoresObj[winner];
+	// let winnerOldScore = playerScoresObj[winnerDBName];
+	
+	
+	// sql.connect(sqlConfig, function (err) {
+		// if (err) console.log(err);
+	let oldScoresObj = {};
+	let items = [winnerDBName, loserDBName];
+	let getOldScores = items.map(async (item) => { 
+		// console.log("Item: " + item);
+		let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
+		console.log("Trying query: ", q);
+		await sql.connect(sqlConfig); 
+		let request = new sql.Request();
+		console.log("Request [getOldScores]:", request.query(q));
+		return request.query(q);
+	});
+	
+	Promise.all(getOldScores).then(resultsArray => { 
+		return resultsArray.reduce((oldScoresObj, recordset, index) => {
+			let key = items[index]; 
+			oldScoresObj[key] = Number(recordset.recordset[0].score);
+			return oldScoresObj; 
+		}, {})
+	}).then(newOldScoreObj => {
+		console.log("Final Promise Result (getOldScores): ", newOldScoreObj);
+		// oldScoresObj = newScoreObj;
+	});
+	
+	// let winnerOldScore = getScoreObjFromDB(winnerDBName);
+	
+	// console.log("winnerOldScore: ", winnerOldScore);
+	// let winnerOldScore = newScoreObj[winner];
 	// let loserOldScore = Number(playerScoresObj[loser]);
-	let loserOldScore = playerScoresObj[loser];
+	//let loserOldScore = playerScoresObj[loserDBName];
+	// let loserOldScore = newScoreObj[loser];
 
+	// console.log("winnerOldScore:" + winnerOldScore);
+	// console.log("loserOldScore:" + loserOldScore);
+	
 	let winnerELO = ELO(winnerOldScore, loserOldScore);
 	let loserELO = ELO(loserOldScore, winnerOldScore);
 	
@@ -184,31 +221,33 @@ app.post("/submitPlayer", function(req, res){
 	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perfo`rm batch write on shutdown
 	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
 	
-	let q = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';"
-	let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';"
-	sql.connect(sqlConfig, function (err) {
-		if (err) console.log(err);
-		let request = new sql.Request();
-		request.query(q, function (err, recordset) {
-			if (err){
-				console.log(err);
-			}else{
-				console.log(recordset);
-				console.log("Updated " + loserName + " score in database...");
-			}
-		});
-		request.query(q2, function (err, recordset) {
-			if (err){
-				console.log(err);
-			}else{
-				console.log(recordset);
-				console.log("Updated " + winnerName + " score in database...");
-			}
-		});
-	});
+	// let q = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';"
+	// let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';"
+	// sql.connect(sqlConfig, function (err) {
+		// if (err) console.log(err);
+		// let request = new sql.Request();
+		// request.query(q, function (err, recordset) {
+			// if (err){
+				// console.log(err);
+			// }else{
+				// console.log(recordset);
+				// console.log("Updated " + loserName + " score in database...");
+			// }
+		// });
+		// request.query(q2, function (err, recordset) {
+			// if (err){
+				// console.log(err);
+			// }else{
+				// console.log(recordset);
+				// console.log("Updated " + winnerName + " score in database...");
+			// }
+		// });
+	// });
 	
-	playerScoresObj[winner] = winnerNewScore;
-	playerScoresObj[loser] = loserNewScore;
+	playerScoresObj[winnerDBName] = winnerNewScore;
+	// newScoreObj[winner] = winnerNewScore;
+	playerScoresObj[loserDBName] = loserNewScore;
+	// newScoreObj[loser] = loserNewScore;
 	
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	
@@ -224,7 +263,8 @@ app.post("/submitPlayer", function(req, res){
 		//playerArray[0].lockPlayer = false;
 	}
 	
-	console.log(winnerLoserObject);
+	console.log("winnerLoserObject: ", winnerLoserObject);
+	
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
