@@ -174,7 +174,7 @@ app.post("/submitPlayer", function(req, res){
 	let items = [winnerDBName, loserDBName];
 	let getOldScores = items.map(async (item) => { 
 		let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
-		console.log("Trying query: ", q);
+		// console.log("Trying query: ", q);
 		await sql.connect(sqlConfig); 
 		let request = new sql.Request();
 		console.log("Request [getOldScores]:", request.query(q));
@@ -212,30 +212,31 @@ app.post("/submitPlayer", function(req, res){
 		let winnerNewScore = winnerOldScore + (k * (1 - winnerELO));
 		let loserNewScore = loserOldScore + (k * (0 - loserELO));
 	
-		// let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';"; // Works
-		let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "OUTPUT INSERTED.* WHERE name = '" + loserName + "';"; // Works!
+		// let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';";
+		let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "OUTPUT INSERTED.* WHERE name = '" + loserName + "';";
 		let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';";
 		
-		sql.connect(sqlConfig, function (err) {
-			if (err) console.log(err);
-			let request = new sql.Request();
-			request.query(q3, function (err, recordset) {
-				if (err){
-					console.log(err);
-				}else{
-					console.log(recordset);
-					console.log("Updated " + loserName + " score in database...");
-				}
-			});
-			request.query(q2, function (err, recordset) {
-				if (err){
-					console.log(err);
-				}else{
-					console.log(recordset);
-					console.log("Updated " + winnerName + " score in database...");
-				}
-			});
+		// sql.connect(sqlConfig, function (err) {
+			// if (err) console.log(err);
+		let request = new sql.Request();
+		
+		request.query(q3, function (err, recordset) {
+			if (err){
+				console.log(err);
+			}else{
+				console.log(recordset);
+				// console.log("Updated " + loserName + " score in database...");
+			}
 		});
+		request.query(q2, function (err, recordset) {
+			if (err){
+				console.log(err);
+			}else{
+				console.log(recordset);
+				// console.log("Updated " + winnerName + " score in database...");
+			}
+		});
+		// });
 	
 		let winnerNewELO = ELO(winnerNewScore, loserNewScore);
 		let loserNewELO = ELO(loserNewScore, winnerNewScore);
@@ -251,7 +252,7 @@ app.post("/submitPlayer", function(req, res){
 			newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
 		}else{
 			newPlayers = generatePlayers(winner, loser, "random");
-			//playerArray[0].lockPlayer = false;
+			// playerArray[0].lockPlayer = false;
 		}
 	
 		console.log("winnerLoserObject: ", winnerLoserObject);
