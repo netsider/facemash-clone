@@ -186,90 +186,81 @@ app.post("/submitPlayer", function(req, res){
 	Promise.all(getOldScores).then(resultsArray => { 
 		return resultsArray.reduce((oldScoresObj, recordset, index) => {
 			let key = items[index];
-			let title = new String();
+			let title = "default";
 			if(index === 1){
-				title = "winner";
-				titleName = "winnerName";
+				titleName1 = "winnerScore";
+				titleName2 = "winnerName";
 			}else{
-				title = "loser";
-				titleName = "loserName";
+				titleName1 = "loserScore";
+				titleName2 = "loserName";
 			}
-			oldScoresObj[title] = Number(recordset.recordset[0].score);
-			oldScoresObj[titleName] = key;
+			oldScoresObj[titleName1] = Number(recordset.recordset[0].score);
+			oldScoresObj[titleName2] = key;
 			return oldScoresObj; 
 		}, {})
 	}).then(newOldScoreObj => {
 		console.log("Final Promise Result (getOldScores): ", newOldScoreObj);
-		let winnerOldScore = newOldScoreObj.winner;
-		let loserOldScore = newOldScoreObj.loser;
-		console.log(winnerOldScore);
-		console.log(loserOldScore);
+		let winnerOldScore = newOldScoreObj.winnerScore;
+		let loserOldScore = newOldScoreObj.loserScore;
 		
-		// oldScoresObj = newScoreObj;
+		let winnerName = newOldScoreObj.winnerName;
+		let loserName = newOldScoreObj.loserName;
+		
+		let winnerELO = ELO(winnerOldScore, loserOldScore);
+		let loserELO = ELO(loserOldScore, winnerOldScore);
+	
+		let winnerNewScore = winnerOldScore + (k * (1 - winnerELO));
+		let loserNewScore = loserOldScore + (k * (0 - loserELO));
+	
+		// let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';"; // Works
+		let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "OUTPUT INSERTED.* WHERE name = '" + loserName + "';"; // Works!
+		let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';";
+		
+		sql.connect(sqlConfig, function (err) {
+			if (err) console.log(err);
+			let request = new sql.Request();
+			request.query(q3, function (err, recordset) {
+				if (err){
+					console.log(err);
+				}else{
+					console.log(recordset);
+					console.log("Updated " + loserName + " score in database...");
+				}
+			});
+			request.query(q2, function (err, recordset) {
+				if (err){
+					console.log(err);
+				}else{
+					console.log(recordset);
+					console.log("Updated " + winnerName + " score in database...");
+				}
+			});
+		});
+	
+		let winnerNewELO = ELO(winnerNewScore, loserNewScore);
+		let loserNewELO = ELO(loserNewScore, winnerNewScore);
+	
+		let winnerLoserObject = {winner: winnerName.substring(0, winnerName.length - 4), loser: loserName.substring(0, loserName.length - 4), winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
+	
+		let newPlayers = [];
+		let playerArray = [];
+		playerArray[0] = winnerLoserObject;
+		
+		if(req.body.lockPlayer === "true"){
+			playerArray[0].lockPlayer = true;
+			newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
+		}else{
+			newPlayers = generatePlayers(winner, loser, "random");
+			//playerArray[0].lockPlayer = false;
+		}
+	
+		console.log("winnerLoserObject: ", winnerLoserObject);
+	
+		res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
+	
 	});
 	
-	let winnerELO = ELO(winnerOldScore, loserOldScore);
-	let loserELO = ELO(loserOldScore, winnerOldScore);
-	
-	let winnerNewScore = winnerOldScore + (k * (1 - winnerELO));
-	let loserNewScore = loserOldScore + (k * (0 - loserELO));
-	
-	let winnerNewELO = ELO(winnerNewScore, loserNewScore);
-	let loserNewELO = ELO(loserNewScore, winnerNewScore);
-	
-	let winnerName = winner + ".jpg";
-	let loserName = loser + ".jpg";
-	
-	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
-	
-	let newPlayers = [];
-	let playerArray = [];
-	playerArray[0] = winnerLoserObject;
-		
-	if(req.body.lockPlayer === "true"){
-		playerArray[0].lockPlayer = true;
-		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
-	}else{
-		newPlayers = generatePlayers(winner, loser, "random");
-		//playerArray[0].lockPlayer = false;
-	}
-	
-	console.log("winnerLoserObject: ", winnerLoserObject);
-	
-	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
-	
-	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perfo`rm batch write on shutdown
-	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
-	
-	// let q = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "WHERE name = '" + loserName + "';"
-	// let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';"
-	// sql.connect(sqlConfig, function (err) {
-		// if (err) console.log(err);
-		// let request = new sql.Request();
-		// request.query(q, function (err, recordset) {
-			// if (err){
-				// console.log(err);
-			// }else{
-				// console.log(recordset);
-				// console.log("Updated " + loserName + " score in database...");
-			// }
-		// });
-		// request.query(q2, function (err, recordset) {
-			// if (err){
-				// console.log(err);
-			// }else{
-				// console.log(recordset);
-				// console.log("Updated " + winnerName + " score in database...");
-			// }
-		// });
-	// });
-	
-	// playerScoresObj[winnerDBName] = winnerNewScore;
-	// newScoreObj[winner] = winnerNewScore;
-	// playerScoresObj[loserDBName] = loserNewScore;
-	// newScoreObj[loser] = loserNewScore;
-	
-	
+
 });
 
 app.post("/resetScores", function(req, res){
