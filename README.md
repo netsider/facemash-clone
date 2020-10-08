@@ -13,7 +13,10 @@
 This project originally began as an experiment into the algorith the original version of Facemash (the predecessor to Facebook) uses, the ELO formula.  After figuring out how the ELO formula worked, I wanted to recreate a simple version of Facemash, since I couldn't find one.  While recreating Facemash, I realized the formula could also be used to rate other things, which led me to create the "Doppeganger version" of Facemash, which is used to rank how alike celebrities look instead of how attractive the person is, like Facemash.<br>
 
 <br><strong>Recent Changes (All Versions):</strong><br>
+• Make both Bootstrap and Foundation responsive/mobile versions of one/more of these.<br>
+• Make strict version of one/more of these?. <br>
 • Move/other-versions to own repos?<br>
+• <strike>See how TS version Randy made is any different than regular.</strike> (It's not)<br>
 
 <br><strong>Recent Changes (NodeJS API version):</strong><br>
 • Sanitize user input (needed?).<br>
@@ -31,9 +34,25 @@ This project originally began as an experiment into the algorith the original ve
 • <strike>Make page get initial player information from server.</strike> DONE 8-16-2020<br>
 
 <br><strong>Recent Changes (NodeJS version):</strong><br>
+• Fix Virtual Russ.<br>
 • Finish skeleton.<br>
 • Make app perform shutdown.<br>
 • Make score pop up as an on-screen overlay notification.<br>
+• Make something happen when you hover over buttons and images.<br>
+• Make something happen when you click button or image.<br>
+• Make debug form pop up in box/overlay. <br>
+• Add database connectivity.<br>
+• Fix buttons so they can be pressed on mobile.<br>
+• <strong>Figure out why button has to be pressed twice sometimes, but image doesn't.</strong><br>
+• <strike>Add database connectivity and score saving</strike> DONE 9-21-2020<br>
+• <strike>Change image sizes so height is the same each time but width changes (depending on aspect ratio), so both buttons are at same height (current they're at different heights each time).</strike> DONE 9-14-2020<br>
+• <strike>Make function to calculate new width based on aspect ratio, given a height.</strike> DONE 9-14-2020
+• <strike>Make buttons look like "like" buttons (thumbs up icon, remove border from button, etc.)</strike> DONE 9-13-2020<br>
+• <strike>FIX checkbox (not looking forward to this retarded crap).</strike><br> DONE 9-9-2020
+• <strike>IMAGES NOW CLICKABLE</strike. DONE 9-9-2020.
+• <strike>Make Login with Google verify token, now that it's half working.</strike><br> DONE 9-7-2020
+• <strike>Start implementing Login With Google</strike> DONE 8-30-2020
+• <strike>Setup on server with SSL (and NodeJS as reverse proxy), so Login with Google can be implemented.</strike> DONE 8-29-2020
 • <strike>Incorporate stuff from old readme back into this one.</strike> DONE 8-16-2020<br>
 • <strike>Incorporate this file back into readme.txt, since it'll have its own repo soon?</strike> DONE 8-16-2020<br>
 • <strike>Make this folder have its own repo, for easier deployment.</strike> DONE 8-15-2020<br>
