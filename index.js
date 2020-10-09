@@ -20,6 +20,7 @@ const jws = require("jws-jwk");
 const https = require("https");
 const sql = require("mssql"); // https://www.npmjs.com/package/mssql
 const pass = require("./pass.js");
+const config = require("./config.js");
 
 //app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
@@ -39,15 +40,10 @@ const obj = fs.readdirSync(photoPath);
 
 // Config & Connect to DB
 const workingTable = "facemash_clone_3";
-const pwd = pass.sql();
-const sqlConfig = {
-        user: 'admin',
-        password: pwd,
-        server: 'database-2.cdfzx85agpmp.us-east-1.rds.amazonaws.com', 
-        database: 'FUCKHEAD',
-		encrypt: true
-    };
+const pwd = pass.passFunc();
+const sqlConfig = pass.configFunc();
 //console.log(pwd);
+console.log(sqlConfig);
 
 // Create table if not exists
 sql.connect(sqlConfig, function (err) {
@@ -208,7 +204,7 @@ app.post("/submitPlayer", function(req, res){
 			return oldScoresObj; 
 		}, {})
 	}).then(newScoreObj => {
-		console.log("Final Promise Result (getOldScores) (1): ", newScoreObj);
+		console.log("First Promise Result (getOldScores) (1): ", newScoreObj);
 		
 		let winnerOldScore = newScoreObj.winnerOldScore;
 		let loserOldScore = newScoreObj.loserOldScore;
@@ -216,23 +212,26 @@ app.post("/submitPlayer", function(req, res){
 		let winnerName = newScoreObj.winnerName;
 		let loserName = newScoreObj.loserName;
 		
-		newScoreObj.loser = loserName.substring(0, loserName.length - 4);
-		newScoreObj.winner = winnerName.substring(0, loserName.length - 4);
-		
 		let winnerELO = ELO(winnerOldScore, loserOldScore);
 		let loserELO = ELO(loserOldScore, winnerOldScore);
-		newScoreObj.winnerELO = winnerELO;
-		newScoreObj.loserELO = loserELO;
+		
 	
 		let winnerNewScore = winnerOldScore + (k * (1 - winnerELO));
 		let loserNewScore = loserOldScore + (k * (0 - loserELO));
-		newScoreObj.winnerNewScore = winnerNewScore;
-		newScoreObj.loserNewScore = loserNewScore;
+		
 	
 		let winnerNewELO = ELO(winnerNewScore, loserNewScore);
 		let loserNewELO = ELO(loserNewScore, winnerNewScore);
+		
+		newScoreObj.loser = loser;
+		newScoreObj.winner = winner;
+		newScoreObj.winnerELO = winnerELO;
+		newScoreObj.loserELO = loserELO;
+		newScoreObj.winnerNewScore = winnerNewScore;
+		newScoreObj.loserNewScore = loserNewScore;
 		newScoreObj.winnerNewELO = winnerNewELO;
 		newScoreObj.loserNewELO = loserNewELO;
+		
 	
 		// let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore.toPrecision(4) + " OUTPUT INSERTED.* WHERE name = '" + loserName + "';";
 		// let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore.toPrecision(4) + " WHERE name = '" + winnerName + "';";
@@ -267,7 +266,7 @@ app.post("/submitPlayer", function(req, res){
 				scoreToInput = loserNewScore;
 			}
 			let q = "UPDATE dbo." + workingTable + " SET score = " + scoreToInput.toPrecision(4) + " OUTPUT INSERTED.* WHERE name = '" + item + "';";
-			console.log("Trying query, updateScoresinDB(): ", q);
+			console.log("Trying query: ", q);
 			await sql.connect(sqlConfig); 
 			let request = new sql.Request();
 			let theQuery = request.query(q);
