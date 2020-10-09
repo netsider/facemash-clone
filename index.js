@@ -1,6 +1,6 @@
 // Facemash-clone
 // Made by Russell Rounds
-// Version 0.4
+// Version 0.5 - Promises Version
 
 // To Do:
 // Make NodeJS SQL Server skeleton/template
@@ -17,7 +17,7 @@ const sizeOf = require("image-size");
 const app = express();
 const jws = require("jws-jwk");
 const https = require("https");
-const sql = require("mssql");
+const sql = require("mssql"); // https://www.npmjs.com/package/mssql
 const pass = require("./pass.js");
 
 //app.use(bodyParser.json()); // support json encoded bodies
@@ -43,7 +43,8 @@ const sqlConfig = {
         user: 'admin',
         password: pwd,
         server: 'database-2.cdfzx85agpmp.us-east-1.rds.amazonaws.com', 
-        database: 'FUCKHEAD'
+        database: 'FUCKHEAD',
+		encrypt: true
     };
 //console.log(pwd);
 
@@ -53,7 +54,7 @@ sql.connect(sqlConfig, function (err) {
 		let request = new sql.Request();
     
 		let q = "if not exists (select * from sysobjects where name='" + workingTable + "' and xtype='U')" + " CREATE SEQUENCE dbo.MySequence" + workingTable + " START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo." + workingTable + " ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequence" + workingTable + "), [name] [nvarchar](64) NOT NULL, [score] [bigint] NOT NULL);";
-		request.query(q, function (err, recordset) {
+		request.query(q, function (err, recordset, result) {
 			if (err){
 				// console.log(err);
 			}else{
@@ -69,8 +70,10 @@ sql.connect(sqlConfig, function (err) {
 						}
 					});
 				}
+
 			} 
 		});
+		
 });
 
 // Initial setup
@@ -98,13 +101,21 @@ let scorePromises = items.map(async (item) => {
 	await sql.connect(sqlConfig); 
 	let request = new sql.Request();
 	// console.log("Request [1]:", request.query(q));
-	return request.query(q); // Why isn't the "await" here, instead of on sql.connect()?  Can I switch it, and it still work?
+	let theQuery = request.query(q);
+	let result = theQuery;
+	
+	// request.close();
+	return theQuery; // Why isn't the "await" here, instead of on sql.connect()?  Can I switch it, and it still work?
 });
 
-Promise.all(scorePromises).then(resultsArray => { 
+Promise.all(scorePromises).then(resultsArray => {
   return resultsArray.reduce((playerScoresObj, recordset, index) => {
-    let key = items[index]; 
+    
+	let key = items[index]; 
     playerScoresObj[key] = Number(recordset.recordset[0].score);
+	
+
+	// console.log("Updated " + winnerName + " score in database...");
     return playerScoresObj; 
   }, {})
 }).then(newScoreObj => {
@@ -164,101 +175,130 @@ app.post("/submitPlayer", function(req, res){
 	let unserialized = JSON.parse(req.body.playerName);
 	let winner = unserialized[0].toString();
 	let loser = unserialized[1].toString();
-	
 	let winnerDBName = winner + ".jpg";
 	let loserDBName = loser + ".jpg";
 	
-	//let winnerOldScore = 555;
-	//let loserOldScore = 555;
-	
-	//let oldScoresObj = {};
 	let items = [winnerDBName, loserDBName];
-	let getOldScores = items.map(async (item) => { 
+	
+	let getOldScores = items.map(async (item) => {
 		let q = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + item +"'";
-		// console.log("Trying query: ", q);
+		console.log("Trying query: ", q);
 		await sql.connect(sqlConfig); 
 		let request = new sql.Request();
-		console.log("Request [getOldScores]:", request.query(q));
+		console.log("request.query(q) [getOldScores]:", request.query(q));
 		let theQuery = request.query(q);
-		// console.log("Query Result: ", theQuery); // Pending
 		return theQuery;
 	});
 	
-	Promise.all(getOldScores).then(resultsArray => { 
+	Promise.all(getOldScores).then(resultsArray => {
 		return resultsArray.reduce((oldScoresObj, recordset, index) => {
 			let key = items[index];
-			let title = "default";
+			let titleName1 = "empty";
+			let titleName2 = "empty";
 			if(index === 1){
-				titleName1 = "winnerScore";
+				titleName1 = "winnerOldScore";
 				titleName2 = "winnerName";
 			}else{
-				titleName1 = "loserScore";
+				titleName1 = "loserOldScore";
 				titleName2 = "loserName";
 			}
 			oldScoresObj[titleName1] = Number(recordset.recordset[0].score);
 			oldScoresObj[titleName2] = key;
 			return oldScoresObj; 
 		}, {})
-	}).then(newOldScoreObj => {
-		console.log("Final Promise Result (getOldScores): ", newOldScoreObj);
-		let winnerOldScore = newOldScoreObj.winnerScore;
-		let loserOldScore = newOldScoreObj.loserScore;
+	}).then(newScoreObj => {
+		console.log("Final Promise Result (getOldScores): ", newScoreObj);
 		
-		let winnerName = newOldScoreObj.winnerName;
-		let loserName = newOldScoreObj.loserName;
+		let winnerOldScore = newScoreObj.winnerOldScore;
+		let loserOldScore = newScoreObj.loserOldScore;
+		
+		let winnerName = newScoreObj.winnerName;
+		let loserName = newScoreObj.loserName;
+		
+		newScoreObj.loser = loserName.substring(0, loserName.length - 4);
+		newScoreObj.winner = winnerName.substring(0, loserName.length - 4);
 		
 		let winnerELO = ELO(winnerOldScore, loserOldScore);
 		let loserELO = ELO(loserOldScore, winnerOldScore);
+		newScoreObj.winnerELO = winnerELO;
+		newScoreObj.loserELO = loserELO;
 	
 		let winnerNewScore = winnerOldScore + (k * (1 - winnerELO));
 		let loserNewScore = loserOldScore + (k * (0 - loserELO));
-	
-		let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore + "OUTPUT INSERTED.* WHERE name = '" + loserName + "';";
-		let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore + "WHERE name = '" + winnerName + "';";
-		
-		// sql.connect(sqlConfig, function (err) {
-			// if (err) console.log(err);
-		let request = new sql.Request();
-		
-		request.query(q3, function (err, recordset) {
-			if (err){
-				console.log(err);
-			}else{
-				console.log(recordset);
-				// console.log("Updated " + loserName + " score in database...");
-			}
-		});
-		request.query(q2, function (err, recordset) {
-			if (err){
-				console.log(err);
-			}else{
-				console.log(recordset);
-				// console.log("Updated " + winnerName + " score in database...");
-			}
-		});
-		// });
+		newScoreObj.winnerNewScore = winnerNewScore;
+		newScoreObj.loserNewScore = loserNewScore;
 	
 		let winnerNewELO = ELO(winnerNewScore, loserNewScore);
 		let loserNewELO = ELO(loserNewScore, winnerNewScore);
+		newScoreObj.winnerNewELO = winnerNewELO;
+		newScoreObj.loserNewELO = loserNewELO;
 	
-		let winnerLoserObject = {winner: winnerName.substring(0, winnerName.length - 4), loser: loserName.substring(0, loserName.length - 4), winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
-	
-		let newPlayers = [];
-		let playerArray = [];
-		playerArray[0] = winnerLoserObject;
+		// let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore.toPrecision(4) + " OUTPUT INSERTED.* WHERE name = '" + loserName + "';";
+		// let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore.toPrecision(4) + " WHERE name = '" + winnerName + "';";
 		
-		if(req.body.lockPlayer === "true"){
-			playerArray[0].lockPlayer = true;
-			newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
-		}else{
-			newPlayers = generatePlayers(winner, loser, "random");
-			// playerArray[0].lockPlayer = false;
-		}
+		// let request = new sql.Request();
+		
+		// request.query(q3, function (err, recordset) {
+			// if (err){
+				// console.log(err);
+			// }else{
+				// console.log(recordset);
+				// console.log("Updated " + loserName + " score in database...");
+			// }
+		// });
+		// request.query(q2, function (err, recordset) {
+			// console.log("recordset", recordset);
+			// if (err){
+				// console.log(err);
+			// }else{
+				// console.log(recordset);
+				// console.log("Updated " + winnerName + " score in database...");
+			// }
+		// });
+		
+		
+		
+		let items = [winner, loser];
+		let updateScoresinDB = items.map(async (item, index) => { 
+			// console.log("index", index);
+			if(index === 0){
+				scoreToInput = winnerNewScore;
+			}else if(index === 1){
+				scoreToInput = loserNewScore;
+			}
+			let q = "UPDATE dbo." + workingTable + " SET score = " + scoreToInput.toPrecision(4) + " OUTPUT INSERTED.* WHERE name = '" + item + "';";
+			console.log("Trying query, updateScoresinDB(): ", q);
+			await sql.connect(sqlConfig); 
+			let request = new sql.Request();
+			let theQuery = request.query(q);
+			return newScoreObj;
+		});
+		
+		Promise.all(updateScoresinDB).then(resultsArray => {
+			console.log("resultsArray()", resultsArray);
+			return resultsArray;
+			}).then(finalPlayerObj => {
+				console.log("Final Player Object - updateScoresinDB(): ", finalPlayerObj);
+				let newPlayers = [];
+				let playerArray = [];
+				playerArray[0] = newScoreObj;
+		
+				if(req.body.lockPlayer === "true"){
+					playerArray[0].lockPlayer = true;
+					newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
+				}else{
+					newPlayers = generatePlayers(winner, loser, "random");
+					// playerArray[0].lockPlayer = false;
+				}
+				
+				// let winnerLoserObject = {winner: winnerName.substring(0, winnerName.length - 4), loser: loserName.substring(0, loserName.length - 4), winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
+				// playerArray[0] = winnerLoserObject;
+				// console.log("winnerLoserObject: ", winnerLoserObject);
+				console.log("playerArray[0]: ", playerArray[0]);
 	
-		console.log("winnerLoserObject: ", winnerLoserObject);
-	
-		res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
-	
+				res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
+			});
+		
 	});
 	
 
