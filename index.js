@@ -7,6 +7,7 @@
 // Make app not use in-memory score object, and only rely on DB
 // Make generatePlayers read from DB
 // Finish making main route a chain of promises.
+// Fix NaN issue by reading score from DB.
 
 const http = require("http");
 const fs = require("fs");
@@ -291,7 +292,7 @@ app.post("/submitPlayer", function(req, res){
 					res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 				}else{
 					playerArray[0].lockPlayer = false;
-					newPlayers = generatePlayers(winner, loser, "random");
+					newPlayers = generatePlayers(winner, loser, "random"); // Pass in winner and loser to avoid getting them again.
 					res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 				}
 				
@@ -452,6 +453,9 @@ function generatePlayers(p1, p2, method){
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
+	
+	console.log("playerOneELO: ", playerOneELO);
+	console.log("playerOneELO type: ", typeof playerOneELO);
 	
 	let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
 	
