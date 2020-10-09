@@ -145,13 +145,14 @@ app.get('/', function(req, res){
 // });
 
 app.get("/facemash", function(req, res){
+	console.log("--------------- Initial Page Load ---------------------");
 	let newPlayers = generatePlayers(null, null, "random");
 	res.render("node-dopple-main", {newPlayers: newPlayers});
 });
 
 
 app.post("/submitPlayer", function(req, res){
-	
+	console.log("--------------- Button Clicked, Player Selected ---------------------");
 	// Testing:
 	// console.log("/submitPlayer");
 	// let newBody = 0;

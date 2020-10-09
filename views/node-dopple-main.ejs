@@ -69,7 +69,7 @@
 </head>
 <body onload="init()">
 <% 
-	console.log("Loading Page...");
+	console.log("Loading Page... (client msg)");
 	function getNewHeightInAspectRatio(width, aspectRatio){
 		return Math.floor(width * aspectRatio);
 	};
@@ -80,9 +80,9 @@
 	
 	//For Debugging
 	 if(typeof playerArray === "undefined" && typeof newPlayers !== "undefined"){
-		 console.log("No Buttons Pressed (initial load).");
+		 console.log("No Buttons Pressed Yet.  Waiting for button press.... (initial load).");
 	 }else{
-		 console.log("Button Pressed!");
+		 console.log("Button Previously Pressed!");
 		 if(playerArray[0].lockPlayer === true){
 			 console.log("Player Locked! (client)");
 		 }else{
