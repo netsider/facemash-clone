@@ -145,8 +145,6 @@ app.get('/', function(req, res){
 app.get("/facemash", function(req, res){
 	console.log("--------------- Initial Page Load ---------------------");
 	let newPlayers = generatePlayers(null, null, "random");
-	// let playerArray = {};
-	// res.render("node-dopple-main", {newPlayers: newPlayers, playerArray: playerArray});
 	res.render("node-dopple-main", {newPlayers: newPlayers});
 });
 
@@ -497,8 +495,8 @@ function generatePlayers(p1, p2, method){
 			// newPlayers[1][3] = Number(playerTwoELO);
 			// newPlayers[1][4] = aspectRatioP2;	
 		
-			// return newPlayers; // You can't do this either, which is why JS also sucks.
-			// returnFunction(playerOneScore, playerTwoScore);
+			// return newPlayers; // Can't do this
+			// returnFunction(playerOneScore, playerTwoScore); // OR THIS
 		})
 	})
 	
@@ -523,7 +521,7 @@ function generatePlayers(p1, p2, method){
 		// newPlayers[1][3] = Number(playerTwoELO);
 		// newPlayers[1][4] = aspectRatioP2;
 	
-		// return newPlayers; // You can't do this, which is why JS is stupid!
+		// return newPlayers;
 	// };
 	
 	let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
