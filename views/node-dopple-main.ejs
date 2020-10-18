@@ -69,7 +69,7 @@
 </head>
 <body onload="init()">
 <% 
-	console.log("Loading Page... (client msg)");
+	
 	function getNewHeightInAspectRatio(width, aspectRatio){
 		return Math.floor(width * aspectRatio);
 	};
@@ -78,17 +78,20 @@
 		return Math.floor(height / aspectRatio);
 	};
 	
-	//For Debugging
-	 if(typeof playerArray === "undefined" && typeof newPlayers !== "undefined"){
+	if(typeof playerArray !== "undefined" && typeof playerArray[0] !== "undefined"){
+	 if(typeof playerArray !== "undefined" && typeof newPlayers !== "undefined"){
 		 console.log("No Buttons Pressed Yet.  Waiting for button press.... (initial load).");
 	 }else{
 		 console.log("Button Previously Pressed!");
-		 if(playerArray[0].lockPlayer === true){
-			 console.log("Player Locked! (client)");
-		 }else{
-			 console.log("Player NOT Locked! (client)");
+		 if(typeof playerArray !== "undefined"){
+			 if(typeof playerArray !== "undefined" && playerArray[0].lockPlayer === true){
+				 console.log("Player Locked! (client)");
+			 }else{
+				 console.log("Player NOT Locked! (client)");
+			 }
 		 }
 	 };
+	}
 	
 	const photoPath  = "Selfies/";
 	const newImgWidth = 240;
@@ -125,6 +128,7 @@
 	playerTwoIsWinnerArray[1] = playerOne;
 	playerTwoIsWinnerArray = JSON.stringify(playerTwoIsWinnerArray);
 	
+	//if(typeof playerArray !== "undefined"){
 
 %>
 <center>
@@ -174,6 +178,7 @@
 		<div id="debugFormBox" class="wrapper">
 			
 			<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
+				console.log("FUCK 2");
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockit")' checked>
 			<% }else{ %>
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockIt")'>
@@ -190,7 +195,8 @@
 </div>
 <div id="scoreBoard" style="width: 100%;" class="wrapper hidden">
 	<%
-	if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed !== true){
+	if(typeof playerArray !== "undefined" && typeof playerArray[0] !== "undefined"){
+		if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed !== true){
 			playerArray.forEach(function(currentArray){
 	%>					
 						<p><u>Last Round:</u></p>
@@ -217,6 +223,8 @@
 			//console.log("Array Empty!"); %>
 	<%	
 		};
+		}
+	//}
 	%>
 </div>
 </center>
