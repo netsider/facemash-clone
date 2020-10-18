@@ -176,7 +176,6 @@ app.get("/facemash", function(req, res){
     request.query(q1, (err, result) => {
         console.dir(result);
 		playerOneScore = result.recordset[0].score;
-		console.log(playerOneScore);
 		
 		console.log("Trying query: ", q2);
 		request.query(q2, (err, result) => {
@@ -185,9 +184,6 @@ app.get("/facemash", function(req, res){
 			
 			let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 			let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
-	
-			console.log("playerOneELO: ", playerOneELO);
-			console.log("playerOneELO type: ", typeof playerOneELO);
 	
 			newPlayers[0][0] = playerOne;
 			newPlayers[0][1] = playerOneFilename;
@@ -204,8 +200,6 @@ app.get("/facemash", function(req, res){
 			console.log(newPlayers);
 		
 			res.render("node-dopple-main", {newPlayers: newPlayers});
-		
-			// return newPlayers;
 		})
 	})
 	
@@ -482,6 +476,8 @@ function getRandomIntInclusive(min, max) {
 function generatePlayers(p1, p2, method){
 	let playerOne = "0";
 	let playerTwo = "0";
+	let playerOneScore = 777;
+	let playerTwoScore = 777;
 	
 	if(method === "fixed"){
 		playerOne = p1.toString();
@@ -511,9 +507,6 @@ function generatePlayers(p1, p2, method){
 	// let playerOneScore = playerScoresObj[playerOne];
 	// let playerTwoScore = playerScoresObj[playerTwo];
 	
-	let playerOneScore = 777;
-	let playerTwoScore = 777;
-	
 	// console.log("request.query(q1):", request.query(q1));
 	// console.log("request.query(q2):", request.query(q2));
 	// let Q1 = request.query(q1);
@@ -524,7 +517,6 @@ function generatePlayers(p1, p2, method){
 	let q1 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerOneFilename +"'";
 	let q2 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerTwoFilename +"'";
 	
-	// sql.connect(sqlConfig);
 	let request = new sql.Request();
 	
 	console.log("Trying query: ", q1);
