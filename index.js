@@ -144,8 +144,71 @@ app.get('/', function(req, res){
 
 app.get("/facemash", function(req, res){
 	console.log("--------------- Initial Page Load ---------------------");
-	let newPlayers = generatePlayers(null, null, "random");
-	res.render("node-dopple-main", {newPlayers: newPlayers});
+	// let newPlayers = generatePlayers(null, null, "random");
+	
+	let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
+	
+	playerOne = obj[getRandomIntInclusive(0, dlength)];
+	playerOne = playerOne.substring(0, playerOne.length - 4);
+	playerTwo = obj[getRandomIntInclusive(0, dlength)];
+	playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+	
+	while(playerOne === playerTwo){
+		playerOne = obj[getRandomIntInclusive(0, dlength)];
+		playerOne = playerOne.substring(0, playerOne.length - 4);
+	}
+	
+	let playerOneFilename = playerOne + ".jpg"; 
+	let playerTwoFilename = playerTwo + ".jpg";
+	
+	let aspectRatioP1 = playerAspectRatioObj[playerOne];
+	let aspectRatioP2 = playerAspectRatioObj[playerTwo];
+	
+	let playerOneScore = 777;
+	let playerTwoScore = 777;
+	
+	let q1 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerOneFilename +"'";
+	let q2 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerTwoFilename +"'";
+	console.log("Trying query: ", q1);
+	console.log("Trying query: ", q2);
+	
+	let request = new sql.Request();
+    request.query(q1, (err, result) => {
+        console.dir(result);
+		playerOneScore = result.recordset[0].score;
+		console.log(playerOneScore);
+		
+		console.log("Trying query: ", q2);
+		request.query(q2, (err, result) => {
+			console.dir(result);
+			playerTwoScore = result.recordset[0].score;
+			
+			let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
+			let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
+	
+			console.log("playerOneELO: ", playerOneELO);
+			console.log("playerOneELO type: ", typeof playerOneELO);
+	
+			newPlayers[0][0] = playerOne;
+			newPlayers[0][1] = playerOneFilename;
+			newPlayers[0][2] = playerOneScore;
+			newPlayers[0][3] = Number(playerOneELO);
+			newPlayers[0][4] = aspectRatioP1;
+	
+			newPlayers[1][0] = playerTwo;
+			newPlayers[1][1] = playerTwoFilename;
+			newPlayers[1][2] = playerTwoScore;
+			newPlayers[1][3] = Number(playerTwoELO);
+			newPlayers[1][4] = aspectRatioP2;
+			
+			console.log(newPlayers);
+		
+			res.render("node-dopple-main", {newPlayers: newPlayers});
+		
+			// return newPlayers;
+		})
+	})
+	
 });
 
 
@@ -475,8 +538,6 @@ function generatePlayers(p1, p2, method){
 			console.dir(result);
 			playerTwoScore = result.recordset[0].score;
 			
-			
-			
 			// let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 			// let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
 	
@@ -529,8 +590,8 @@ function generatePlayers(p1, p2, method){
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
 	
-	console.log("playerOneELO: ", playerOneELO);
-	console.log("playerOneELO type: ", typeof playerOneELO);
+	// console.log("playerOneELO: ", playerOneELO);
+	// console.log("playerOneELO type: ", typeof playerOneELO);
 	
 	newPlayers[0][0] = playerOne;
 	newPlayers[0][1] = playerOneFilename;
