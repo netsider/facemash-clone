@@ -19,7 +19,7 @@ const app = express();
 const jws = require("jws-jwk");
 const https = require("https");
 const sql = require("mssql"); // https://www.npmjs.com/package/mssql
-const pass = require("./pass.js");
+const config = require("./config.js");
 
 //app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
@@ -39,10 +39,8 @@ const obj = fs.readdirSync(photoPath);
 
 // Config & Connect to DB
 const workingTable = "facemash_clone_3";
-const pwd = pass.passFunc();
-const sqlConfig = pass.configFunc();
-//console.log(pwd);
-console.log(sqlConfig);
+const sqlConfig = config.configFunc();
+// console.log(sqlConfig);
 
 // Create table if not exists
 sql.connect(sqlConfig, function (err) {
