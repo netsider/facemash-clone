@@ -145,6 +145,8 @@ app.get('/', function(req, res){
 app.get("/facemash", function(req, res){
 	console.log("--------------- Initial Page Load ---------------------");
 	let newPlayers = generatePlayers(null, null, "random");
+	// let playerArray = {};
+	// res.render("node-dopple-main", {newPlayers: newPlayers, playerArray: playerArray});
 	res.render("node-dopple-main", {newPlayers: newPlayers});
 });
 
@@ -445,29 +447,92 @@ function generatePlayers(p1, p2, method){
 	let aspectRatioP1 = playerAspectRatioObj[playerOne];
 	let aspectRatioP2 = playerAspectRatioObj[playerTwo];
 	
-	let playerOneScore = playerScoresObj[playerOne];
-	let playerTwoScore = playerScoresObj[playerTwo];
+	// let playerOneScore = playerScoresObj[playerOne];
+	// let playerTwoScore = playerScoresObj[playerTwo];
+	
+	let playerOneScore = 777;
+	let playerTwoScore = 777;
+	
+	// console.log("request.query(q1):", request.query(q1));
+	// console.log("request.query(q2):", request.query(q2));
+	// let Q1 = request.query(q1);
+	// let Q2 = request.query(q2);
+	// console.log(Q1);
+	// console.log(Q2);
 	
 	let q1 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerOneFilename +"'";
 	let q2 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerTwoFilename +"'";
-	console.log("Trying query: ", q1);
-	console.log("Trying query: ", q2);
-	sql.connect(sqlConfig); 
+	
+	// sql.connect(sqlConfig);
 	let request = new sql.Request();
-	console.log("request.query(q1):", request.query(q1));
-	console.log("request.query(q2):", request.query(q2));
-	let Q1 = request.query(q1);
-	let Q2 = request.query(q2);
-	console.log(Q1);
-	console.log(Q2);
+	
+	console.log("Trying query: ", q1);
+    request.query(q1, (err, result) => {
+        console.dir(result);
+		playerOneScore = result.recordset[0].score;
+		console.log(playerOneScore);
+		
+		console.log("Trying query: ", q2);
+		request.query(q2, (err, result) => {
+			console.dir(result);
+			playerTwoScore = result.recordset[0].score;
+			
+			
+			
+			// let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
+			// let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
+	
+			// console.log("playerOneELO: ", playerOneELO);
+			// console.log("playerOneELO type: ", typeof playerOneELO);
+	
+			// newPlayers[0][0] = playerOne;
+			// newPlayers[0][1] = playerOneFilename;
+			// newPlayers[0][2] = playerOneScore;
+			// newPlayers[0][3] = Number(playerOneELO);
+			// newPlayers[0][4] = aspectRatioP1;
+	
+			// newPlayers[1][0] = playerTwo;
+			// newPlayers[1][1] = playerTwoFilename;
+			// newPlayers[1][2] = playerTwoScore;
+			// newPlayers[1][3] = Number(playerTwoELO);
+			// newPlayers[1][4] = aspectRatioP2;	
+		
+			// return newPlayers;
+			// returnFunction(playerOneScore, playerTwoScore);
+		})
+	})
+	
+	// function returnFunction(score1, score2){
+		// let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
+	
+		// let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
+		// let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
+	
+		// console.log("playerOneELO: ", playerOneELO);
+		// console.log("playerOneELO type: ", typeof playerOneELO);
+	
+		// newPlayers[0][0] = playerOne;
+		// newPlayers[0][1] = playerOneFilename;
+		// newPlayers[0][2] = score1;
+		// newPlayers[0][3] = Number(playerOneELO);
+		// newPlayers[0][4] = aspectRatioP1;
+	
+		// newPlayers[1][0] = playerTwo;
+		// newPlayers[1][1] = playerTwoFilename;
+		// newPlayers[1][2] = score2;
+		// newPlayers[1][3] = Number(playerTwoELO);
+		// newPlayers[1][4] = aspectRatioP2;
+	
+		// return newPlayers; // You can't do this, which is why JS is stupid!
+	// };
+	
+	let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
 	
 	console.log("playerOneELO: ", playerOneELO);
 	console.log("playerOneELO type: ", typeof playerOneELO);
-	
-	let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
 	
 	newPlayers[0][0] = playerOne;
 	newPlayers[0][1] = playerOneFilename;
@@ -479,7 +544,7 @@ function generatePlayers(p1, p2, method){
 	newPlayers[1][1] = playerTwoFilename;
 	newPlayers[1][2] = playerTwoScore;
 	newPlayers[1][3] = Number(playerTwoELO);
-	newPlayers[1][4] = aspectRatioP2;	
+	newPlayers[1][4] = aspectRatioP2;
 	
 	return newPlayers;
 };
