@@ -439,14 +439,27 @@ function generatePlayers(p1, p2, method){
 		}
 	}
 	
-	let playerOneName = playerOne + ".jpg"; 
-	let playerTwoName = playerTwo + ".jpg";
+	let playerOneFilename = playerOne + ".jpg"; 
+	let playerTwoFilename = playerTwo + ".jpg";
 	
 	let aspectRatioP1 = playerAspectRatioObj[playerOne];
 	let aspectRatioP2 = playerAspectRatioObj[playerTwo];
 	
 	let playerOneScore = playerScoresObj[playerOne];
 	let playerTwoScore = playerScoresObj[playerTwo];
+	
+	let q1 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerOneFilename +"'";
+	let q2 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerTwoFilename +"'";
+	console.log("Trying query: ", q1);
+	console.log("Trying query: ", q2);
+	sql.connect(sqlConfig); 
+	let request = new sql.Request();
+	console.log("request.query(q1):", request.query(q1));
+	console.log("request.query(q2):", request.query(q2));
+	let Q1 = request.query(q1);
+	let Q2 = request.query(q2);
+	console.log(Q1);
+	console.log(Q2);
 	
 	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
@@ -457,13 +470,13 @@ function generatePlayers(p1, p2, method){
 	let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
 	
 	newPlayers[0][0] = playerOne;
-	newPlayers[0][1] = playerOneName;
+	newPlayers[0][1] = playerOneFilename;
 	newPlayers[0][2] = playerOneScore;
 	newPlayers[0][3] = Number(playerOneELO);
 	newPlayers[0][4] = aspectRatioP1;
 	
 	newPlayers[1][0] = playerTwo;
-	newPlayers[1][1] = playerTwoName;
+	newPlayers[1][1] = playerTwoFilename;
 	newPlayers[1][2] = playerTwoScore;
 	newPlayers[1][3] = Number(playerTwoELO);
 	newPlayers[1][4] = aspectRatioP2;	
