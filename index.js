@@ -37,7 +37,6 @@ const photoPath = publicDir + "/Selfies/";
 const dlength = fs.readdirSync(photoPath).length - 1;
 const obj = fs.readdirSync(photoPath);
 
-// Config & Connect to DB
 const workingTable = "facemash_clone_3";
 const sqlConfig = config.configFunc();
 // console.log(sqlConfig);
@@ -146,8 +145,6 @@ app.get("/facemash", function(req, res){
 	console.log("--------------- Initial Page Load ---------------------");
 	// let newPlayers = generatePlayers(null, null, "random");
 	
-	let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
-	
 	playerOne = obj[getRandomIntInclusive(0, dlength)];
 	playerOne = playerOne.substring(0, playerOne.length - 4);
 	playerTwo = obj[getRandomIntInclusive(0, dlength)];
@@ -181,6 +178,8 @@ app.get("/facemash", function(req, res){
 		request.query(q2, (err, result) => {
 			console.dir(result);
 			playerTwoScore = result.recordset[0].score;
+			
+			let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
 			
 			let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 			let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
@@ -597,5 +596,8 @@ function generatePlayers(p1, p2, method){
 	newPlayers[1][3] = Number(playerTwoELO);
 	newPlayers[1][4] = aspectRatioP2;
 	
+	console.log(newPlayers);
+	
 	return newPlayers;
+	//res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers}); See if this works for /submitPlayer
 };
