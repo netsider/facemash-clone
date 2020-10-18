@@ -497,7 +497,7 @@ function generatePlayers(p1, p2, method){
 			// newPlayers[1][3] = Number(playerTwoELO);
 			// newPlayers[1][4] = aspectRatioP2;	
 		
-			// return newPlayers;
+			// return newPlayers; // You can't do this either, which is why JS also sucks.
 			// returnFunction(playerOneScore, playerTwoScore);
 		})
 	})
