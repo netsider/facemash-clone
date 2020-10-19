@@ -383,6 +383,10 @@ app.post("/resetScores", function(req, res){
 	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
+app.get('/login', function(req, res){
+    res.render("node-dopple-login", {});
+});
+
 app.post("/transmitPlayerData", function(req, res){
 	// console.log("Received request with player data...");
 	
