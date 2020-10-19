@@ -166,11 +166,11 @@ app.get("/facemash", function(req, res){
 	
 	let q1 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerOneFilename +"'";
 	let q2 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerTwoFilename +"'";
-	console.log("Trying query: ", q1);
-	console.log("Trying query: ", q2);
 	
 	let request = new sql.Request();
-    request.query(q1, (err, result) => {
+	
+	console.log("Trying query: ", q1);
+	request.query(q1, (err, result) => {
         console.dir(result);
 		playerOneScore = result.recordset[0].score;
 		
@@ -286,32 +286,6 @@ app.post("/submitPlayer", function(req, res){
 		newScoreObj.winnerNewELO = winnerNewELO;
 		newScoreObj.loserNewELO = loserNewELO;
 		
-	
-		// let q3 = "UPDATE dbo." + workingTable + " SET score = " + loserNewScore.toPrecision(4) + " OUTPUT INSERTED.* WHERE name = '" + loserName + "';";
-		// let q2 = "UPDATE dbo." + workingTable + " SET score = " + winnerNewScore.toPrecision(4) + " WHERE name = '" + winnerName + "';";
-		
-		// let request = new sql.Request();
-		
-		// request.query(q3, function (err, recordset) {
-			// if (err){
-				// console.log(err);
-			// }else{
-				// console.log(recordset);
-				// console.log("Updated " + loserName + " score in database...");
-			// }
-		// });
-		// request.query(q2, function (err, recordset) {
-			// console.log("recordset", recordset);
-			// if (err){
-				// console.log(err);
-			// }else{
-				// console.log(recordset);
-				// console.log("Updated " + winnerName + " score in database...");
-			// }
-		// });
-		
-		
-		
 		let items = [winner, loser];
 		let updateScoresinDB = items.map(async (item, index) => {
 			if(index === 0){
@@ -332,33 +306,109 @@ app.post("/submitPlayer", function(req, res){
 			return resultsArray;
 			}).then(finalPlayerObj => {
 				console.log("Final Promise Result (updateScoresinDB) (2): ", finalPlayerObj);
-			
-				let newPlayers = [];
-				let playerArray = [];
 				
+				// let tempWinner = winner;
+				// let tempLoser = loser;
+				
+				let playerArray = [];
 				playerArray[0] = finalPlayerObj[0];
 				console.log("playerArray[0]: ", playerArray[0]);
-		
+				let method = "";
 				if(req.body.lockPlayer === "true"){
 					playerArray[0].lockPlayer = true;
-					newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
-					res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
+					method = "fixed";
+					// newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
+					// generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed", playerArray);
+					// res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 				}else{
 					playerArray[0].lockPlayer = false;
-					newPlayers = generatePlayers(winner, loser, "random"); // Pass in winner and loser to avoid getting them again.
-					res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
+					method = "random";
+					// newPlayers = generatePlayers(winner, loser, "random"); // Pass in winner and loser to avoid getting them again.
+					// generatePlayers(tempWinner, tempLoser, "random", playerArray); // Pass in winner and loser to avoid getting them again.
+					// res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 				}
 				
+				let newPlayers = []; 
+				newPlayers[0] = []; 
+				newPlayers[1] = [];
 				
+				let playerOne = "";
+				let playerTwo = "";
+				let oldPlayer1 = winner;
+				let oldPlayer2 = loser;
+				
+				if(method === "fixed"){
+					playerOne = req.body.playerOneHidden.toString();
+					playerTwo = req.body.playerTwoHidden.toString();
+				}else if(method === "random"){
+					playerOne = obj[getRandomIntInclusive(0, dlength)];
+					playerOne = playerOne.substring(0, playerOne.length - 4);
+					playerTwo = obj[getRandomIntInclusive(0, dlength)];
+					playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+				
+					while(oldPlayer1 === playerOne || oldPlayer2 === playerOne || playerOne === playerTwo){
+						playerOne = obj[getRandomIntInclusive(0, dlength)];
+						playerOne = playerOne.substring(0, playerOne.length - 4);
+					}
+					while(oldPlayer1 === playerTwo || oldPlayer2 === playerTwo || playerOne === playerTwo){
+						playerTwo = obj[getRandomIntInclusive(0, dlength)];
+						playerTwo = playerTwo.substring(0, playerTwo.length - 4);
+					}
+				}else if(method === ""){
+					console.log("Method Check: ", "METHOD BLANK");
+					exit();
+				}
+			
+				let playerOneFilename = playerOne + ".jpg"; 
+				let playerTwoFilename = playerTwo + ".jpg";
+				
+				let aspectRatioP1 = playerAspectRatioObj[playerOne];
+				let aspectRatioP2 = playerAspectRatioObj[playerTwo];
+				
+				let q1 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerOneFilename +"'";
+				let q2 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerTwoFilename +"'";
+				
+				let request = new sql.Request();
+				
+				console.log("Trying query (q1): ", q1);
+				request.query(q1, (err, result) => {
+					console.dir(result);
+					let playerOneScore = result.recordset[0].score;
+					console.log(playerOneScore);
+					
+					console.log("Trying query (q2): ", q2);
+					request.query(q2, (err, result) => {
+						console.dir(result);
+						let playerTwoScore = result.recordset[0].score;
+
+						let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
+						let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
+				
+						// console.log("playerOneELO: ", playerOneELO);
+						// console.log("playerOneELO type: ", typeof playerOneELO);
+				
+						newPlayers[0][0] = playerOne;
+						newPlayers[0][1] = playerOneFilename;
+						newPlayers[0][2] = playerOneScore;
+						newPlayers[0][3] = Number(playerOneELO);
+						newPlayers[0][4] = aspectRatioP1;
+						
+						newPlayers[1][0] = playerTwo;
+						newPlayers[1][1] = playerTwoFilename;
+						newPlayers[1][2] = playerTwoScore;
+						newPlayers[1][3] = Number(playerTwoELO);
+						newPlayers[1][4] = aspectRatioP2;
+				
+						console.log("newPlayers in submitPlayer(): ", newPlayers);
+				
+						res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
+					})
+				})
+	
 				
 			});
 	});
 });
-
-// OLD CODE:
-// let winnerLoserObject = {winner: winnerName.substring(0, winnerName.length - 4), loser: loserName.substring(0, loserName.length - 4), winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
-// playerArray[0] = winnerLoserObject;
-// console.log("winnerLoserObject: ", winnerLoserObject);
 
 app.post("/resetScores", function(req, res){
 	//console.log("Resetting Scores...");
@@ -373,14 +423,14 @@ app.post("/resetScores", function(req, res){
 	let newPlayers = [];
 	playerArray[0].resetPressed = true;
 	if(req.body.lockPlayer === "true"){
-		newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
+		// newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed"); // Fix/change this
 		playerArray[0].lockPlayer = true;
 	}else{
 		playerArray[0].lockPlayer = false;
-		newPlayers = generatePlayers(null, null, "random");
+		// newPlayers = generatePlayers(null, null, "random");
 	}
 	
-	res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
+	// res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
 
 app.get('/login', function(req, res){
@@ -476,6 +526,7 @@ function getRandomIntInclusive(min, max) {
 		max = Math.floor(max);
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+// function generatePlayers(p1, p2, method, lastRoundArray){
 function generatePlayers(p1, p2, method){
 	let playerOne = "0";
 	let playerTwo = "0";
@@ -600,8 +651,8 @@ function generatePlayers(p1, p2, method){
 	newPlayers[1][3] = Number(playerTwoELO);
 	newPlayers[1][4] = aspectRatioP2;
 	
-	console.log(newPlayers);
+	console.log("newPlayers in generatePlayers: ", newPlayers);
 	
-	return newPlayers;
-	//res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers}); See if this works for /submitPlayer
+	// return newPlayers;
+	res.render("node-dopple-main", {playerArray: lastRoundArray, newPlayers: newPlayers}); // This does NOT work.
 };
