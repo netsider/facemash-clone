@@ -482,17 +482,27 @@ app.post("/transmitPlayerData", function(req, res){
 			try {
 				// console.log(JSON.parse(body));
 				   
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // THIS *WORKS* (by calling sendVerifyRequest, obviously).  I just wouldn't expect it to.
-				sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) { // This GENERALLY DOESN'T, BUT DOES WHEN sendVerifyRequest() IS IN sendInitialVerifyRequest() (as opposed to using callback(true/false) instead) 
-					let obj = {
-						email: req.body.emailAddress,
-						imageURL: req.body.imageURL,
-						tokenVerified: result
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // THIS *WORKS* (by calling sendVerifyRequest directly).  I just wouldn't expect it to.  Why does it?
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) { // This GENERALLY DOESN'T, BUT DOES WHEN sendVerifyRequest() IS IN sendInitialVerifyRequest() (as opposed to using callback(true/false)). 
+					// let obj = {
+						// email: req.body.emailAddress,
+						// imageURL: req.body.imageURL,
+						// tokenVerified: result
+					// }
+					// console.log("Sending request...");
+					// console.log(obj);
+					// res.json(obj); // This DOES NOT work (but I would expect it to, even moreso than the others.  Why?)
+				// });
+				
+				(function IIFE(func, cb) { // This *WORKS*
+					console.log("Using IFFE");
+					if (func){
+						cb(true);
+					}else{
+						cb(false);
 					}
-					console.log("Sending request...");
-					console.log(obj);
-					res.json(obj); // This DOES NOT work (but I would expect it to, even moreso than the others.  Why?)
-				});
+				}(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest));
+				
 				
 				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){ // THIS ALSO *WORKS*
 					// console.log("Token VERIFIED!");
