@@ -438,10 +438,11 @@ app.get('/login', function(req, res){
 });
 
 app.post("/transmitPlayerData", function(req, res){
-	// console.log("Received request with player data...");
+	console.log("Received request with player data...");
 	
 	// console.log(req.data);
 	// console.log(req.body);
+	// console.log(JSON.parse(body));
 	
 	// let newBody = 0;
 	// let body = [];
@@ -458,13 +459,13 @@ app.post("/transmitPlayerData", function(req, res){
 	// console.log("req.body.imageURL: " + req.body.imageURL);
 	// console.log("req.body.emailAddress: " + req.body.emailAddress);
 	
-	// var parts = userIDToken.split('.');
-	// var headerBuf = new Buffer.from(parts[0], 'base64');
-	// var bodyBuf = new Buffer.from(parts[1], 'base64');
-	// var header = JSON.parse(headerBuf.toString());
-	// var body = JSON.parse(bodyBuf.toString());
-	// console.log(header);
-	// console.log(body);
+	var parts = req.body.userIDToken.split('.');
+	var headerBuf = new Buffer.from(parts[0], 'base64');
+	var bodyBuf = new Buffer.from(parts[1], 'base64');
+	var header = JSON.parse(headerBuf.toString());
+	var body = JSON.parse(bodyBuf.toString());
+	console.log(header);
+	console.log(body);
 	
 	// let userIDToken = req.body.userIDToken;
 	let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
@@ -480,7 +481,7 @@ app.post("/transmitPlayerData", function(req, res){
 		});
 		res.on("end", () => {
 			try {
-				// console.log(JSON.parse(body));
+				console.log(JSON.parse(body));
 				   
 				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // THIS *WORKS* (passing sendVerifyRequest as callback, directly).  I just wouldn't expect it to.  Why does it?
 				
