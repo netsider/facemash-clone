@@ -474,23 +474,26 @@ app.post("/transmitPlayerData", function(req, res){
 	// Make this accept a callback so I can use the return data
 	// Get JWK Keys and perform token verifcation
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res) => {
-		let body = "";
-		res.on("data", (chunk) => {
-        body += chunk;
+			let body = "";
+			res.on("data", (chunk) => {
+			body += chunk;
 		});
 		res.on("end", () => {
 			try {
 				// console.log(JSON.parse(body));
-				if (jws.verify(req.body.userIDToken, JSON.parse(body))){
+				   
+				sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // Is there any better way to do this???  I sure can't think of any.
+				
+				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){
 					// console.log("Token VERIFIED!");
-					//let result = true;
-					sendVerifyRequest(true);
-				}else{
+					// let result = true;
+					// sendVerifyRequest(true);
+				// }else{
 					// console.log("Token NOT verified!");
-					//let result = false;
-					sendVerifyRequest(false);
-					//displaySecurePage(result);
-				}
+					// let result = false;
+					// sendVerifyRequest(false);
+					// displaySecurePage(result);
+				// }
 			} catch (error) {
 				console.error(error.message);
 			};
@@ -499,8 +502,15 @@ app.post("/transmitPlayerData", function(req, res){
 		console.error(error.message);
 	});
 	
+	function sendInitialVerifyRequest (func, callback) {
+		if (func){
+			callback(true);
+		}else{
+			callback(false);
+		}
+	}
+	
 	function sendVerifyRequest (result) {
-		// console.log("Function called!");
 		let obj = {
 			email: req.body.emailAddress,
 			imageURL: req.body.imageURL,
