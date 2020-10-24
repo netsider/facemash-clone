@@ -482,8 +482,9 @@ app.post("/transmitPlayerData", function(req, res){
 			try {
 				// console.log(JSON.parse(body));
 				   
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // THIS *WORKS* (by calling sendVerifyRequest directly).  I just wouldn't expect it to.  Why does it?
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) { // This GENERALLY DOESN'T, BUT DOES WHEN sendVerifyRequest() IS IN sendInitialVerifyRequest() (as opposed to using callback(true/false)). 
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // THIS *WORKS* (passing sendVerifyRequest as callback, directly).  I just wouldn't expect it to.  Why does it?
+				
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) { // This GENERALLY DOESN'T (passing unnamed function as callback), BUT DOES WHEN sendVerifyRequest() IS IN sendInitialVerifyRequest() (as opposed to using callback(true/false) -- on line 528). 
 					// let obj = {
 						// email: req.body.emailAddress,
 						// imageURL: req.body.imageURL,
@@ -524,11 +525,11 @@ app.post("/transmitPlayerData", function(req, res){
 	
 	function sendInitialVerifyRequest (func, callback) {
 		if (func){
-			// callback(true); // Why does this *NOT* work?
-			sendVerifyRequest(true); // BUT THIS *DOES*? (see function below this one)
+			callback(true); // Why does this *NOT* work?
+			// sendVerifyRequest(true); // BUT THIS *DOES*? (see function below this one)
 		}else{
-			// callback(false);
-			sendVerifyRequest(false);
+			callback(false);
+			// sendVerifyRequest(false);
 		}
 		// callback(func); // This also **doesn't** work under any conditions (func returns true when successful).
 	}
