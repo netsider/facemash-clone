@@ -482,8 +482,8 @@ app.post("/transmitPlayerData", function(req, res){
 			try {
 				// console.log(JSON.parse(body));
 				   
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // Is there any better way to do this???  I sure can't think of any.
-				sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) {
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // ***THIS WORKS*** (by calling sendVerifyRequest)
+				sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) { // This GENERALLY DOESN'T, BUT SEE sendInitialVerifyRequest(), and contents of this unnamed callback.
 					let obj = {
 						email: req.body.emailAddress,
 						imageURL: req.body.imageURL,
@@ -491,10 +491,10 @@ app.post("/transmitPlayerData", function(req, res){
 					}
 					console.log("Sending request...");
 					console.log(obj);
-					res.json(obj);
+					res.json(obj); // This DOES NOT work (but I would expect it to, even moreso than the others.  Why?)
 				});
 				
-				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){
+				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){ // ***THIS ALSO WORKS***
 					// console.log("Token VERIFIED!");
 					// let result = true;
 					// sendVerifyRequest(true);
@@ -514,13 +514,13 @@ app.post("/transmitPlayerData", function(req, res){
 	
 	function sendInitialVerifyRequest (func, callback) {
 		if (func){
-			// callback(true); // Why does this not work?
-			sendVerifyRequest(true); // BUT THIS DOES?
+			// callback(true); // Why does this **not** work?
+			sendVerifyRequest(true); // BUT THIS **DOES**? (see function below this one)
 		}else{
 			// callback(false);
 			sendVerifyRequest(false);
 		}
-		// callback(func); // This also doesn't work (func returns true when successful).
+		// callback(func); // This also **doesn't** work (func returns true when successful).
 	}
 	
 	function sendVerifyRequest (result) {
