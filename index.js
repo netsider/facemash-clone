@@ -482,7 +482,17 @@ app.post("/transmitPlayerData", function(req, res){
 			try {
 				// console.log(JSON.parse(body));
 				   
-				sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // Is there any better way to do this???  I sure can't think of any.
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // Is there any better way to do this???  I sure can't think of any.
+				sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) {
+					let obj = {
+						email: req.body.emailAddress,
+						imageURL: req.body.imageURL,
+						tokenVerified: result
+					}
+					console.log("Sending request...");
+					console.log(obj);
+					res.json(obj);
+				});
 				
 				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){
 					// console.log("Token VERIFIED!");
@@ -492,8 +502,8 @@ app.post("/transmitPlayerData", function(req, res){
 					// console.log("Token NOT verified!");
 					// let result = false;
 					// sendVerifyRequest(false);
-					// displaySecurePage(result);
 				// }
+				
 			} catch (error) {
 				console.error(error.message);
 			};
@@ -504,10 +514,13 @@ app.post("/transmitPlayerData", function(req, res){
 	
 	function sendInitialVerifyRequest (func, callback) {
 		if (func){
-			callback(true);
+			// callback(true); // Why does this not work?
+			sendVerifyRequest(true); // BUT THIS DOES?
 		}else{
-			callback(false);
+			// callback(false);
+			sendVerifyRequest(false);
 		}
+		// callback(func); // This also doesn't work (func returns true when successful).
 	}
 	
 	function sendVerifyRequest (result) {
