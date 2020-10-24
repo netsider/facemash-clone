@@ -69,7 +69,7 @@
 </head>
 <body onload="init()">
 <% 
-	
+	//console.log("Loading Page... (client msg)");
 	function getNewHeightInAspectRatio(width, aspectRatio){
 		return Math.floor(width * aspectRatio);
 	};
@@ -78,7 +78,9 @@
 		return Math.floor(height / aspectRatio);
 	};
 	
+	
 	if(typeof playerArray !== "undefined" && typeof playerArray[0] !== "undefined"){
+	console.log("FUCK JAVASHIT");
 	 if(typeof playerArray !== "undefined" && typeof newPlayers !== "undefined"){
 		 console.log("No Buttons Pressed Yet.  Waiting for button press.... (initial load).");
 	 }else{
@@ -128,7 +130,7 @@
 	playerTwoIsWinnerArray[1] = playerOne;
 	playerTwoIsWinnerArray = JSON.stringify(playerTwoIsWinnerArray);
 	
-	//if(typeof playerArray !== "undefined"){
+	if(typeof playerArray !== "undefined"){
 
 %>
 <center>
@@ -178,7 +180,6 @@
 		<div id="debugFormBox" class="wrapper">
 			
 			<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
-				console.log("FUCK 2");
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockit")' checked>
 			<% }else{ %>
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockIt")'>
@@ -195,8 +196,7 @@
 </div>
 <div id="scoreBoard" style="width: 100%;" class="wrapper hidden">
 	<%
-	if(typeof playerArray !== "undefined" && typeof playerArray[0] !== "undefined"){
-		if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed !== true){
+	if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed !== true){
 			playerArray.forEach(function(currentArray){
 	%>					
 						<p><u>Last Round:</u></p>
@@ -223,8 +223,7 @@
 			//console.log("Array Empty!"); %>
 	<%	
 		};
-		}
-	//}
+	}
 	%>
 </div>
 </center>
