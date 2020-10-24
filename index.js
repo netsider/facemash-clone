@@ -459,11 +459,13 @@ app.post("/transmitPlayerData", function(req, res){
 	// console.log("req.body.imageURL: " + req.body.imageURL);
 	// console.log("req.body.emailAddress: " + req.body.emailAddress);
 	
-	var parts = req.body.userIDToken.split('.');
-	var headerBuf = new Buffer.from(parts[0], 'base64');
-	var bodyBuf = new Buffer.from(parts[1], 'base64');
-	var header = JSON.parse(headerBuf.toString());
-	var body = JSON.parse(bodyBuf.toString());
+	let parts = req.body.userIDToken.split('.');
+	let headerBuf = new Buffer.from(parts[0], 'base64');
+	let bodyBuf = new Buffer.from(parts[1], 'base64');
+	let header = JSON.parse(headerBuf.toString());
+	let body = JSON.parse(bodyBuf.toString());
+	
+	// Display User ID Token
 	console.log(header);
 	console.log(body);
 	
@@ -481,7 +483,7 @@ app.post("/transmitPlayerData", function(req, res){
 		});
 		res.on("end", () => {
 			try {
-				console.log(JSON.parse(body));
+				// console.log(JSON.parse(body));
 				   
 				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // THIS *WORKS* (passing sendVerifyRequest as callback, directly).  I just wouldn't expect it to.  Why does it?
 				
@@ -497,7 +499,7 @@ app.post("/transmitPlayerData", function(req, res){
 				// });
 				
 				(function IIFE(func, cb) { // This *WORKS*
-					console.log("Using IFFE");
+					// console.log("Using IFFE");
 					if (func){
 						cb(true);
 					}else{
@@ -505,6 +507,14 @@ app.post("/transmitPlayerData", function(req, res){
 					}
 				}(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest));
 				
+				function Final(func, cb){
+					if (func){
+						cb(true);
+					}else{
+						cb(false);
+					}
+				}
+				// Final(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // I guess this should also work, then?
 				
 				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){ // THIS ALSO *WORKS*
 					// console.log("Token VERIFIED!");
