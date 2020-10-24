@@ -466,8 +466,8 @@ app.post("/transmitPlayerData", function(req, res){
 	let body = JSON.parse(bodyBuf.toString());
 	
 	// Display User ID Token
-	console.log(header);
-	console.log(body);
+	// console.log(header);
+	// console.log(body);
 	
 	// let userIDToken = req.body.userIDToken;
 	let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
@@ -476,18 +476,25 @@ app.post("/transmitPlayerData", function(req, res){
 	
 	// Make this accept a callback so I can use the return data
 	// Get JWK Keys and perform token verifcation
-	https.get("https://www.googleapis.com/oauth2/v2/certs",(res) => {
-			let body = "";
-			res.on("data", (chunk) => {
-			body += chunk;
+	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
+		let newbody = "";
+		res2.on("data", (chunk) => {
+			newbody += chunk;
+			// console.log("body: ", body);
 		});
-		res.on("end", () => {
+		res2.on("end", () => {
 			try {
 				// console.log(JSON.parse(body));
+				
+				// Keys from server
+				console.log(newbody);
+				
+				//Token Data from Client
+				console.log(JSON.parse(bodyBuf.toString()));
 				   
 				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // THIS *WORKS* (passing sendVerifyRequest as callback, directly).  I just wouldn't expect it to.  Why does it?
 				
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) { // This GENERALLY DOESN'T (passing unnamed function as callback), BUT DOES WHEN sendVerifyRequest() IS IN sendInitialVerifyRequest() (as opposed to using callback(true/false) -- on line 528). 
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) { // This GENERALLY DOESN'T (passing unnamed function as callback), BUT DOES WHEN sendVerifyRequest() IS IN sendInitialVerifyRequest() (as opposed to using callback(true/false) -- on line 537). 
 					// let obj = {
 						// email: req.body.emailAddress,
 						// imageURL: req.body.imageURL,
@@ -498,14 +505,14 @@ app.post("/transmitPlayerData", function(req, res){
 					// res.json(obj); // This DOES NOT work (but I would expect it to, even moreso than the others.  Why?)
 				// });
 				
-				(function IIFE(func, cb) { // This *WORKS*
+				// (function IIFE(func, cb) { // This *WORKS*
 					// console.log("Using IFFE");
-					if (func){
-						cb(true);
-					}else{
-						cb(false);
-					}
-				}(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest));
+					// if (func){
+						// cb(true);
+					// }else{
+						// cb(false);
+					// }
+				// }(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest));
 				
 				function Final(func, cb){
 					if (func){
@@ -516,13 +523,29 @@ app.post("/transmitPlayerData", function(req, res){
 				}
 				// Final(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // I guess this should also work, then?
 				
+				function Final2(func){
+					let result = false;
+					if (func){
+						result = true;
+					}else{
+						result = false;
+					}
+					let obj = {
+						email: req.body.emailAddress,
+						imageURL: req.body.imageURL,
+						tokenVerified: result
+					}
+					console.log("Sending request...");
+					console.log(obj);
+					res.json(obj);
+				}
+				Final2(jws.verify(req.body.userIDToken, JSON.parse(newbody)));
+				
 				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){ // THIS ALSO *WORKS*
 					// console.log("Token VERIFIED!");
-					// let result = true;
 					// sendVerifyRequest(true);
 				// }else{
 					// console.log("Token NOT verified!");
-					// let result = false;
 					// sendVerifyRequest(false);
 				// }
 				
