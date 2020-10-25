@@ -42,7 +42,7 @@ const sqlConfig = config.configFunc();
 // console.log(sqlConfig);
 
 // Create table of logged-in users, if not exists
-let currentTable = "users3";
+let currentTable = "users4";
 sql.connect(sqlConfig, function (err) {
 	let request = new sql.Request();
 	
@@ -518,6 +518,7 @@ app.post("/transmitPlayerData", function(req, res){
 				// });
 				
 				(function IIFE(func, cb) { // Way #3 (probably the best way)
+					
 					if (func){
 						cb(true);
 					}else{
@@ -537,10 +538,11 @@ app.post("/transmitPlayerData", function(req, res){
 	
 						let insertUserIntoDB = (async function() {
 							// let currentTable = "users";
-							// console.log("IP: ", request.connection.remoteAddress);
+							// console.log(req.headers['x-forwarded-for']);
+							let userIP = req.headers['x-forwarded-for'];
 							// let q = "INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable + ", '" + body.name + "', '" + body.email + "', " + "'1.1.1.1'" + ", '" + body.sub + "');";
 							// let q = "INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable + ", '" + body.name + "', '" + body.email + "', " + "'1.1.1.1'" + ", '" + body.sub + "');";
-							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '1.1.1.1', " + body.sub + ") END END";
+							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', " + body.sub + ") END END";
 							console.log("Trying query: ", q);
 							await sql.connect(sqlConfig); 
 							let request = new sql.Request();
