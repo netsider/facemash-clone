@@ -466,18 +466,20 @@ app.post("/transmitPlayerData", function(req, res){
 				let body = JSON.parse(bodyBuf.toString());
 				
 				// Display User ID Token
-				// console.log(header);
-				// console.log(body);
+				console.log("header: ", header);
+				console.log("body: ", body);
 				
 				// Keys from server
 				console.log("Keys from Request: ", newbody);
+				
 				let keysFromRequest = newbody;
-				
-				//Token Data from Client
-				console.log("Token data from client 1: ", JSON.parse(headerBuf.toString()));
-				console.log("Token data from client 2: ", JSON.parse(bodyBuf.toString()));
-				
 				let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
+				// let currentTime = Date.now();
+				let currentTime = Math.floor(Date.now() / 1000);
+				let expireTime = body.exp;
+				
+				console.log("Current time: ", currentTime);
+				console.log("Expires on  : ", expireTime);
 				
 				// AUD = CLIENT ID
 				// ISS = GOOGLE
@@ -485,7 +487,7 @@ app.post("/transmitPlayerData", function(req, res){
 				// SUB = USERID
 				// See Also : https://tools.ietf.org/html/rfc7517#section-4.5
 			
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // Way #1 (Which is the best way???)
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), sendVerifyRequest); // Way #1 (Which is the best way???)
 				
 				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {  // Way #2
 					// let obj = {
@@ -498,7 +500,7 @@ app.post("/transmitPlayerData", function(req, res){
 					// res.json(obj);
 				// });
 				
-				(function IIFE(func, cb) { // Way #3
+				(function IIFE(func, cb) { // Way #3 (probably the best way)
 					if (func){
 						cb(true);
 					}else{
@@ -514,6 +516,8 @@ app.post("/transmitPlayerData", function(req, res){
 					res.json(obj);
 				}));
 				
+				
+				
 				function Final(func, cb){
 					if (func){
 						cb(true);
@@ -521,7 +525,7 @@ app.post("/transmitPlayerData", function(req, res){
 						cb(false);
 					}
 				}
-				// Final(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // Way #4
+				// Final(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), sendVerifyRequest); // Way #4
 				
 				function Final2(func){
 					let result = false;
@@ -539,9 +543,9 @@ app.post("/transmitPlayerData", function(req, res){
 					console.log(obj);
 					res.json(obj);
 				}
-				// Final2(jws.verify(req.body.userIDToken, JSON.parse(newbody))); // Way #5
+				// Final2(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest))); // Way #5 (This might be okay too)
 				
-				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){ // Way #6
+				// if (jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest))){ // Way #6
 					// console.log("Token VERIFIED!");
 					// sendVerifyRequest(true);
 				// }else{
