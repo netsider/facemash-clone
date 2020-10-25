@@ -42,15 +42,15 @@ const sqlConfig = config.configFunc();
 // console.log(sqlConfig);
 
 // Create table of logged-in users, if not exists
+let currentTable = "users3";
 sql.connect(sqlConfig, function (err) {
-	let currentTable = "users";
 	let request = new sql.Request();
 	
 	let q = "if not exists (select * from sysobjects where name='" + currentTable + "' and xtype='U')" + " CREATE SEQUENCE dbo.MySequence" + currentTable + " START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo." + currentTable + " ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequence" + currentTable + "), [name] [nvarchar](64) NOT NULL, [email] [nvarchar](64) NOT NULL, [ip] [nvarchar](64) NOT NULL, [userid] [nvarchar](64) NOT NULL);";
 	request.query(q, function (err, recordset, result) {
 		if (err){
 			console.log("Users table already exists!");
-			//console.log(err);
+			console.log(err);
 		}else{
 			console.log("Creating users table...");
 			console.log(recordset);	
@@ -536,8 +536,11 @@ app.post("/transmitPlayerData", function(req, res){
 						// let items = [obj.email];
 	
 						let insertUserIntoDB = (async function() {
-							let currentTable = "users";
-							let q = "INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable + ", '" + body.name + "', '" + body.email + "', " + "'1.1.1.1'" + ", '" + body.sub + "');";
+							// let currentTable = "users";
+							// console.log("IP: ", request.connection.remoteAddress);
+							// let q = "INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable + ", '" + body.name + "', '" + body.email + "', " + "'1.1.1.1'" + ", '" + body.sub + "');";
+							// let q = "INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable + ", '" + body.name + "', '" + body.email + "', " + "'1.1.1.1'" + ", '" + body.sub + "');";
+							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '1.1.1.1', " + body.sub + ") END END";
 							console.log("Trying query: ", q);
 							await sql.connect(sqlConfig); 
 							let request = new sql.Request();
