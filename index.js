@@ -41,7 +41,24 @@ const workingTable = "facemash_clone_3";
 const sqlConfig = config.configFunc();
 // console.log(sqlConfig);
 
-// Create table if not exists
+// Create table of logged-in users, if not exists
+sql.connect(sqlConfig, function (err) {
+	let currentTable = "users";
+	let request = new sql.Request();
+	
+	let q = "if not exists (select * from sysobjects where name='" + currentTable + "' and xtype='U')" + " CREATE SEQUENCE dbo.MySequence" + currentTable + " START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo." + currentTable + " ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequence" + currentTable + "), [name] [nvarchar](64) NOT NULL, [email] [nvarchar](64) NOT NULL, [ip] [nvarchar](64) NOT NULL, [userid] [nvarchar](64) NOT NULL);";
+	request.query(q, function (err, recordset, result) {
+		if (err){
+			console.log("Users table already exists!");
+			//console.log(err);
+		}else{
+			console.log("Creating users table...");
+			console.log(recordset);	
+		} 
+	});
+});
+
+// Create player/score table if not exists
 sql.connect(sqlConfig, function (err) {
 		if (err) console.log(err);
 		let request = new sql.Request();
@@ -63,11 +80,11 @@ sql.connect(sqlConfig, function (err) {
 						}
 					});
 				}
-
 			} 
 		});
-		
 });
+
+
 
 // Initial setup
 if(fs.existsSync(publicDir) !== true) {
@@ -512,11 +529,37 @@ app.post("/transmitPlayerData", function(req, res){
 						imageURL: req.body.imageURL,
 						tokenVerified: result
 					}
+					
+					if(result === true){
+						console.log("Token Verified!");
+						
+						// let items = [obj.email];
+	
+						let insertUserIntoDB = (async function() {
+							let currentTable = "users";
+							let q = "INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable + ", '" + body.name + "', '" + body.email + "', " + "'1.1.1.1'" + ", '" + body.sub + "');";
+							console.log("Trying query: ", q);
+							await sql.connect(sqlConfig); 
+							let request = new sql.Request();
+							// console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
+							let theQuery = request.query(q);
+							return theQuery;
+						})();
+						
+						Promise.all([insertUserIntoDB]).then((values) => {
+							console.log(values);
+							res.json(obj);
+						});
+						
+					}else{
+						console.log("Token Failed Verification!");
+					}
+					
+					
+					
 					// console.log(obj);
-					res.json(obj);
+					
 				}));
-				
-				
 				
 				function Final(func, cb){
 					if (func){
