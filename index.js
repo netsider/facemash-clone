@@ -459,11 +459,11 @@ app.post("/transmitPlayerData", function(req, res){
 	// console.log("req.body.imageURL: " + req.body.imageURL);
 	// console.log("req.body.emailAddress: " + req.body.emailAddress);
 	
-	let parts = req.body.userIDToken.split('.');
-	let headerBuf = new Buffer.from(parts[0], 'base64');
-	let bodyBuf = new Buffer.from(parts[1], 'base64');
-	let header = JSON.parse(headerBuf.toString());
-	let body = JSON.parse(bodyBuf.toString());
+	// let parts = req.body.userIDToken.split('.');
+	// let headerBuf = new Buffer.from(parts[0], 'base64');
+	// let bodyBuf = new Buffer.from(parts[1], 'base64');
+	// let header = JSON.parse(headerBuf.toString());
+	// let body = JSON.parse(bodyBuf.toString());
 	
 	// Display User ID Token
 	// console.log(header);
@@ -486,15 +486,31 @@ app.post("/transmitPlayerData", function(req, res){
 			try {
 				// console.log(JSON.parse(body));
 				
+				let parts = req.body.userIDToken.split('.');
+				let headerBuf = new Buffer.from(parts[0], 'base64');
+				let bodyBuf = new Buffer.from(parts[1], 'base64');
+				let header = JSON.parse(headerBuf.toString());
+				let body = JSON.parse(bodyBuf.toString());
+				
+				let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
+				
+				// AUD = CLIENT ID
+				// ISS = GOOGLE
+				// EMAIL_VERIFIED = ALREADY VERIFIED
+				// SUB = USERID
+				// See Also : https://tools.ietf.org/html/rfc7517#section-4.5
+				
 				// Keys from server
-				console.log(newbody);
+				console.log("Keys from Request: ", newbody);
+				let keysFromRequest = newbody;
 				
 				//Token Data from Client
-				console.log(JSON.parse(bodyBuf.toString()));
+				console.log("Token data from client 1: ", JSON.parse(headerBuf.toString()));
+				console.log("Token data from client 2: ", JSON.parse(bodyBuf.toString()));
 				   
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // THIS *WORKS* (passing sendVerifyRequest as callback, directly).  I just wouldn't expect it to.  Why does it?
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest);
 				
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), function (result) { // This GENERALLY DOESN'T (passing unnamed function as callback), BUT DOES WHEN sendVerifyRequest() IS IN sendInitialVerifyRequest() (as opposed to using callback(true/false) -- on line 537). 
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) { 
 					// let obj = {
 						// email: req.body.emailAddress,
 						// imageURL: req.body.imageURL,
@@ -502,17 +518,24 @@ app.post("/transmitPlayerData", function(req, res){
 					// }
 					// console.log("Sending request...");
 					// console.log(obj);
-					// res.json(obj); // This DOES NOT work (but I would expect it to, even moreso than the others.  Why?)
+					// res.json(obj);
 				// });
 				
-				// (function IIFE(func, cb) { // This *WORKS*
-					// console.log("Using IFFE");
-					// if (func){
-						// cb(true);
-					// }else{
-						// cb(false);
-					// }
-				// }(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest));
+				(function IIFE(func, cb) {
+					if (func){
+						cb(true);
+					}else{
+						cb(false);
+					}
+				}(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
+					let obj = {
+						email: req.body.emailAddress,
+						imageURL: req.body.imageURL,
+						tokenVerified: result
+					}
+					// console.log(obj);
+					res.json(obj);
+				}));
 				
 				function Final(func, cb){
 					if (func){
@@ -521,7 +544,7 @@ app.post("/transmitPlayerData", function(req, res){
 						cb(false);
 					}
 				}
-				// Final(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // I guess this should also work, then?
+				// Final(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest);
 				
 				function Final2(func){
 					let result = false;
@@ -539,9 +562,9 @@ app.post("/transmitPlayerData", function(req, res){
 					console.log(obj);
 					res.json(obj);
 				}
-				Final2(jws.verify(req.body.userIDToken, JSON.parse(newbody)));
+				// Final2(jws.verify(req.body.userIDToken, JSON.parse(newbody)));
 				
-				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){ // THIS ALSO *WORKS*
+				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){
 					// console.log("Token VERIFIED!");
 					// sendVerifyRequest(true);
 				// }else{
