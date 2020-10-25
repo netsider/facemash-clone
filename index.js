@@ -443,38 +443,10 @@ app.post("/transmitPlayerData", function(req, res){
 	// console.log(req.data);
 	// console.log(req.body);
 	// console.log(JSON.parse(body));
-	
-	// let newBody = 0;
-	// let body = [];
-	// req.on('data', (chunk) => {
-		// body.push(chunk);
-	// }).on('end', () => {
-		// body = Buffer.concat(body).toString();
-		// console.log(JSON.parse(body));
-		// console.log(body);
-		// newBody = JSON.parse(body);
-	// });
-
 	// console.log("req.body.userIDToken: " + req.body.userIDToken);
 	// console.log("req.body.imageURL: " + req.body.imageURL);
 	// console.log("req.body.emailAddress: " + req.body.emailAddress);
 	
-	// let parts = req.body.userIDToken.split('.');
-	// let headerBuf = new Buffer.from(parts[0], 'base64');
-	// let bodyBuf = new Buffer.from(parts[1], 'base64');
-	// let header = JSON.parse(headerBuf.toString());
-	// let body = JSON.parse(bodyBuf.toString());
-	
-	// Display User ID Token
-	// console.log(header);
-	// console.log(body);
-	
-	// let userIDToken = req.body.userIDToken;
-	let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
-	
-	// console.log(req.body);
-	
-	// Make this accept a callback so I can use the return data
 	// Get JWK Keys and perform token verifcation
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
 		let newbody = "";
@@ -486,19 +458,16 @@ app.post("/transmitPlayerData", function(req, res){
 			try {
 				// console.log(JSON.parse(body));
 				
+				// let userIDToken = req.body.userIDToken;
 				let parts = req.body.userIDToken.split('.');
 				let headerBuf = new Buffer.from(parts[0], 'base64');
 				let bodyBuf = new Buffer.from(parts[1], 'base64');
 				let header = JSON.parse(headerBuf.toString());
 				let body = JSON.parse(bodyBuf.toString());
 				
-				let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
-				
-				// AUD = CLIENT ID
-				// ISS = GOOGLE
-				// EMAIL_VERIFIED = ALREADY VERIFIED
-				// SUB = USERID
-				// See Also : https://tools.ietf.org/html/rfc7517#section-4.5
+				// Display User ID Token
+				// console.log(header);
+				// console.log(body);
 				
 				// Keys from server
 				console.log("Keys from Request: ", newbody);
@@ -507,10 +476,18 @@ app.post("/transmitPlayerData", function(req, res){
 				//Token Data from Client
 				console.log("Token data from client 1: ", JSON.parse(headerBuf.toString()));
 				console.log("Token data from client 2: ", JSON.parse(bodyBuf.toString()));
-				   
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest);
 				
-				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) { 
+				let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
+				
+				// AUD = CLIENT ID
+				// ISS = GOOGLE
+				// EMAIL_VERIFIED = ALREADY VERIFIED
+				// SUB = USERID
+				// See Also : https://tools.ietf.org/html/rfc7517#section-4.5
+			
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // Way #1 (Which is the best way???)
+				
+				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {  // Way #2
 					// let obj = {
 						// email: req.body.emailAddress,
 						// imageURL: req.body.imageURL,
@@ -521,7 +498,7 @@ app.post("/transmitPlayerData", function(req, res){
 					// res.json(obj);
 				// });
 				
-				(function IIFE(func, cb) {
+				(function IIFE(func, cb) { // Way #3
 					if (func){
 						cb(true);
 					}else{
@@ -544,7 +521,7 @@ app.post("/transmitPlayerData", function(req, res){
 						cb(false);
 					}
 				}
-				// Final(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest);
+				// Final(jws.verify(req.body.userIDToken, JSON.parse(body)), sendVerifyRequest); // Way #4
 				
 				function Final2(func){
 					let result = false;
@@ -562,9 +539,9 @@ app.post("/transmitPlayerData", function(req, res){
 					console.log(obj);
 					res.json(obj);
 				}
-				// Final2(jws.verify(req.body.userIDToken, JSON.parse(newbody)));
+				// Final2(jws.verify(req.body.userIDToken, JSON.parse(newbody))); // Way #5
 				
-				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){
+				// if (jws.verify(req.body.userIDToken, JSON.parse(body))){ // Way #6
 					// console.log("Token VERIFIED!");
 					// sendVerifyRequest(true);
 				// }else{
