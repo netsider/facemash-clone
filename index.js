@@ -492,7 +492,6 @@ app.post("/verifyToken", function(req, res){
 				// Keys from server
 				console.log("Keys from Request: ", newbody);
 				
-				
 				let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
 				let currentTime = Math.floor(Date.now() / 1000);
 				let expireTime = body.exp;
@@ -533,22 +532,23 @@ app.post("/verifyToken", function(req, res){
 					}
 					
 					//Debugging
-					if(body.iss === "accounts.google.com"){
-						console.log("body.iss === accounts.google.com");
-					}else{
-						console.log("body.iss !== accounts.google.com");
-					}
+					// if(body.iss === "accounts.google.com"){
+						// console.log("body.iss === accounts.google.com");
+					// }else{
+						// console.log("body.iss !== accounts.google.com");
+					// }
 					
-					if(body.aud === clientID){
-						console.log("body.aud === clientID");
-					}else{
-						console.log("body.aud !== clientID");
-					}
+					// if(body.aud === clientID){
+						// console.log("body.aud === clientID");
+					// }else{
+						// console.log("body.aud !== clientID");
+					// }
 					
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
 						console.log("Token Verified!");
 						
 						console.log("Adding User to Database...");
+						
 						let insertUserIntoDB = (async function() {
 							let userIP = req.headers['x-forwarded-for'];
 
@@ -563,7 +563,8 @@ app.post("/verifyToken", function(req, res){
 						
 						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
 							console.log("Result after inserting user into DB: ", values);
-							res.json(obj);
+							res.json(obj); // Send object to browser
+							// res.redirect('/facemash'); // I knew this wouldn't work
 						});
 						
 					}else{
@@ -647,139 +648,8 @@ function getAspectRatio(w, h){
 function ELO(A, B){
 	return 1 / (1 + Math.pow(10,((B - A)/400)));
 };
-
 function getRandomIntInclusive(min, max) {
 		min = Math.ceil(min);
 		max = Math.floor(max);
 		return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-// function generatePlayers(p1, p2, method, lastRoundArray){
-function generatePlayers(p1, p2, method){
-	let playerOne = "0";
-	let playerTwo = "0";
-	let playerOneScore = 777;
-	let playerTwoScore = 777;
-	
-	if(method === "fixed"){
-		playerOne = p1.toString();
-		playerTwo = p2.toString();
-	}else if(method === "random"){
-		playerOne = obj[getRandomIntInclusive(0, dlength)];
-		playerOne = playerOne.substring(0, playerOne.length - 4);
-		playerTwo = obj[getRandomIntInclusive(0, dlength)];
-		playerTwo = playerTwo.substring(0, playerTwo.length - 4);
-	
-		while(p1 === playerOne || p2 === playerOne || playerOne === playerTwo){
-			playerOne = obj[getRandomIntInclusive(0, dlength)];
-			playerOne = playerOne.substring(0, playerOne.length - 4);
-		}
-		while(p1 === playerTwo || p2 === playerTwo || playerOne === playerTwo){
-			playerTwo = obj[getRandomIntInclusive(0, dlength)];
-			playerTwo = playerTwo.substring(0, playerTwo.length - 4);
-		}
-	}
-	
-	let playerOneFilename = playerOne + ".jpg"; 
-	let playerTwoFilename = playerTwo + ".jpg";
-	
-	let aspectRatioP1 = playerAspectRatioObj[playerOne];
-	let aspectRatioP2 = playerAspectRatioObj[playerTwo];
-	
-	// let playerOneScore = playerScoresObj[playerOne];
-	// let playerTwoScore = playerScoresObj[playerTwo];
-	
-	// console.log("request.query(q1):", request.query(q1));
-	// console.log("request.query(q2):", request.query(q2));
-	// let Q1 = request.query(q1);
-	// let Q2 = request.query(q2);
-	// console.log(Q1);
-	// console.log(Q2);
-	
-	let q1 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerOneFilename +"'";
-	let q2 = "SELECT score FROM dbo." + workingTable + " WHERE name = '" + playerTwoFilename +"'";
-	
-	let request = new sql.Request();
-	
-	console.log("Trying query: ", q1);
-    request.query(q1, (err, result) => {
-        console.dir(result);
-		playerOneScore = result.recordset[0].score;
-		console.log(playerOneScore);
-		
-		console.log("Trying query: ", q2);
-		request.query(q2, (err, result) => {
-			console.dir(result);
-			playerTwoScore = result.recordset[0].score;
-			
-			// let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
-			// let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
-	
-			// console.log("playerOneELO: ", playerOneELO);
-			// console.log("playerOneELO type: ", typeof playerOneELO);
-	
-			// newPlayers[0][0] = playerOne;
-			// newPlayers[0][1] = playerOneFilename;
-			// newPlayers[0][2] = playerOneScore;
-			// newPlayers[0][3] = Number(playerOneELO);
-			// newPlayers[0][4] = aspectRatioP1;
-	
-			// newPlayers[1][0] = playerTwo;
-			// newPlayers[1][1] = playerTwoFilename;
-			// newPlayers[1][2] = playerTwoScore;
-			// newPlayers[1][3] = Number(playerTwoELO);
-			// newPlayers[1][4] = aspectRatioP2;	
-		
-			// return newPlayers; // Can't do this
-			// returnFunction(playerOneScore, playerTwoScore); // OR THIS
-		})
-	})
-	
-	// function returnFunction(score1, score2){
-		// let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
-	
-		// let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
-		// let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
-	
-		// console.log("playerOneELO: ", playerOneELO);
-		// console.log("playerOneELO type: ", typeof playerOneELO);
-	
-		// newPlayers[0][0] = playerOne;
-		// newPlayers[0][1] = playerOneFilename;
-		// newPlayers[0][2] = score1;
-		// newPlayers[0][3] = Number(playerOneELO);
-		// newPlayers[0][4] = aspectRatioP1;
-	
-		// newPlayers[1][0] = playerTwo;
-		// newPlayers[1][1] = playerTwoFilename;
-		// newPlayers[1][2] = score2;
-		// newPlayers[1][3] = Number(playerTwoELO);
-		// newPlayers[1][4] = aspectRatioP2;
-	
-		// return newPlayers;
-	// };
-	
-	let newPlayers = []; newPlayers[0] = []; newPlayers[1] = [];
-	
-	let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
-	let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
-	
-	// console.log("playerOneELO: ", playerOneELO);
-	// console.log("playerOneELO type: ", typeof playerOneELO);
-	
-	newPlayers[0][0] = playerOne;
-	newPlayers[0][1] = playerOneFilename;
-	newPlayers[0][2] = playerOneScore;
-	newPlayers[0][3] = Number(playerOneELO);
-	newPlayers[0][4] = aspectRatioP1;
-	
-	newPlayers[1][0] = playerTwo;
-	newPlayers[1][1] = playerTwoFilename;
-	newPlayers[1][2] = playerTwoScore;
-	newPlayers[1][3] = Number(playerTwoELO);
-	newPlayers[1][4] = aspectRatioP2;
-	
-	console.log("newPlayers in generatePlayers: ", newPlayers);
-	
-	// return newPlayers;
-	res.render("node-dopple-main", {playerArray: lastRoundArray, newPlayers: newPlayers}); // This does NOT work.
 };
