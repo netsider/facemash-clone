@@ -69,7 +69,7 @@
 </head>
 <body onload="init()">
 <% 
-	//console.log("Loading Page... (client msg)");
+	
 	function getNewHeightInAspectRatio(width, aspectRatio){
 		return Math.floor(width * aspectRatio);
 	};
@@ -78,9 +78,7 @@
 		return Math.floor(height / aspectRatio);
 	};
 	
-	
 	if(typeof playerArray !== "undefined" && typeof playerArray[0] !== "undefined"){
-	console.log("FUCK JAVASHIT");
 	 if(typeof playerArray !== "undefined" && typeof newPlayers !== "undefined"){
 		 console.log("No Buttons Pressed Yet.  Waiting for button press.... (initial load).");
 	 }else{
@@ -130,7 +128,7 @@
 	playerTwoIsWinnerArray[1] = playerOne;
 	playerTwoIsWinnerArray = JSON.stringify(playerTwoIsWinnerArray);
 	
-	if(typeof playerArray !== "undefined"){
+	//if(typeof playerArray !== "undefined"){
 
 %>
 <center>
@@ -180,6 +178,7 @@
 		<div id="debugFormBox" class="wrapper">
 			
 			<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
+				console.log("FUCK 2");
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockit")' checked>
 			<% }else{ %>
 				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockIt")'>
@@ -196,7 +195,8 @@
 </div>
 <div id="scoreBoard" style="width: 100%;" class="wrapper hidden">
 	<%
-	if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed !== true){
+	if(typeof playerArray !== "undefined" && typeof playerArray[0] !== "undefined"){
+		if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed !== true){
 			playerArray.forEach(function(currentArray){
 	%>					
 						<p><u>Last Round:</u></p>
@@ -223,62 +223,13 @@
 			//console.log("Array Empty!"); %>
 	<%	
 		};
-	}
+		}
+	//}
 	%>
 </div>
 </center>
 
 <script>
-$(document).ready(function() {
-		$('#playerOneSubmitButton').on('hover touchstart', function() {
-			window.location.href = "/submitPlayer";
-		});
-});
-//document.addEventListener("DOMContentLoaded", function(){
-//	console.log("Fuck yee");
-//	if ($('[id="lockPlayer"]').prop('checked')){
-//		$('[id="lockPlayer"]').prop("checked", true);
-//		$('[id="lockPlayer2"]').prop("checked", true);
-//	}
-//});
-
-function vRussToggleFunction (toggle){
-	if(toggle === "on"){
-		document.getElementById("russBox").style.visibility = "visible";
-	}else{
-		document.getElementById("russBox").style.visibility = "hidden";
-	}
-}
-
-function imageFunction(which){
-	if (which === "self"){
-		document.getElementById("tooltiptext").style.visibility = "visible";
-		
-		document.getElementById("tooltiptext2").style.visibility = "hidden";
-		setTimeout(function(){
-			document.getElementById("tooltiptext").style.visibility = "hidden";
-		}, 2500);
-		
-	}
-	if (which === "initial"){ // Use cookies or localstorage to make this one be called once.
-		document.getElementById("tooltiptext").style.visibility = "hidden";
-		document.getElementById("tooltiptext2").style.visibility = "visible";
-		
-		setTimeout(function(){
-			document.getElementById("tooltiptext2").style.visibility = "hidden";
-		}, 2500);
-	}
-	if (which === "clear"){
-		clearAll();
-	}
-}
-
-function clearAll(){
-	document.getElementById("tooltiptext").style.visibility = "hidden";
-	document.getElementById("tooltiptext2").style.visibility = "hidden";
-	document.getElementById("tooltiptext3").style.visibility = "hidden";
-}
-
 function init(){
 	//console.log("Init() function called...");
 	
@@ -335,7 +286,7 @@ function onSignIn(googleUser){
 	
 	console.log("Sending Ajax...");
 	$.ajax({
-        url: "/transmitPlayerData",
+        url: "/verifyToken",
 		headers: {
 			'Content-Type':'application/json',
 		},
@@ -352,29 +303,6 @@ function onSignIn(googleUser){
 		}
     });
 	
-};
-	
-function onFailure(error) {
-     console.log(error);
-};
-
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-};
-
-function renderButton() { // How is this being called without it being called in the disabled script above?
-   gapi.signin2.render('g-signin2', {
-		'scope': 'profile email',
-      'width': 150,
-      'height': 45,
-      'longtitle': true,
-      'theme': 'dark',
-      'onsuccess': onSignIn,
-      'onfailure': onFailure
-   });
 };
 
 function setGhostCheckBoxesAndSubmit(form){

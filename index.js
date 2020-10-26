@@ -455,7 +455,7 @@ app.get('/login', function(req, res){
     res.render("node-dopple-login", {});
 });
 
-app.post("/transmitPlayerData", function(req, res){
+app.post("/verifyToken", function(req, res){
 	console.log("Received request with player data...");
 	
 	// console.log(req.data);
@@ -483,6 +483,8 @@ app.post("/transmitPlayerData", function(req, res){
 				let header = JSON.parse(headerBuf.toString());
 				let body = JSON.parse(bodyBuf.toString());
 				
+				let keysFromRequest = newbody;
+				
 				// Display User ID Token
 				console.log("header: ", header);
 				console.log("body: ", body);
@@ -490,9 +492,8 @@ app.post("/transmitPlayerData", function(req, res){
 				// Keys from server
 				console.log("Keys from Request: ", newbody);
 				
-				let keysFromRequest = newbody;
+				
 				let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
-				// let currentTime = Date.now();
 				let currentTime = Math.floor(Date.now() / 1000);
 				let expireTime = body.exp;
 				
