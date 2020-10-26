@@ -42,11 +42,12 @@ const sqlConfig = config.configFunc();
 // console.log(sqlConfig);
 
 // Create table of logged-in users, if not exists
-let currentTable = "users4";
+let currentTable = "users13";
+
 sql.connect(sqlConfig, function (err) {
 	let request = new sql.Request();
 	
-	let q = "if not exists (select * from sysobjects where name='" + currentTable + "' and xtype='U')" + " CREATE SEQUENCE dbo.MySequence" + currentTable + " START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo." + currentTable + " ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequence" + currentTable + "), [name] [nvarchar](64) NOT NULL, [email] [nvarchar](64) NOT NULL, [ip] [nvarchar](64) NOT NULL, [userid] [nvarchar](64) NOT NULL);";
+	let q = "if not exists (select * from sysobjects where name='" + currentTable + "' and xtype='U')" + " CREATE SEQUENCE dbo.MySequence" + currentTable + " START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo." + currentTable + " ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequence" + currentTable + "), [name] [nvarchar](64) NOT NULL, [email] [nvarchar](64) NOT NULL, [ip] [nvarchar](64) NOT NULL, [userid] [nvarchar](64) NOT NULL, [picture] [nvarchar](128) NOT NULL, [emailVerified] [nvarchar](32) NOT NULL, [tokenVerified] [nvarchar](32) NOT NULL, [exp] [int] NOT NULL);";
 	request.query(q, function (err, recordset, result) {
 		if (err){
 			console.log("Users table already exists!");
@@ -518,7 +519,6 @@ app.post("/transmitPlayerData", function(req, res){
 				// });
 				
 				(function IIFE(func, cb) { // Way #3 (probably the best way)
-					
 					if (func){
 						cb(true);
 					}else{
@@ -537,12 +537,9 @@ app.post("/transmitPlayerData", function(req, res){
 						// let items = [obj.email];
 	
 						let insertUserIntoDB = (async function() {
-							// let currentTable = "users";
-							// console.log(req.headers['x-forwarded-for']);
 							let userIP = req.headers['x-forwarded-for'];
-							// let q = "INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable + ", '" + body.name + "', '" + body.email + "', " + "'1.1.1.1'" + ", '" + body.sub + "');";
-							// let q = "INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable + ", '" + body.name + "', '" + body.email + "', " + "'1.1.1.1'" + ", '" + body.sub + "');";
-							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', " + body.sub + ") END END";
+							//let userTokenverified
+							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END"; // remove backticks around body.sub if it fails
 							console.log("Trying query: ", q);
 							await sql.connect(sqlConfig); 
 							let request = new sql.Request();
@@ -551,17 +548,14 @@ app.post("/transmitPlayerData", function(req, res){
 							return theQuery;
 						})();
 						
-						Promise.all([insertUserIntoDB]).then((values) => {
-							console.log(values);
+						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
+							console.log("Result after inserting user into DB: ", values);
 							res.json(obj);
 						});
 						
 					}else{
 						console.log("Token Failed Verification!");
 					}
-					
-					
-					
 					// console.log(obj);
 					
 				}));
