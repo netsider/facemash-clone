@@ -9,6 +9,12 @@
 // Finish making main route a chain of promises.
 // Fix NaN issue by reading score from DB.
 
+// Login Flow:
+// Script included on page, which renders Login with Google button.
+// After users signs in, success function is called, which makes XHR request to /verifyToken express route on server
+// Token is then verified on server
+// What do I do next?  XHR success function cannot be used since that would be insecure.
+
 const http = require("http");
 const fs = require("fs");
 const express  = require("express");
@@ -87,9 +93,6 @@ sql.connect(sqlConfig, function (err) {
 		});
 });
 
-
-
-// Initial setup
 if(fs.existsSync(publicDir) !== true) {
 	console.log("Public directory not exists! Creating...");
 	fs.mkdirSync(publicDir);
@@ -466,7 +469,6 @@ app.post("/verifyToken", function(req, res){
 			try {
 				// console.log(JSON.parse(body));
 				
-				// let userIDToken = req.body.userIDToken;
 				let parts = req.body.userIDToken.split('.');
 				let headerBuf = new Buffer.from(parts[0], 'base64');
 				let bodyBuf = new Buffer.from(parts[1], 'base64');
@@ -488,12 +490,6 @@ app.post("/verifyToken", function(req, res){
 				console.log("Current time: ", currentTime);
 				console.log("Expires on  : ", body.exp);
 				
-				// AUD = CLIENT ID
-				// ISS = GOOGLE
-				// EMAIL_VERIFIED = ALREADY VERIFIED
-				// SUB = USERID
-				// See Also : https://tools.ietf.org/html/rfc7517#section-4.5
-			
 				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), sendVerifyRequest); // Way #1 (Which is the best way???)
 				
 				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {  // Way #2
@@ -515,27 +511,12 @@ app.post("/verifyToken", function(req, res){
 					}
 				}(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
 					
-					
-					
 					let obj = {
 						email: req.body.emailAddress,
 						imageURL: req.body.imageURL,
 						tokenVerified: result
 					}
-					
-					//Debugging
-					// if(body.iss === "accounts.google.com"){
-						// console.log("body.iss === accounts.google.com");
-					// }else{
-						// console.log("body.iss !== accounts.google.com");
-					// }
-					
-					// if(body.aud === clientID){
-						// console.log("body.aud === clientID");
-					// }else{
-						// console.log("body.aud !== clientID");
-					// }
-					
+							
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
 						console.log("Token Verified!");
 						
@@ -562,8 +543,6 @@ app.post("/verifyToken", function(req, res){
 					}else{
 						console.log("Token Failed Verification!");
 					}
-					// console.log(obj);
-					
 				}));
 				
 				function Final(func, cb){
