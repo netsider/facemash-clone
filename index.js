@@ -161,7 +161,6 @@ app.get('/', function(req, res){
 
 app.get("/facemash", function(req, res){
 	console.log("--------------- Initial Page Load ---------------------");
-	// let newPlayers = generatePlayers(null, null, "random");
 	
 	playerOne = obj[getRandomIntInclusive(0, dlength)];
 	playerOne = playerOne.substring(0, playerOne.length - 4);
@@ -335,15 +334,9 @@ app.post("/submitPlayer", function(req, res){
 				if(req.body.lockPlayer === "true"){
 					playerArray[0].lockPlayer = true;
 					method = "fixed";
-					// newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed");
-					// generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed", playerArray);
-					// res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 				}else{
 					playerArray[0].lockPlayer = false;
 					method = "random";
-					// newPlayers = generatePlayers(winner, loser, "random"); // Pass in winner and loser to avoid getting them again.
-					// generatePlayers(tempWinner, tempLoser, "random", playerArray); // Pass in winner and loser to avoid getting them again.
-					// res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 				}
 				
 				let newPlayers = []; 
@@ -402,9 +395,6 @@ app.post("/submitPlayer", function(req, res){
 						let playerOneELO = (ELO(playerOneScore, playerTwoScore) * 100).toPrecision(4);
 						let playerTwoELO = (ELO(playerTwoScore, playerOneScore) * 100).toPrecision(4);
 				
-						// console.log("playerOneELO: ", playerOneELO);
-						// console.log("playerOneELO type: ", typeof playerOneELO);
-				
 						newPlayers[0][0] = playerOne;
 						newPlayers[0][1] = playerOneFilename;
 						newPlayers[0][2] = playerOneScore;
@@ -431,22 +421,20 @@ app.post("/submitPlayer", function(req, res){
 app.post("/resetScores", function(req, res){
 	//console.log("Resetting Scores...");
 	 
-	for (let key in playerScoresObj) {
-		playerScoresObj[key] = Number(startingScore);
-		console.log("Resetting score of " + key);
-	}
+	// for (let key in playerScoresObj) {
+		// playerScoresObj[key] = Number(startingScore);
+		// console.log("Resetting score of " + key);
+	// }
 	
-	let playerArray = [];
-	playerArray[0] = {};
-	let newPlayers = [];
-	playerArray[0].resetPressed = true;
-	if(req.body.lockPlayer === "true"){
-		// newPlayers = generatePlayers(req.body.playerOneHidden, req.body.playerTwoHidden, "fixed"); // Fix/change this
-		playerArray[0].lockPlayer = true;
-	}else{
-		playerArray[0].lockPlayer = false;
-		// newPlayers = generatePlayers(null, null, "random");
-	}
+	// let playerArray = [];
+	// playerArray[0] = {};
+	// let newPlayers = [];
+	// playerArray[0].resetPressed = true;
+	// if(req.body.lockPlayer === "true"){
+		// playerArray[0].lockPlayer = true;
+	// }else{
+		// playerArray[0].lockPlayer = false;
+	// }
 	
 	// res.render("node-dopple-main", {playerArray: playerArray, newPlayers: newPlayers});
 });
@@ -456,7 +444,7 @@ app.get('/login', function(req, res){
 });
 
 app.post("/verifyToken", function(req, res){
-	console.log("Received request with player data...");
+	console.log("Received request with token data...");
 	
 	// console.log(req.data);
 	// console.log(req.body);
