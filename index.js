@@ -26,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(express.json());
 
 const publicDir = "files";
+
 app.use(express.static(__dirname + "/" + publicDir));
 app.set("view engine", "ejs");
 app.listen(3000);
@@ -37,13 +38,14 @@ const photoPath = publicDir + "/Selfies/";
 const dlength = fs.readdirSync(photoPath).length - 1;
 const obj = fs.readdirSync(photoPath);
 
-const workingTable = "facemash_clone_3";
 const sqlConfig = config.configFunc();
+const currentTable = "users13";
+const clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
+const workingTable = "facemash_clone_3";
+
 // console.log(sqlConfig);
 
 // Create table of logged-in users, if not exists
-let currentTable = "users13";
-
 sql.connect(sqlConfig, function (err) {
 	let request = new sql.Request();
 	
@@ -480,12 +482,11 @@ app.post("/verifyToken", function(req, res){
 				// Keys from server
 				console.log("Keys from Request: ", newbody);
 				
-				let clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
+				
 				let currentTime = Math.floor(Date.now() / 1000);
-				let expireTime = body.exp;
 				
 				console.log("Current time: ", currentTime);
-				console.log("Expires on  : ", expireTime);
+				console.log("Expires on  : ", body.exp);
 				
 				// AUD = CLIENT ID
 				// ISS = GOOGLE
@@ -513,6 +514,9 @@ app.post("/verifyToken", function(req, res){
 						cb(false);
 					}
 				}(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
+					
+					
+					
 					let obj = {
 						email: req.body.emailAddress,
 						imageURL: req.body.imageURL,
