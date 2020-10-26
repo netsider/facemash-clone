@@ -531,15 +531,27 @@ app.post("/transmitPlayerData", function(req, res){
 						tokenVerified: result
 					}
 					
-					if(result === true){
+					//Debugging
+					if(body.iss === "accounts.google.com"){
+						console.log("body.iss === accounts.google.com");
+					}else{
+						console.log("body.iss !== accounts.google.com");
+					}
+					
+					if(body.aud === clientID){
+						console.log("body.aud === clientID");
+					}else{
+						console.log("body.aud !== clientID");
+					}
+					
+					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
 						console.log("Token Verified!");
 						
-						// let items = [obj.email];
-	
+						console.log("Adding User to Database...");
 						let insertUserIntoDB = (async function() {
 							let userIP = req.headers['x-forwarded-for'];
-							//let userTokenverified
-							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END"; // remove backticks around body.sub if it fails
+
+							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
 							console.log("Trying query: ", q);
 							await sql.connect(sqlConfig); 
 							let request = new sql.Request();
