@@ -14,7 +14,7 @@ This project originally began as an experiment into the algorith the original ve
 
 <h2>To Do:</h2>
 • Put root directory, and directories inside /other-versions into folders of their own inside repository root.<br>
-•
+• Make databaseless version, for easier "developer reintroduction" in the future.<br>
 
 <br><strong>Recent Changes (All Versions):</strong><br>
 • Make both Bootstrap and Foundation responsive/mobile versions of one/more of these.<br>
