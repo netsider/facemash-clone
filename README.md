@@ -8,9 +8,13 @@
 • <a href="https://github.com/netsider/facemash-clone/tree/master/other-versions/nodejs-api">/other-versions/nodejs-api/</a> - REST version of FaceMash Clone (previously <a href="https://github.com/netsider/ELO-Dopple-node">ELO-Dopple-node</a>, as the /non-dopple/ folder).<br>
 • <a href="https://github.com/netsider/facemash-clone/tree/master/other-versions/php">/other-versions/php/</a> - PHP version of FaceMash Clone (previously <a href="https://github.com/netsider/ELO-Dopple">ELO-Dopple</a>, as index_non_dopple.php).<br>
 
-<h2>FAQ:</strong></h2>
+<h2>FAQ:</h2>
 <strong>How did this project start?</strong><br>
 This project originally began as an experiment into the algorith the original version of Facemash (the predecessor to Facebook) uses, the ELO formula.  After figuring out how the ELO formula worked, I wanted to recreate a simple version of Facemash, since I couldn't find one.  While recreating Facemash, I realized the formula could also be used to rate other things, which led me to create the "Doppeganger version" of Facemash, which is used to rank how alike celebrities look instead of how attractive the person is, like Facemash.<br>
+
+<h2>To Do:</h2>
+• Put root directory, and directories inside /other-versions into folders of their own inside repository root.<br>
+•
 
 <br><strong>Recent Changes (All Versions):</strong><br>
 • Make both Bootstrap and Foundation responsive/mobile versions of one/more of these.<br>
