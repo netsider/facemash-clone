@@ -22,7 +22,7 @@ let playerNameArray = Object.keys(playerScoresObj);
 console.log(playerScoresObj);
 // console.log(playerNameArray);
 
-// app.use(bodyParser.urlencoded({extended: true})); // What's the diff?
+// app.use(bodyParser.urlencoded({extended: true})); // What's the diff?  Don't need since I'm not using POST/Forms
 app.use(bodyParser.json());
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
