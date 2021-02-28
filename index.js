@@ -3,9 +3,10 @@
 // Version 0.5 - Promises Version
 
 // To Do:
+// Figure out if this version and API version can use same index.js file.
 // Make NodeJS SQL Server skeleton/template
 // Make app not use in-memory score object, and only rely on DB
-// Make generatePlayers read from DB
+// Make generatePlayers read from DB (?? This doesn't exist now.  Old?).
 // Finish making main route a chain of promises.
 // Fix NaN issue by reading score from DB.
 
@@ -241,6 +242,7 @@ app.post("/submitPlayer", function(req, res){
 		// console.log(body);
 		// newBody = JSON.parse(body);
 	// });
+
 	// console.log(unserialized);
 	// console.log("req.body: ", req.body);
 	//console.log("playerScoresObj when /submitPlayer called: ", playerScoresObj);
