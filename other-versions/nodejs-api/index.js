@@ -1,9 +1,6 @@
 // facemash-clone, API version (https://github.com/netsider/facemash-clone/tree/master/other-versions/nodejs-api)
 // Made by Russell Rounds
 
-// To Do:
-// • Update this version to be same as regular index.js in root dir.  Or figure out if I should.  Or whatever.
-
 const bodyParser = require('body-parser');
 const express = require('express');
 const fs = require('fs');
