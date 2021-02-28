@@ -46,7 +46,7 @@ const obj = fs.readdirSync(photoPath);
 
 const sqlConfig = config.configFunc();
 const currentTable = "users13";
-const clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
+const clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com"; // Is it okay to expose this?  I always forget.
 const workingTable = "facemash_clone_3";
 
 // console.log(sqlConfig);
