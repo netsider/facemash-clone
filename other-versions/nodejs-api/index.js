@@ -2,7 +2,7 @@
 // Made by Russell Rounds
 
 // To Do:
-// • Update index.js in API version to be same as regular (since both work with each other).
+// • Update this version to be same as regular index.js in root dir (since both work with each other).
 
 const bodyParser = require('body-parser');
 const express = require('express');
