@@ -3,7 +3,7 @@
 // Version 0.5 - Promises Version
 
 // To Do:
-// Figure out if this version and API version can use same index.js file.
+// Figure out if this version and API version can use same index.js file (They can't).
 // Make NodeJS SQL Server skeleton/template
 // Make app not use in-memory score object, and only rely on DB
 // Make generatePlayers read from DB (?? This doesn't exist now.  Old?).
@@ -48,7 +48,7 @@ const obj = fs.readdirSync(photoPath);
 
 const sqlConfig = config.configFunc();
 const currentTable = "users13";
-const clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com"; // Is it okay to expose this?  I always forget.
+const clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
 const workingTable = "facemash_clone_3";
 
 // console.log(sqlConfig);
