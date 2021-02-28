@@ -51,8 +51,8 @@ const workingTable = "facemash_clone_3";
 
 // console.log(sqlConfig);
 
-// Create table of logged-in users, if not exists
-sql.connect(sqlConfig, function (err) {
+
+sql.connect(sqlConfig, function (err) { // Create table of logged-in users, if not exists
 	let request = new sql.Request();
 	
 	let q = "if not exists (select * from sysobjects where name='" + currentTable + "' and xtype='U')" + " CREATE SEQUENCE dbo.MySequence" + currentTable + " START WITH 1 INCREMENT BY 1 NO CACHE;" + "CREATE TABLE dbo." + currentTable + " ([id] [bigint] PRIMARY KEY NOT NULL DEFAULT (NEXT VALUE FOR dbo.MySequence" + currentTable + "), [name] [nvarchar](64) NOT NULL, [email] [nvarchar](64) NOT NULL, [ip] [nvarchar](64) NOT NULL, [userid] [nvarchar](64) NOT NULL, [picture] [nvarchar](128) NOT NULL, [emailVerified] [nvarchar](32) NOT NULL, [tokenVerified] [nvarchar](32) NOT NULL, [exp] [int] NOT NULL);";
@@ -67,8 +67,8 @@ sql.connect(sqlConfig, function (err) {
 	});
 });
 
-// Create player/score table if not exists
-sql.connect(sqlConfig, function (err) {
+
+sql.connect(sqlConfig, function (err) { // Create player/score table if not exists
 		if (err) console.log(err);
 		let request = new sql.Request();
     
