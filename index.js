@@ -28,13 +28,14 @@ const https = require("https");
 const sql = require("mssql"); // https://www.npmjs.com/package/mssql
 const config = require("./config.js");
 
-//app.use(bodyParser.json()); // support json encoded bodies
+
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
-app.use(express.json());
+app.use(express.json()); // WHAT IS THE DIFFERENCE BETWEEN THIS AND THE BELOW LINE?
+//app.use(bodyParser.json()); // support json encoded bodies
 
 const publicDir = "files";
-
 app.use(express.static(__dirname + "/" + publicDir));
+
 app.set("view engine", "ejs");
 app.listen(3000);
 
