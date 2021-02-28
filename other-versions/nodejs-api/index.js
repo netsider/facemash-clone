@@ -2,7 +2,7 @@
 // Made by Russell Rounds
 
 // To Do:
-// • Update this version to be same as regular index.js in root dir (since both work with each other). (Should I?)
+// • Update this version to be same as regular index.js in root dir.  Or figure out if I should.  Or whatever.
 
 const bodyParser = require('body-parser');
 const express = require('express');
