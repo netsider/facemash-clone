@@ -30,7 +30,9 @@ const config = require("./config.js");
 
 // https://expressjs.com/en/resources/middleware/body-parser.html
 app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
-app.use(express.json()); // parse application/json WHAT IS THE DIFFERENCE BETWEEN THIS AND THE BELOW LINE?
+
+app.use(express.json()); // parse application/json 
+//WHAT IS THE DIFFERENCE BETWEEN THese two lines?
 //app.use(bodyParser.json()); // support json encoded bodies
 
 const publicDir = "files";
