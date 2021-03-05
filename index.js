@@ -112,7 +112,7 @@ if(fs.existsSync(scorePath) !== true){
 	console.log("Score directory not exists! Creating...");
 }
 
-// Get player scores from DB (DON'T use for keeping of score, but keep for other purposes):
+// Get player scores from DB (DON'T use for keeping of score, but keep for other purposes -- ??):
 let playerScoresObj = {};
 let items = obj;
 let scorePromises = items.map(async (item) => { 
@@ -134,7 +134,6 @@ Promise.all(scorePromises).then(resultsArray => {
 	let key = items[index]; 
     playerScoresObj[key] = Number(recordset.recordset[0].score);
 	
-
 	// console.log("Updated " + winnerName + " score in database...");
     return playerScoresObj; 
   }, {})
