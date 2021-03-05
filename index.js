@@ -5,7 +5,7 @@
 // To Do:
 // Figure out if this version and API version can use same index.js file (They can't).
 // Make NodeJS SQL Server skeleton/template
-// Make app not use in-memory score object, and only rely on DB
+// Make app not use in-memory score object, only rely on DB, and need no DB (three versions).
 // Make generatePlayers read from DB (?? This doesn't exist now.  Old?).
 // Finish making main route a chain of promises.
 // Fix NaN issue by reading score from DB.

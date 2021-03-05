@@ -31,7 +31,6 @@ app.use(function(req, res, next) { // What is this????
   res.header("Access-Control-Allow-Origin", "*"); // Request domain
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.type("json");
-  // res.type('json');
   next();
 })
 
