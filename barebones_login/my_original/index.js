@@ -37,7 +37,7 @@ app.get('/', function(req, res){
 // });
 
 app.get('/login', function(req, res){
-    res.render("node-dopple-login", {});
+    res.render("login", {});
 });
 
 app.post("/verifyToken", function(req, res){
