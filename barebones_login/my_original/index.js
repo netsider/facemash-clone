@@ -101,7 +101,7 @@ app.post("/verifyToken", function(req, res){
 					}else{
 						cb(false);
 					}
-				}(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
+				}(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) { // (func, cb)
 					
 					let obj = {
 						email: req.body.emailAddress,
