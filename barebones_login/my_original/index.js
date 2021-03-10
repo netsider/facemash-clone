@@ -84,6 +84,8 @@ app.post("/verifyToken", function(req, res){
 				
 				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), sendVerifyRequest); // Way #1 (Which is the best way???)
 				
+				// See if there's any difference between #1 and #2
+				
 				// sendInitialVerifyRequest(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {  // Way #2
 					// let obj = {
 						// email: req.body.emailAddress,
@@ -108,6 +110,8 @@ app.post("/verifyToken", function(req, res){
 						imageURL: req.body.imageURL,
 						tokenVerified: result
 					}
+					
+					console.log("obj from IFFE CB: ", obj);
 							
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
 						console.log("Token Verified!");
