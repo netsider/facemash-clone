@@ -1,20 +1,3 @@
-// Facemash-clone
-// Made by Russell Rounds
-// Version 0.5 - Promises Version
-
-// To Do:
-// Make NodeJS SQL Server skeleton/template
-// Make app not use in-memory score object, and only rely on DB
-// Make generatePlayers read from DB
-// Finish making main route a chain of promises.
-// Fix NaN issue by reading score from DB.
-
-// Login Flow:
-// Script included on page (platform.js), which renders Login with Google button.
-// After users signs in, a success function that  I made is called, which makes XHR request to /verifyToken express route on server.
-// Token is then verified on server, and XHR request is sent back to client, where XHR success function is called.
-// What do I do next?  XHR success function cannot be used since that would be insecure.
-
 const http = require("http");
 const fs = require("fs");
 const express  = require("express");
