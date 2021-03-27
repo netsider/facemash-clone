@@ -40,7 +40,7 @@ app.get('/login', function(req, res){
     res.render("login", {});
 });
 
-app.post("/verifyToken", function(req, res){
+app.post('/verifyToken', function(req, res){
 	console.log("Received request with token data...");
 	
 	// console.log(req.data);
