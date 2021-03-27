@@ -108,7 +108,7 @@ function onSignIn(googleUser){
 	
 	//console.log(userObject);
 	
-	console.log("Sending Ajax...");
+	console.log("Verifying Token using /verifyToken endpoint...");
 	$.ajax({
         url: "/verifyToken",
 		headers: {
@@ -118,7 +118,7 @@ function onSignIn(googleUser){
 		//data: userObject,
         type: 'POST',
         success: function (response){
-			console.log("Success!");
+			console.log("Success! Token Verified!");
 			console.log(response);
 			document.getElementById("menu").innerHTML = '<center>You are signed in as: ' + profile.getName() + '! (<a href="#" onclick="signOut();">Sign out</a>)</center>';
         },
