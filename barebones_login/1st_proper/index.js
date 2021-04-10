@@ -11,10 +11,11 @@ const app = express();
 // );
 
 //Import Routes
-const authRoute = require("auth');
-const postRoute = require("posts');
+const authRoute = require("./auth");
+const postRoute = require("./posts");
 
 // Route Middlewares
-app.use('/test', authRoute);
+app.use('/api/user', authRoute);
+app.use('/api/posts', postRoute);
 
 app.listen (3000, () => console.log('Server Up and running'));
