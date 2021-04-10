@@ -13,7 +13,7 @@
 This project originally began as an experiment into the algorith the original version of Facemash (the predecessor to Facebook) uses, the ELO formula.  After figuring out how the ELO formula worked, I wanted to recreate a simple version of Facemash, since I couldn't find one.  While recreating Facemash, I realized the formula could also be used to rate other things, which led me to create the "Doppeganger version" of Facemash, which is used to rank how alike celebrities look instead of how attractive the person is, like Facemash.<br>
 
 <h2>To Do:</h2>
-• Make everything work with as little (or no) configuration, to be able to quickly edit again in future. <br>
+• Make everything work with as little (or no) configuration, to be able to quickly edit again in future (find/make in-memory-only version, or make SQlite version). <br>
 • Move the rest of the configuration options out of the server version of index.js, so it can be safely uploaded to GitHub repo. <br>
 • Put root directory, and directories inside /other-versions into folders of their own inside repository root (along with this one, in a separate folder).<br>
 • Make databaseless version, for easier "developer reintroduction" in the future.<br>
