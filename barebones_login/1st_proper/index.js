@@ -19,3 +19,5 @@ app.use('/api/user', authRoute);
 app.use('/api/posts', postRoute);
 
 app.listen (3000, () => console.log('Server Up and running'));
+
+// https://pasteboard.co/JWDOWT6.png -- Seems to be working, or at least without error.
