@@ -14,7 +14,7 @@ This project originally began as an experiment into the algorith the original ve
 <h2>To Do:</h2>
 • <b>Make everything work with as little (or no) configuration, to be able to quickly edit again in future (find/make in-memory-only version, or make SQlite version).</b><br>
 • <strike>Move the rest of the configuration options out of the server version of index.js, so it can be safely uploaded to GitHub repo.</strike> Done (Date ?)<br>
-• Put root directory, and directories inside /other-versions into folders of their own inside repository root (along with this one, in a separate folder).<br>
+• Move current login stuff not specifically related to this project to new repository (create "Current Projects" repo?). <br>
 • Make databaseless version, for easier "developer reintroduction" in the future.<br>
 
 <br><strong>Recent Changes (All Versions):</strong><br>
