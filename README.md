@@ -1,7 +1,6 @@
 <h1>Russell's Facemash Clone</h1>
 <strong>Note: This project contains updated/current code from two older reposities: <a href="https://github.com/netsider/ELO-Dopple">ELO-Dopple</a> (index_non_dopple.php, mainly), and <a href="https://github.com/netsider/ELO-Dopple-node">ELO-Dopple-node</a> (as the /non-dopple/ folder).  This project is also referred to as different names in those GitHub reposities (like "ELO-Node-Regular-Voting-App", and others).  See overview of files/folders below for more information.</strong><br>
 
-
 <h2>Overview of Files/Folders in this Repository:</h2>
 • <a href="https://github.com/netsider/facemash-clone/blob/master/index.js">/index.js</a> - The regular nodejs version of Facemash Clone.  This version is designed to be scalable, but may not always be 100% scalable since I'm still learning.<br>
 • <a href="https://github.com/netsider/facemash-clone/blob/master/index-v1.js">/index-v1.js</a> - The regular nodejs version of Facemash Clone, but almost completely non-scalable.<br>
@@ -13,8 +12,8 @@
 This project originally began as an experiment into the algorith the original version of Facemash (the predecessor to Facebook) uses, the ELO formula.  After figuring out how the ELO formula worked, I wanted to recreate a simple version of Facemash, since I couldn't find one.  While recreating Facemash, I realized the formula could also be used to rate other things, which led me to create the "Doppeganger version" of Facemash, which is used to rank how alike celebrities look instead of how attractive the person is, like Facemash.<br>
 
 <h2>To Do:</h2>
-• Make everything work with as little (or no) configuration, to be able to quickly edit again in future (find/make in-memory-only version, or make SQlite version). <br>
-• Move the rest of the configuration options out of the server version of index.js, so it can be safely uploaded to GitHub repo. <br>
+• <b>Make everything work with as little (or no) configuration, to be able to quickly edit again in future (find/make in-memory-only version, or make SQlite version).</b><br>
+• <strike>Move the rest of the configuration options out of the server version of index.js, so it can be safely uploaded to GitHub repo.</strike> Done (Date ?)<br>
 • Put root directory, and directories inside /other-versions into folders of their own inside repository root (along with this one, in a separate folder).<br>
 • Make databaseless version, for easier "developer reintroduction" in the future.<br>
 
