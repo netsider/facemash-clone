@@ -566,7 +566,7 @@ app.post('/loggedin', function(req, res, next){
 					}
 					console.log("Sending request...");
 					console.log(obj);
-					res.json(obj);
+					// res.json(obj);
 				}
 				// Final2(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest))); // Way #5 (This might be okay too)
 				
@@ -605,7 +605,7 @@ app.post('/loggedin', function(req, res, next){
 		}
 		// console.log("Sending request...");
 		// console.log(obj);
-		res.json(obj);
+		// res.json(obj);
 	}
 	
 }, function(req, res){
