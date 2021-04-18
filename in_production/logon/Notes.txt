@@ -1,0 +1,1 @@
+https://www.ssllabs.com/ssltest/analyze.html?d=russellrounds.com&hideResults=on
