@@ -68,17 +68,11 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 				let keysFromRequest = newbody;
 				
 				// Display User ID Token
-				console.log("header: ", header);
-				console.log("body: ", body);
-				
-				// Keys from server
-				console.log("Keys from Request: ", newbody);
-				
-				
+				// console.log("header: ", header);
+				// console.log("body: ", body);
+				// console.log("Keys from Request: ", newbody);
+
 				let currentTime = Math.floor(Date.now() / 1000);
-				
-				console.log("Current time: ", currentTime);
-				console.log("Expires on  : ", body.exp);
 				
 				(function IIFE(func, cb) { // Way #3 (probably the best way)
 					if (func){
@@ -132,28 +126,6 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 	}).on("error", (error) => {
 		console.error(error.message);
 	});
-	
-	function sendInitialVerifyRequest (func, callback) {
-		if (func){
-			callback(true); // Why does this *NOT* work?
-			// sendVerifyRequest(true); // BUT THIS *DOES*? (see function below this one)
-		}else{
-			callback(false);
-			// sendVerifyRequest(false);
-		}
-		// callback(func); // This also **doesn't** work under any conditions (func returns true when successful).
-	}
-	
-	function sendVerifyRequest (result) {
-		let obj = {
-			email: req.body.emailAddress,
-			imageURL: req.body.imageURL,
-			tokenVerified: result
-		}
-		// console.log("Sending request...");
-		// console.log(obj);
-		// res.json(obj);
-	}
 	
 }, function(req, res){
     res.render("node-dopple-login-success", {});
