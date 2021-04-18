@@ -108,7 +108,8 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
 							console.log("Result after inserting user into DB: ", values);
 							// res.json(obj); // Send object to browser
-							return next();
+							console.log("Should be trying next() function: ");
+							return next(); // no error, continue to next function
 							// res.redirect('/facemash'); // I knew this wouldn't work
 						});
 						
