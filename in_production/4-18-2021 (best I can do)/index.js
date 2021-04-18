@@ -533,7 +533,7 @@ app.post('/loggedin', function(req, res, next){
 						
 						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
 							console.log("Result after inserting user into DB: ", values);
-							res.json(obj); // Send object to browser
+							// res.json(obj); // Send object to browser
 							next();
 							// res.redirect('/facemash'); // I knew this wouldn't work
 						});
