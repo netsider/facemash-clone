@@ -444,7 +444,7 @@ app.get('/login', function(req, res){
     res.render("node-dopple-login", {});
 });
 
-app.get('/loggedin', function(req, res, next){
+app.post('/loggedin', function(req, res, next){
 	console.log("/loggedin called...");
 	
 	// console.log(req.data);
