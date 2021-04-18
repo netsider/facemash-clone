@@ -123,30 +123,6 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 					}
 				}));
 				
-				function Final(func, cb){
-					if (func){
-						cb(true);
-					}else{
-						cb(false);
-					}
-				}
-				// Final(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), sendVerifyRequest); // Way #4
-				
-				function Final2(func){
-					let result = false;
-					if (func){
-						result = true;
-					}else{
-						result = false;
-					}
-					let obj = {
-						email: req.body.emailAddress,
-						imageURL: req.body.imageURL,
-						tokenVerified: result
-					}
-					console.log("Sending request...");
-					console.log(obj);
-					// res.json(obj);
 				}
 				
 			} catch (error) {
