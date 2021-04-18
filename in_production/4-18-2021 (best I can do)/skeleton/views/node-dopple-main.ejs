@@ -1,0 +1,54 @@
+<form action="/node-dopple-main" method="POST">
+<h2>The Two Chosen Players:</h2>
+
+<% 
+	
+	// App Variables
+	let photoPath  = "Dopples/Actress_Picture/";
+	let maxPlayers = 5;
+		
+	function getRandomIntInclusive(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+	};
+	
+	let playerOne = getRandomIntInclusive(1, maxPlayers);
+	let playerTwo = playerOne + "D";
+	while(playerOne === playerTwo){ // Make sure players not the same (not needed for Dopplegangers, but keep anyway)
+		console.log("Players the same!");
+		playerTwo = getRandomIntInclusive(1, 5);
+	}
+	let playerOneImage = photoPath + playerOne + ".jpg";
+	let playerTwoImage = photoPath + playerTwo + ".jpg";
+	
+	// Array passed if Player One wins
+	playerOneIsWinnerArray = [];
+	playerOneIsWinnerArray[0] = playerOne;
+	playerOneIsWinnerArray[1] = playerTwo;
+	playerOneIsWinnerArray = JSON.stringify(playerOneIsWinnerArray);
+	
+	// Array passed if Player Two wins
+	playerTwoIsWinnerArray = [];
+	playerTwoIsWinnerArray[0] = playerTwo;
+	playerTwoIsWinnerArray[1] = playerOne;
+	playerTwoIsWinnerArray = JSON.stringify(playerTwoIsWinnerArray);
+	if (Array.isArray(playerArray) && playerArray.length){ 
+		console.log("Array NOT empty!");
+	
+		playerArray.forEach(function(currentArray){ %>
+			<p>Winner: <%= currentArray.winner %></p>
+			<p>Loser: <%= currentArray.loser %></p>
+	<%});
+	}else{
+		console.log("Array Empty!"); %>
+		
+	<%};
+	let imgHeight = "200px";
+	let imgWidth = "150px";
+%>
+
+	<img height="<%= imgHeight %>" width="<%= imgWidth %>" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>"><img height="<%= imgHeight %>" width="<%= imgWidth %>" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>">
+	<p>Player 1: <input type="submit" name="playerName" value="<%= playerOneIsWinnerArray %>" /></p>
+    <p>Player 2: <input type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>" /></p>
+</form>

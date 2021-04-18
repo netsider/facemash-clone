@@ -1,0 +1,81 @@
+$(document).ready(function() {
+		$('#playerOneSubmitButton').on('hover touchstart', function() {
+			window.location.href = "/submitPlayer";
+		});
+});
+//document.addEventListener("DOMContentLoaded", function(){
+//	console.log("Fuck yee");
+//	if ($('[id="lockPlayer"]').prop('checked')){
+//		$('[id="lockPlayer"]').prop("checked", true);
+//		$('[id="lockPlayer2"]').prop("checked", true);
+//	}
+//});
+
+function vRussToggleFunction (toggle){
+	if(toggle === "on"){
+		document.getElementById("russBox").style.visibility = "visible";
+	}else{
+		document.getElementById("russBox").style.visibility = "hidden";
+	}
+}
+
+function imageFunction(which){
+	if (which === "self"){
+		document.getElementById("tooltiptext").style.visibility = "visible";
+		
+		document.getElementById("tooltiptext2").style.visibility = "hidden";
+		setTimeout(function(){
+			document.getElementById("tooltiptext").style.visibility = "hidden";
+		}, 2500);
+		
+	}
+	if (which === "initial"){ // Use cookies or localstorage to make this one be called once.
+		document.getElementById("tooltiptext").style.visibility = "hidden";
+		document.getElementById("tooltiptext2").style.visibility = "visible";
+		
+		setTimeout(function(){
+			document.getElementById("tooltiptext2").style.visibility = "hidden";
+		}, 2500);
+	}
+	if (which === "clear"){
+		clearAll();
+	}
+}
+
+function clearAll(){
+	document.getElementById("tooltiptext").style.visibility = "hidden";
+	document.getElementById("tooltiptext2").style.visibility = "hidden";
+	document.getElementById("tooltiptext3").style.visibility = "hidden";
+}
+
+function init(){
+	//console.log("Init() function called...");
+	
+	//imageFunction("initial");
+	
+	$('#playerOneImage').on('click', function (e) { //$("#playerOneImage").click(function(){ // What's the diff??
+		setGhostCheckBoxesAndSubmit("imageForm1");		
+	});
+	
+	$('#playerTwoImage').on('click', function (e) {
+		setGhostCheckBoxesAndSubmit("imageForm2");
+	});
+	
+	$('#playerOneButton').on('click', function (e) {
+		setGhostCheckBoxesAndSubmit("imageForm1");
+	});
+	
+	$('#playerTwoButton').on('click', function (e) {
+		setGhostCheckBoxesAndSubmit("imageForm2");
+	});
+	
+	// Touch Events
+	//$('#playerOneButton').on('touchstart', function (e) {
+	//	setGhostCheckBoxesAndSubmit("imageForm1");
+	//});
+		
+	//$('#playerTwoButton').on('touchstart', function (e) {
+	//	setGhostCheckBoxesAndSubmit("imageForm2");
+	//});
+		
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<br>
+<center>
+<form>
+	Player 1: <div id="playerOne">Allison</div><br><br>
+	Player 2: <div id="playerTwo">Henry</div><br><br>
+	Score 1: <div id="scoreOne">1500</div><br><br>
+	Score 2: <div id="scoreTwo">1500</div><br><br>
+	Output: <textarea id="form_out" rows="4" cols="60"></textarea><br>
+	<button type="button" id="btn" class="btn">Player One</button> <button type="button" id="btn2" class="btn">Player Two</button>
+</form></center>
+<script>
+$(function () {
+   $('#btn').click(function (){
+        $.ajax({
+            url: "http://localhost:3000/submitPlayer",
+				headers: {
+					'Content-Type':'application/json',
+				},
+				data: JSON.stringify({
+					playerOne: document.getElementById("playerOne").innerHTML,
+					playerTwo: document.getElementById("playerTwo").innerHTML,
+					scoreOne: document.getElementById("scoreOne").innerHTML,
+					scoreTwo: document.getElementById("scoreTwo").innerHTML,
+					winner: "playerOne"
+				}),
+            //dataType: "json",
+            type: 'POST',
+            success: function (response){
+					$('#scoreOne').html(Number(response.data.scoreOne) + 1);
+					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
+					console.log(response);
+            }
+        });
+	});
+
+   $('#btn2').click(function (){
+        $.ajax({
+            url: "http://localhost:3000/submitPlayer",
+				headers: {
+					'Content-Type':'application/json',
+				},
+				data: JSON.stringify({
+					playerOne: document.getElementById("playerOne").innerHTML,
+					playerTwo: document.getElementById("playerTwo").innerHTML,
+					scoreOne: document.getElementById("scoreOne").innerHTML,
+					scoreTwo: document.getElementById("scoreTwo").innerHTML,
+					winner: "playerTwo"
+				}),
+            type: 'POST',
+            success: function (response){
+					$('#scoreOneOne').val(Number(response.data.scoreOne) + 1);
+					$('#form_out').val(response.data.scoreOne + " : " + response.data.scoreTwo + " : " + response.data.playerOne + " : " + response.data.playerTwo);
+					console.log(response);
+            }
+        });
+	});
+
+});
+</script>
