@@ -109,23 +109,22 @@ function onSignIn(googleUser){
 	
 	console.log("Sending Ajax request for token verification...");
 	$.ajax({
-        //url: "/verifyToken",
-        url: "/loggedin",
+      url: "/verifyToken",
 		headers: {
 			'Content-Type':'application/json',
 		},
 		data: JSON.stringify(userObject),
-		//data: userObject,
-        type: 'POST',
-        success: function (response){
-			console.log("Success!");
-			console.log(response);
-			console.log("response.tokenVerified", response.tokenVerified);
+			type: 'POST',
+			success: function (response){
+				console.log("Success!");
+				console.log(response);
+				console.log("response.tokenVerified", response.tokenVerified);
 			
-			//if(response.tokenVerified === true){
-				//window.location.replace("/loggedin");
-				//window.location.replace("/facemash"); //working
-			//}
+				if(response.tokenVerified === true){
+					//window.location.replace("/loggedin");
+					console.log("Redirecting to..." + " /loggedin");
+					//window.location.replace("/facemash"); //working
+				}
         },
 		error: function (error) {
 			console.log(error);
