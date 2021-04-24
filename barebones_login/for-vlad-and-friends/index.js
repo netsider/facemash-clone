@@ -8,7 +8,7 @@ const app = express();
 const jws = require("jws-jwk");
 const https = require("https");
 const sql = require("mssql"); // https://www.npmjs.com/package/mssql
-const config = require("../config.js");
+//const config = require("../config.js");
 
 //app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
@@ -22,12 +22,12 @@ app.listen(3000);
 
 //const k = 32;
 const startingScore = "1500";
-const scorePath = publicDir + "/Selfie_Score/";
-const photoPath = publicDir + "/Selfies/";
-const dlength = fs.readdirSync(photoPath).length - 1;
-const obj = fs.readdirSync(photoPath);
+//const scorePath = publicDir + "/Selfie_Score/";
+//const photoPath = publicDir + "/Selfies/";
+//const dlength = fs.readdirSync(photoPath).length - 1;
+//const obj = fs.readdirSync(photoPath);
 
-const sqlConfig = config.configFunc();
+// const sqlConfig = config.configFunc();
 const currentTable = "users13";
 const clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
 // const workingTable = "facemash_clone_3";
@@ -38,7 +38,7 @@ app.get('/login', function(req, res){
     res.render("node-dopple-login", {});
 });
 
-app.post('/loggedin', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
+app.get('/loggedin', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
 	console.log("/loggedin POST called...");
 	
 	// console.log(req.data);
@@ -97,11 +97,12 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 							let userIP = req.headers['x-forwarded-for'];
 
 							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
-							console.log("Trying query: ", q);
-							await sql.connect(sqlConfig); 
+							//console.log("Trying query: ", q);
+							//await sql.connect(sqlConfig); 
 							let request = new sql.Request();
 							// console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
 							let theQuery = request.query(q);
+							console.log("Query Result:", theQuery);
 							return theQuery;
 						})();
 						
