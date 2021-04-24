@@ -1,5 +1,7 @@
 Notes I thought might help those helping me:
 
+Sorry if there's code in here that makes it hard to run on your machine, if you're trying to actually get it to run (I just figured maybe you could see right away what the problem is/was).  I'm working on a version that doesn't use the database or any files, so sharing is easier.
+
 All Files in the /views DIRECTORY should be the same in both versions.
 
 Only the index.js files should differ (at least in what they do):
