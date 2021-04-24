@@ -1,5 +1,2 @@
-// Notes
-BOTH versions of views directory are the same.
-
 // PROBLEMS IDENTIFIED SO FAR:
 NEXT() function never seems to trigger/execute.

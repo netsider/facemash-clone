@@ -43,13 +43,6 @@ app.get('/login', function(req, res){
 app.post('/loggedin', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
 	console.log("/loggedin POST called...");
 	
-	// console.log(req.data);
-	// console.log(req.body);
-	// console.log(JSON.parse(body));
-	// console.log("req.body.userIDToken: " + req.body.userIDToken);
-	// console.log("req.body.imageURL: " + req.body.imageURL);
-	// console.log("req.body.emailAddress: " + req.body.emailAddress);
-	
 	// Get JWK Keys and perform token verifcation
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
 		let newbody = "";
@@ -112,9 +105,6 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 							console.log("Result after inserting user into DB: ", values);
 							console.log("Trying next() function: ");
 							return next();
-							
-							// PROBLEMS IDENTIFIED SO FAR:
-							// NEXT() function never seems to trigger/execute.
 							
 						});
 						

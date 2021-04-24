@@ -1,0 +1,14 @@
+Notes I thought might help those helping me:
+
+All Files in the /views DIRECTORY should be the same in both versions.
+
+Only the index.js files should differ (at least in what they do):
+
+Attempt #1:	 
+After visiting /login, the rendered view file an XHR request to /loggedin, which then tries to verify the token and return the next() function and render node-dopple-login-success, but fails.
+
+Attempt #2:
+After visiting /login, the rendered view file sends an XHR request to /loggedin, which then tries to verify the token and render node-dopple-login-success, but fails.
+
+
+In both versions the XHR request in the views file attempts to verify the token, and redirect upon success (just so the user doesn't have to manually, and since it's being sent/received anyway).
