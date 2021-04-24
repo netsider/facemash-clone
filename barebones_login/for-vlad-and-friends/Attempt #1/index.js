@@ -113,11 +113,9 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 							console.log("Trying next() function: ");
 							return next();
 							
-							// res.json(obj); // Send object to browser
-							//return res.render("node-dopple-login-success", {});
-							//return next(); // no error, continue to next function
-							// res.redirect('/facemash'); // I knew this wouldn't work
-							//res.redirect('/loggedin');
+							// PROBLEMS IDENTIFIED SO FAR:
+							// NEXT() function never seems to trigger/execute.
+							
 						});
 						
 					}else{

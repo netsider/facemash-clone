@@ -115,9 +115,8 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 							console.log("Trying redirect() function: ");
 							res.redirect('/loggedin');
 							
-							// res.json(obj); // Send object to browser
-							//return res.render("node-dopple-login-success", {});
-							// res.redirect('/facemash'); // I knew this wouldn't work
+							// PROBLEMS IDENTIFIED SO FAR:
+							//RETURNS ONE OF THE ERROR MESSAGES BECAUSE IT'S TECHNICALLY NOT GETTING THE TOKEN (I know why it's doing this -- I just don't know how to fix it, I think).
 							
 						});
 						
@@ -217,11 +216,6 @@ app.get('/loggedin', function(req, res, next){ // Milddeware token vertification
 							console.log("Trying next() function: ");
 							return next();
 							
-							// res.json(obj); // Send object to browser
-							//return res.render("node-dopple-login-success", {});
-							//return next(); // no error, continue to next function
-							// res.redirect('/facemash'); // I knew this wouldn't work
-							//res.redirect('/loggedin');
 						});
 						
 					}else{
@@ -240,9 +234,8 @@ app.get('/loggedin', function(req, res, next){ // Milddeware token vertification
 		console.log("ERROR!");
 		console.error(error.message);
 	});
-
-	
 	
 }, function(req, res){
-    return res.render("node-dopple-login-success", {});
+		
+   return res.render("node-dopple-login-success", {});
 });
