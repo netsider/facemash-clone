@@ -78,7 +78,7 @@
 </div>
 
 <div class="wrapper fullWidth">
-
+	<center><h1>You are signed in!</h1></center>
 </div>
 
 <div class="wrapper fullWidth center">
@@ -89,49 +89,7 @@
 </center>
 
 <script>
-function onSignIn(googleUser){
-	console.log("Sign-in function called...!");
-	
-	let auth2 = gapi.auth2.getAuthInstance();
-	console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
-		
-	// Useful data for your client-side scripts:
-	let profile = googleUser.getBasicProfile();	
-	let id_token = googleUser.getAuthResponse().id_token; // Pass id_token to backend
-	  
-	let userObject = {
-		"emailAddress": profile.getEmail(),
-		"imageURL": profile.getImageUrl(),
-		"userIDToken": id_token,
-	};
-	
-	//console.log(userObject);
-	
-	console.log("Sending Ajax request for token verification...");
-	$.ajax({
-      url: "/verifyToken",
-		headers: {
-			'Content-Type':'application/json',
-		},
-		data: JSON.stringify(userObject),
-			type: 'POST',
-			success: function (response){
-				console.log("Success!");
-				console.log(response);
-				console.log("response.tokenVerified", response.tokenVerified);
-			
-				if(response.tokenVerified === true){
-					//window.location.replace("/loggedin");
-					console.log("Redirecting to..." + " /loggedin");
-					//window.location.replace("/facemash"); //working
-				}
-        },
-		error: function (error) {
-			console.log(error);
-		}
-    });
-	
-};
+
 //document.getElementById("menu").innerHTML = '<center>You are signed in as: ' + profile.getName() + '! (<a href="#" onclick="signOut();">Sign out</a>)</center>';
 function onFailure(error) {
      console.log(error);
