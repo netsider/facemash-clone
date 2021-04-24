@@ -11,7 +11,6 @@ const sql = require("mssql"); // https://www.npmjs.com/package/mssql
 // const config = require("../config.js");
 const config = require("../config.js");
 
-//app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(express.json());
 
