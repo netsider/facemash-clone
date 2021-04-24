@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>Selfie Voting App</title>
+</head>
+<body>
+<center>
+<% 
+	function getNewHeightInAspectRatio(width, aspectRatio){
+		//let newHeight = Math.floor(width * aspectRatio);
+		return Math.floor(width * aspectRatio);
+	};
+	
+	const photoPath  = "Selfies/";
+	const newImgWidth = 240;
+	
+	let playerOne = newPlayers[0][0];
+	let playerOneName = newPlayers[0][1];
+	let playerOneScore = newPlayers[0][2];
+	let playerOneELO = newPlayers[0][3];
+	let playerOneAR = newPlayers[0][4];
+	
+	let playerTwo = newPlayers[1][0];
+	let playerTwoName = newPlayers[1][1];
+	let playerTwoScore = newPlayers[1][2];
+	let playerTwoELO = newPlayers[1][3];
+	let playerTwoAR = newPlayers[1][4];
+	
+	const playerOneImage = photoPath + playerOne + ".jpg";
+	const playerTwoImage = photoPath + playerTwo + ".jpg";
+	
+	let playerOneImgHeight = getNewHeightInAspectRatio(newImgWidth, playerOneAR);
+	let playerTwoImgHeight = getNewHeightInAspectRatio(newImgWidth, playerTwoAR);
+
+	playerOneIsWinnerArray = [];
+	playerOneIsWinnerArray[0] = playerOne;
+	playerOneIsWinnerArray[1] = playerTwo;
+	playerOneIsWinnerArray = JSON.stringify(playerOneIsWinnerArray);
+	
+	playerTwoIsWinnerArray = [];
+	playerTwoIsWinnerArray[0] = playerTwo;
+	playerTwoIsWinnerArray[1] = playerOne;
+	playerTwoIsWinnerArray = JSON.stringify(playerTwoIsWinnerArray);
+%>
+
+<div style="width: 50%;">
+	<h2>Here are <u><%= playerOneName %></u> and <u><%= playerTwoName %></u>.</h2>
+	<p>We want you to <strong>pick the better picture</strong>!</p>
+	<p>There is a <%= playerOneELO %>% chance you will think the first picture is best (and not the second)*.</p>
+	<p>There is a <%= playerTwoELO %>% chance you will think the second picture is best (and not the first)*.</p>
+	<p>* = <i><b>Percentages are determined by previous user input (by all users) into this app</i></b>.</p>
+	<h2><strong>Choose which picture you think is better looking:</strong></h2>
+</div>
+
+<div style="width: 50%; display: inline-block;">
+	<img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>">
+	<img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>">
+</div>
+
+<form action="/submitPlayer" method="POST">
+	<p><button type="submit" name="playerName" value="<%= playerOneIsWinnerArray %>">I like <%= playerOneName %> (left) better</button></p>
+	<p><button type="submit" name="playerName" value="<%= playerTwoIsWinnerArray %>">I like <%= playerTwoName %> (right) better</button></p>
+	<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
+	<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
+
+	<div id="debugFormBox">
+		<% if(playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
+			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" checked>
+		<% }else{ %>
+			<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true">
+		<% }; %>
+		<button type="submit" name="reset" value="1" formaction="/resetScores">Reset all scores to 0.</button>
+	</div>
+
+</form>
+<div id="scoreBoard">
+	<%
+		if (playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed === false){
+				playerArray.forEach(function(currentArray){
+	%>					
+						<p><u>Last Round:</u></p>
+						<p><strong>You chose <%= currentArray.winnerName %> over <%= currentArray.loserName %>.</strong></p>
+						<p>Winner: <%= currentArray.winner %></p>
+						<p>Loser: <%= currentArray.loser %></p>
+						<p>Winner Name: <%= currentArray.winnerName %></p>
+						<p>Loser Name: <%= currentArray.loserName %></p>
+						<p><%= currentArray.winnerName %> Old Score: <%= currentArray.winnerOldScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.winnerName %> New Score: <%= currentArray.winnerNewScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.loserName %> Old Score: <%= currentArray.loserOldScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.loserName %> New Score: <%= currentArray.loserNewScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.winnerName %> ELO (old): <%= (currentArray.winnerELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.winnerName %> ELO (new): <%= (currentArray.winnerNewELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.loserName %> ELO (old): <%= (currentArray.loserELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.loserName %> ELO (new): <%= (currentArray.loserNewELO * 100).toString().substr(0,5) %>%</p>
+						<p>lockPlayer: <%= currentArray.lockPlayer %></p>				
+	<%			});		
+		}else{
+			//console.log("Array Empty!"); %>
+	<%	
+		};
+	%>
+</div>
+</center>
+</body>
+</html>

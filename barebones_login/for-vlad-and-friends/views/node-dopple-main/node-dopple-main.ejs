@@ -1,0 +1,393 @@
+<html>
+<head>
+	<title>Russell's Facemash Clone</title>
+	<meta name="google-signin-client_id" content="26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script> --><!-- This calls login function twice sometimes -->
+	<link rel="stylesheet" href="font-awesome.min.css">
+	<style>
+		button {
+			width: 65px;
+			height: 65px;
+			cursor: pointer; // doesn't work
+		}
+		.wrapper {
+			border: 0px solid black;
+		}
+		.fullWidth {
+			width: 100%;
+		}
+		.playerImage {
+			width: 50%;
+		}
+		.center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.hidden {
+			display: none;
+			visibility: hidden;
+		}
+		.likeBtn {
+			border: none;
+		}
+		#menu {
+			vertical-align: middle;
+		}
+		#russBox{
+			visibility: hidden;
+			position: fixed;
+			left: 1%;
+			bottom: -100px;
+			z-index: 10;
+			height: 25%;
+		}
+		#russImage{
+			width: 25%;
+			height: 75%;
+		}
+		.tooltip .tooltiptext {
+			visibility: hidden;
+			width: 120px;
+			background-color: #FFF;
+			color: #000;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px 0;
+			position: absolute;
+			z-index: 11;
+			border: 1px solid black;
+		}
+		.tooltip:hover .tooltiptext {
+			
+		}
+		.tooltip:onclick .tooltiptext {
+			visibility: visible;
+		}
+	</style>
+</head>
+<body onload="init()">
+<% 
+	//console.log("Loading Page... (client msg)");
+	function getNewHeightInAspectRatio(width, aspectRatio){
+		return Math.floor(width * aspectRatio);
+	};
+	
+	function getNewWidthInAspectRatio(height, aspectRatio){
+		return Math.floor(height / aspectRatio);
+	};
+	
+	
+	if(typeof playerArray !== "undefined" && typeof playerArray[0] !== "undefined"){
+	console.log("FUCK JAVASHIT");
+	 if(typeof playerArray !== "undefined" && typeof newPlayers !== "undefined"){
+		 console.log("No Buttons Pressed Yet.  Waiting for button press.... (initial load).");
+	 }else{
+		 console.log("Button Previously Pressed!");
+		 if(typeof playerArray !== "undefined"){
+			 if(typeof playerArray !== "undefined" && playerArray[0].lockPlayer === true){
+				 console.log("Player Locked! (client)");
+			 }else{
+				 console.log("Player NOT Locked! (client)");
+			 }
+		 }
+	 };
+	}
+	
+	const photoPath  = "Selfies/";
+	const newImgWidth = 240;
+	const newImgHeight = 300;
+		
+	let playerOne = newPlayers[0][0];
+	let playerOneName = newPlayers[0][1];
+	let playerOneScore = newPlayers[0][2];
+	let playerOneELO = newPlayers[0][3];
+	let playerOneAR = newPlayers[0][4];
+	
+	let playerTwo = newPlayers[1][0];
+	let playerTwoName = newPlayers[1][1];
+	let playerTwoScore = newPlayers[1][2];
+	let playerTwoELO = newPlayers[1][3];
+	let playerTwoAR = newPlayers[1][4];
+
+	const playerOneImage = photoPath + playerOne + ".jpg";
+	const playerTwoImage = photoPath + playerTwo + ".jpg";
+	
+	let playerOneImgHeight = getNewHeightInAspectRatio(newImgWidth, playerOneAR);
+	let playerTwoImgHeight = getNewHeightInAspectRatio(newImgWidth, playerTwoAR);
+	
+	let playerOneImgWidth = getNewWidthInAspectRatio(newImgHeight, playerOneAR);
+	let playerTwoImgWidth = getNewWidthInAspectRatio(newImgHeight, playerTwoAR);
+
+	let playerOneIsWinnerArray = [];
+	playerOneIsWinnerArray[0] = playerOne;
+	playerOneIsWinnerArray[1] = playerTwo;
+	playerOneIsWinnerArray = JSON.stringify(playerOneIsWinnerArray);
+	
+	let playerTwoIsWinnerArray = [];
+	playerTwoIsWinnerArray[0] = playerTwo;
+	playerTwoIsWinnerArray[1] = playerOne;
+	playerTwoIsWinnerArray = JSON.stringify(playerTwoIsWinnerArray);
+	
+	if(typeof playerArray !== "undefined"){
+
+%>
+<center>
+<div style="display: table; border-bottom: 1px solid green;" class="wrapper fullWidth">
+	<div style="display: table-row;" class="fullWidth">
+		<div style="width: 25%; display: table-cell;"><div class="g-signin2" data-onsuccess="onSignIn" data-theme="light" data-width="250" data-height="50" data-longtitle="true"></div></div>
+		<div style="width: 50%; display: table-cell;" class="wrapper" id="menu">Center</div>
+		<div style="width: 25%; display: table-cell; vertical-align: middle;" class="wrapper">Menu</div>
+	</div>
+</div>
+
+<div class="wrapper fullWidth">
+	<h2>Here are <u><%= playerOneName %></u> and <u><%= playerTwoName %></u>.</h2>
+	<p>We want you to <strong>pick the better picture</strong>!</p>
+	<p>There is a <%= playerOneELO %>% chance you will think the first picture is best (and not the second)*.</p>
+	<p>There is a <%= playerTwoELO %>% chance you will think the second picture is best (and not the first)*.</p>
+	<p>* = <i><b>Percentages are determined by previous user input (by all users) into this app</i></b>.</p>
+	<h2><strong>Choose which picture you think is better looking:</strong></h2>
+</div>
+
+<div class="wrapper fullWidth center">
+	<div>	
+		<form name="imageForm1" id="playerOneImageForm" action="/submitPlayer" method="POST">
+			<!-- <img height="<%= playerOneImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage"> -->
+			<img height="<%= newImgHeight %>px" width="<%= playerOneImgWidth %>px" src="<%= playerOneImage %>" name="playerImage" value="<%= playerOneImage %>" id="playerOneImage" onmouseover='imageFunction("image")'>
+			<input name="playerName" type="hidden" value="<%= playerOneIsWinnerArray %>">
+			<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
+			<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
+			<input type="checkbox" id="lockPlayer2" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
+		</form>
+		<button name="playerOneSubmitButton" value="<%= playerOneIsWinnerArray %>" class="btn btn-success likeBtn" onmouseover='imageFunction("image")'><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerOneButton"></i></button>
+	</div>
+	<div>
+		<form name="imageForm2" id="playerTwoImageForm" action="/submitPlayer" method="POST">
+			<!-- <img height="<%= playerTwoImgHeight %>px" width="<%= newImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage"> -->
+			<img height="<%= newImgHeight %>px" width="<%= playerTwoImgWidth %>px" src="<%= playerTwoImage %>" name="playerImage" value="<%= playerTwoImage %>" id="playerTwoImage" onmouseover='imageFunction("image2")'>
+			<input name="playerName" type="hidden" value="<%= playerTwoIsWinnerArray %>">
+			<input type="hidden" name="playerTwoHidden" value="<%= playerTwo %>" >
+			<input type="hidden" name="playerOneHidden" value="<%= playerOne %>" >
+			<input type="checkbox" id="lockPlayer3" name="lockPlayer" value="true" style="visibility: hidden; dispay: none"><br>
+		</form>
+		<button name="playerTwoSubmitButton" value="<%= playerTwoIsWinnerArray %>" class="btn btn-success likeBtn" onmouseover='imageFunction("image2")'><i class="fa fa-thumbs-o-up fa-4x" aria-hidden="true" id="playerTwoButton"></i></button>
+	</div>
+</div>
+
+<div class="wrapper fullWidth center" id="debugForm">
+		<div id="debugFormBox" class="wrapper">
+			
+			<% if(typeof playerArray !== "undefined" && playerArray[0] !== undefined && playerArray[0].lockPlayer === true){ %>
+				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockit")' checked>
+			<% }else{ %>
+				<label for="lockPlayer">Lock Player</label><input type="checkbox" id="lockPlayer" name="lockPlayer" value="true" onclick='imageFunction("lockIt")'>
+			<% }; %>
+				<br><input type="button" id="vRussToggle" name="vRussToggle" value="Turn on Virtual Russ" onclick='vRussToggleFunction("on"), imageFunction("initial")'>
+				<br><input type="button" id="vRussToggle" name="vRussToggle" value="Turn off Virtual Russ" onclick='vRussToggleFunction("off")'>
+		</div>	
+</div>
+<div id="russBox" class="tooltip">
+	<img src="my_transparent_head_final.png" id="russImage" onmouseover='imageFunction("self")'>
+	<span class="tooltiptext" id="tooltiptext">Don't touch me!</span>
+	<span class="tooltiptext" id="tooltiptext2">Hello!</span>
+	
+</div>
+<div id="scoreBoard" style="width: 100%;" class="wrapper hidden">
+	<%
+	if (typeof playerArray !== "undefined" && playerArray[0].winnerELO !== undefined && playerArray[0].resetPressed !== true){
+			playerArray.forEach(function(currentArray){
+	%>					
+						<p><u>Last Round:</u></p>
+						<p><strong>You chose <%= currentArray.winnerName %> over <%= currentArray.loserName %>.</strong></p>
+						<p>Winner: <%= currentArray.winner %></p>
+						<p>Loser: <%= currentArray.loser %></p>
+						<p>Winner Name: <%= currentArray.winnerName %></p>
+						<p>Loser Name: <%= currentArray.loserName %></p>
+						<%
+					if(typeof currentArray.winnerOldScore !== "undefined"){
+						%>
+						<p><%= currentArray.winnerName %> Old Score: <%= currentArray.winnerOldScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.winnerName %> New Score: <%= currentArray.winnerNewScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.loserName %> Old Score: <%= currentArray.loserOldScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.loserName %> New Score: <%= currentArray.loserNewScore.toString().substr(0,8) %></p>
+						<p><%= currentArray.winnerName %> ELO (old): <%= (currentArray.winnerELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.winnerName %> ELO (new): <%= (currentArray.winnerNewELO * 100).toPrecision(4).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.loserName %> ELO (old): <%= (currentArray.loserELO * 100).toString().substr(0,5) %>%</p>
+						<p><%= currentArray.loserName %> ELO (new): <%= (currentArray.loserNewELO * 100).toPrecision(4).toString().substr(0,5) %>%</p>
+						<p>lockPlayer: <%= currentArray.lockPlayer %></p>				
+	<%				};		
+			});
+		}else{
+			//console.log("Array Empty!"); %>
+	<%	
+		};
+	}
+	%>
+</div>
+</center>
+
+<script>
+$(document).ready(function() {
+		$('#playerOneSubmitButton').on('hover touchstart', function() {
+			window.location.href = "/submitPlayer";
+		});
+});
+//document.addEventListener("DOMContentLoaded", function(){
+//	console.log("Fuck yee");
+//	if ($('[id="lockPlayer"]').prop('checked')){
+//		$('[id="lockPlayer"]').prop("checked", true);
+//		$('[id="lockPlayer2"]').prop("checked", true);
+//	}
+//});
+
+function vRussToggleFunction (toggle){
+	if(toggle === "on"){
+		document.getElementById("russBox").style.visibility = "visible";
+	}else{
+		document.getElementById("russBox").style.visibility = "hidden";
+	}
+}
+
+function imageFunction(which){
+	if (which === "self"){
+		document.getElementById("tooltiptext").style.visibility = "visible";
+		
+		document.getElementById("tooltiptext2").style.visibility = "hidden";
+		setTimeout(function(){
+			document.getElementById("tooltiptext").style.visibility = "hidden";
+		}, 2500);
+		
+	}
+	if (which === "initial"){ // Use cookies or localstorage to make this one be called once.
+		document.getElementById("tooltiptext").style.visibility = "hidden";
+		document.getElementById("tooltiptext2").style.visibility = "visible";
+		
+		setTimeout(function(){
+			document.getElementById("tooltiptext2").style.visibility = "hidden";
+		}, 2500);
+	}
+	if (which === "clear"){
+		clearAll();
+	}
+}
+
+function clearAll(){
+	document.getElementById("tooltiptext").style.visibility = "hidden";
+	document.getElementById("tooltiptext2").style.visibility = "hidden";
+	document.getElementById("tooltiptext3").style.visibility = "hidden";
+}
+
+function init(){
+	//console.log("Init() function called...");
+	
+	//imageFunction("initial");
+	
+	$('#playerOneImage').on('click', function (e) { //$("#playerOneImage").click(function(){ // What's the diff??
+		setGhostCheckBoxesAndSubmit("imageForm1");		
+	});
+	
+	$('#playerTwoImage').on('click', function (e) {
+		setGhostCheckBoxesAndSubmit("imageForm2");
+	});
+	
+	$('#playerOneButton').on('click', function (e) {
+		setGhostCheckBoxesAndSubmit("imageForm1");
+	});
+	
+	$('#playerTwoButton').on('click', function (e) {
+		setGhostCheckBoxesAndSubmit("imageForm2");
+	});
+	
+	// Touch Events
+	//$('#playerOneButton').on('touchstart', function (e) {
+	//	setGhostCheckBoxesAndSubmit("imageForm1");
+	//});
+		
+	//$('#playerTwoButton').on('touchstart', function (e) {
+	//	setGhostCheckBoxesAndSubmit("imageForm2");
+	//});
+		
+}
+
+function onSignIn(googleUser){
+	console.log("Sign-in function called...!");
+	
+	let auth2 = gapi.auth2.getAuthInstance();
+	console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
+		
+	// Useful data for your client-side scripts:
+	let profile = googleUser.getBasicProfile();	
+	let id_token = googleUser.getAuthResponse().id_token; // The ID token you need to pass to your backend:
+	  
+	let userObject = {
+		//"userName": profile.getName(), // don't send
+		//"userID": profile.getId(),
+		//"firstName": profile.getGivenName(),
+		//"lastName": profile.getFamilyName(),
+		"emailAddress": profile.getEmail(),
+		"imageURL": profile.getImageUrl(),
+		"userIDToken": id_token,
+	};
+	
+	//console.log(userObject);
+	
+	console.log("Sending Ajax...");
+	$.ajax({
+        url: "/transmitPlayerData",
+		headers: {
+			'Content-Type':'application/json',
+		},
+		data: JSON.stringify(userObject),
+		//data: userObject,
+        type: 'POST',
+        success: function (response){
+			console.log("Success!");
+			console.log(response);
+			document.getElementById("menu").innerHTML = '<center>You are signed in as: ' + profile.getName() + '! (<a href="#" onclick="signOut();">Sign out</a>)</center>';
+        },
+		error: function (error) {
+			console.log(error);
+		}
+    });
+	
+};
+	
+function onFailure(error) {
+     console.log(error);
+};
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+};
+
+function renderButton() { // How is this being called without it being called in the disabled script above?
+   gapi.signin2.render('g-signin2', {
+		'scope': 'profile email',
+      'width': 150,
+      'height': 45,
+      'longtitle': true,
+      'theme': 'dark',
+      'onsuccess': onSignIn,
+      'onfailure': onFailure
+   });
+};
+
+function setGhostCheckBoxesAndSubmit(form){
+	//e.preventDefault(); // Why does this make it so the image can't be clicked on?
+	if ($('[id="lockPlayer"]').prop('checked')){
+		//$('[id="lockPlayer"]').prop("checked", true);
+		$('[id="lockPlayer2"]').prop("checked", true);
+		$('[id="lockPlayer3"]').prop("checked", true);
+	}
+	document.forms[form].submit();
+}
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://apis.google.com/js/platform.js"></script>
+</body>
+</html>
