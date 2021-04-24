@@ -28,9 +28,9 @@ app.listen(3000);
 //const obj = fs.readdirSync(photoPath);
 
 // const sqlConfig = config.configFunc();
-//const currentTable = "users13";
+const currentTable = "users13";
 const clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com";
-// const workingTable = "facemash_clone_3";
+const workingTable = "facemash_clone_3";
 
 console.log("Starting...");
 	
