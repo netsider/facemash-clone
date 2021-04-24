@@ -68,7 +68,7 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 
 				let currentTime = Math.floor(Date.now() / 1000);
 				
-				(function IIFE(func, cb) { // Way #3 (probably the best way)
+				(function IIFE(func, cb) {
 					if (func){
 						cb(true);
 					}else{
