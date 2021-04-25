@@ -1,3 +1,5 @@
 https://pasteboard.co/JYUTXZF.jpg
 
 https://pasteboard.co/JYVkvnB.jpg
+
+https://pasteboard.co/JYVuagn.jpg -- Showing template being printed to console instead of rendered.
