@@ -109,22 +109,23 @@ function onSignIn(googleUser){
 	
 	console.log("Sending Ajax request for token verification...");
 	$.ajax({
-        //url: "/verifyToken",
         url: "/loggedin",
 		headers: {
 			'Content-Type':'application/json',
+			//'Content-Type':'text/html', // doesn't help anything
+			//'Content-Type':'application/javascript', // doesn't help anything
 		},
 		data: JSON.stringify(userObject),
 		//data: userObject,
         type: 'POST',
         success: function (response){
-			console.log("Success!");
-			console.log(response);
+			console.log("Response Received!: ", response);
 			console.log("response.tokenVerified", response.tokenVerified);
 			
 			if(response.tokenVerified === true){
-				console.log("Redirecting to..." + " /loggedin");
-				window.location.replace("/loggedin");
+				console.log("Token Verified (response received!)");
+				//console.log("Redirecting to..." + " /loggedin");
+				//window.location.replace("/loggedin");
 				//window.location.replace("/facemash"); //working
 			}
         },
