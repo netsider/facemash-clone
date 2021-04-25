@@ -123,8 +123,10 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 	});
 
 }, function(req, res){
+	
 	console.log("Next function successfully called!");
-	console.log("Trying to render node-dopple-login-success..."); // 🤦‍♂️ 
+	console.log("Trying to render node-dopple-login-success..."); // 🤦‍
     // return res.render("node-dopple-login-success", {});
     res.render("node-dopple-login-success", {});
+	 // WHY WOULD THEY MAKE IT THIS STUPID AND NONPRODUCTIVE??????
 });
