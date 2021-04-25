@@ -101,11 +101,8 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 						
 						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
 							console.log("Result after inserting user into DB: ", values);
-							console.log("Trying next() function: ");
+							console.log("Trying next() function... ");
 							return next();
-							console.log("Trying redirect() function: ");
-							// res.redirect('/loggedin');
-							// next();
 						});
 						
 					}else{
