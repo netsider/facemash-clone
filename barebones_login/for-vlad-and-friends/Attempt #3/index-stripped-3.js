@@ -35,7 +35,7 @@ console.log("Starting...");
 	
 app.get('/login', function(req, res){
 	console.log("/login called");
-   res.render("node-dopple-login", {});
+	res.render("node-dopple-login", {});
 });
 
 app.post('/loggedin', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
@@ -57,14 +57,20 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 				let bodyBuf = new Buffer.from(parts[1], 'base64');
 				let header = JSON.parse(headerBuf.toString());
 				let body = JSON.parse(bodyBuf.toString());
-				
 				let keysFromRequest = newbody;
 				
+				let debugVAR = false;
+				
 				// Display User ID Token
-				console.log("header: ", header);
-				console.log("body: ", body);
-				// console.log("Keys from Request: ", newbody);
-
+				if(debugVAR === true){
+					console.log("---------------------");
+					console.log("header: ", header);
+					console.log("---------------------");
+					console.log("body: ", body);
+					console.log("---------------------");
+					console.log("Keys from Request: ", newbody);
+					console.log("---------------------");
+				}
 				let currentTime = Math.floor(Date.now() / 1000);
 				
 				(function IIFE(func, cb) { 
@@ -82,26 +88,25 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 					}
 							
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
-						console.log("Token Verified!");
-						
-						console.log("Adding User to Database...");
+						console.log("Token Verified (Server Side)!");
 						
 						let insertUserIntoDB = (async function() {
+							console.log("Adding User to Database...");
 							let userIP = req.headers['x-forwarded-for'];
 
 							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
 							//console.log("Trying query: ", q);
 							await sql.connect(sqlConfig); 
 							let request = new sql.Request();
-							console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
+							// console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
 							let theQuery = request.query(q);
-							console.log("Query Result:", theQuery);
+							// console.log("Query Result:", theQuery);
 							return theQuery;
 						})();
 						
 						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
 							console.log("Result after inserting user into DB: ", values);
-							console.log("Trying next() function... ");
+							console.log("Trying next() function: ");
 							return next();
 						});
 						
@@ -110,23 +115,20 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 					}
 				}));
 				
-				//}
-				
 			} catch (error) {
-				console.log("ERROR!");
 				console.error(error.message);
+				console.log("ERROR!");
 			};
 		});
 	}).on("error", (error) => {
-		console.log("ERROR!");
 		console.error(error.message);
+		console.log("ERROR!");
 	});
 
 }, function(req, res){
-	
 	console.log("Next function successfully called!");
-	console.log("Trying to render node-dopple-login-success..."); // 🤦‍
-    // return res.render("node-dopple-login-success", {});
-    res.render("node-dopple-login-success", {});
-	 // WHY WOULD THEY MAKE IT THIS STUPID AND NONPRODUCTIVE??????
+	console.log("Trying to render node-dopple-login-success...");
+    // return res.render("node-dopple-login-success", {}); 
+	//return res.render("node-dopple-login-success");
+	res.render("node-dopple-login-success");
 });
