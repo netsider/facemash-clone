@@ -104,8 +104,8 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 							console.log("Trying next() function: ");
 							return next();
 							console.log("Trying redirect() function: ");
-							res.redirect('/loggedin');
-							next();
+							// res.redirect('/loggedin');
+							// next();
 						});
 						
 					}else{
@@ -125,8 +125,9 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 		console.error(error.message);
 	});
 
-	
-	
 }, function(req, res){
-    return res.render("node-dopple-login-success", {});
+	console.log("Next function successfully called!");
+	console.log("Trying to render node-dopple-login-success..."); // 🤦‍♂️ 
+    // return res.render("node-dopple-login-success", {});
+    res.render("node-dopple-login-success", {});
 });
