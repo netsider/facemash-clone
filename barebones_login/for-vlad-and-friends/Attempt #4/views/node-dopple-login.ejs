@@ -125,14 +125,14 @@ function onSignIn(googleUser){
 			console.log("Response Received!: ", response);
 			console.log("response.tokenVerified", response.tokenVerified);
 			
-			console.log("Attempting redirect with token included...");
-			document.location.href = '/loggedin2' + '?id_token=' + id_token;
+			//console.log("Attempting redirect with token included...");
+			//document.location.href = '/loggedin2' + '?id_token=' + id_token;
 			
 			if(response.tokenVerified === true){
 				console.log("Token Verified (response received!)");
 				
-				console.log("Attempting redirect with token included...");
-				document.location.href = '/loggedin2' + '?id_token=' + id_token;
+				//console.log("Attempting redirect with token included...");
+				//document.location.href = '/loggedin2' + '?id_token=' + id_token;
 				
 				//console.log("Redirecting to..." + " /loggedin");
 				//window.location.replace("/loggedin");
