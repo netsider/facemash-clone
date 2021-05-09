@@ -86,21 +86,22 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 						imageURL: req.body.imageURL,
 						tokenVerified: result
 					}
-							
+					console.log("Trying to verify...");
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
 						console.log("Token Verified (Server Side)!");
 						
 						let insertUserIntoDB = (async function() {
 							console.log("Adding User to Database...");
-							let userIP = req.headers['x-forwarded-for'];
+							// let userIP = req.headers['x-forwarded-for'];
+							let userIP = '5.5.5.5';
 
 							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
-							//console.log("Trying query: ", q);
+							console.log("Trying query: ", q);
 							await sql.connect(sqlConfig); 
 							let request = new sql.Request();
-							// console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
+							console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
 							let theQuery = request.query(q);
-							// console.log("Query Result:", theQuery);
+							console.log("Query Result:", theQuery);
 							return theQuery;
 						})();
 						
@@ -155,9 +156,10 @@ app.get('/loggedin2', function(req, res, next){ // Milddeware token vertificatio
 				
 				// let parts = req.body.userIDToken.split('.');
 				let parts = req.query.id_token.split('.');
-				let headerBuf = new Buffer.from(parts[0], 'base64');
+				console.log("parts:", parts);
+				let headerBuf2 = new Buffer.from(parts[0], 'base64');
 				let bodyBuf = new Buffer.from(parts[1], 'base64');
-				// let header = JSON.parse(headerBuf.toString());
+				let header = JSON.parse(headerBuf2.toString());
 				let body = JSON.parse(bodyBuf.toString());
 				let keysFromRequest = newbody;
 				
@@ -166,7 +168,7 @@ app.get('/loggedin2', function(req, res, next){ // Milddeware token vertificatio
 				// Display User ID Token
 				if(debugVAR === true){
 					console.log("---------------------");
-					// console.log("header: ", header);
+					console.log("header: ", header);
 					console.log("---------------------");
 					console.log("body: ", body);
 					console.log("---------------------");
@@ -190,19 +192,21 @@ app.get('/loggedin2', function(req, res, next){ // Milddeware token vertificatio
 					}
 							
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
-						console.log("Token Verified (Server Side)!");
+						console.log("Token Verified (Server Side) (GET)!");
 						
 						let insertUserIntoDB = (async function() {
 							console.log("Adding User to Database...");
-							// let userIP = req.headers['x-forwarded-for'];
+							let userIP = req.headers['x-forwarded-for'];
+							// let userIP = "5.5.5.5";
 
 							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
-							//console.log("Trying query: ", q);
+							console.log("Trying query: ", q);
 							await sql.connect(sqlConfig); 
-							let request = new sql.Request();
-							// console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
-							let theQuery = request.query(q);
-							// console.log("Query Result:", theQuery);
+							let request2 = new sql.Request();
+							console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
+							let theQuery2 = request.query(q);
+							// let theQuery = obj;
+							console.log("Query Result:", theQuery);
 							return theQuery;
 						})();
 						
