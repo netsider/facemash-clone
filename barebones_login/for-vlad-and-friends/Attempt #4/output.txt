@@ -1,0 +1,289 @@
+
+C:\Users\Administrator\Desktop\_Root\_facemash>node index-stripped-4.js
+Starting...
+/login called
+/loggedin POST called...
+/loggedin2 GET called...
+---------------------
+header:  {
+  alg: 'RS256',
+  kid: '69ed57f424491282a18020fd585954b70bb45ae0',
+  typ: 'JWT'
+}
+---------------------
+body:  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'nI9UszOgfV_Ip4qWxGbUrg',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2p
+ougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1620553337,
+  exp: 1620556937,
+  jti: '7d82a031e2d3e9d689cc30d40c6a2dfe52d70d7a'
+}
+---------------------
+Keys from Request:  {
+  "keys": [
+    {
+      "e": "AQAB",
+      "kty": "RSA",
+      "use": "sig",
+      "n": "x7--mXPc9umyDBi1pOK4kKHonfa7-mNmKo10W1iAyHVjAfdM8NDPDRbwazZLLQhBvyAe
+2DotMbgVFYSWQMhT883w9Kn-2dzoTHlYB1qyd82Coc7jKeHcde54Zjay-8Pzjioa7-Dj7vuNyIHojtJc
+qDqslWCDfi-Tm-g67cqxaoZ34gDSlhTKFlzoLYufUaVG4lSxNWxV6YiwZshabmngwKFcYJGL4zWhA48o
+B8cVf9fFT-gtnk1hUJ95VD41jpzWCXPupIQvPRDmiY_mKcmc6GE2YAqABAx30oCflV-UznmlymLGqsUT
+nJ26OiiIe5zpbivW0Qi7bLwHs-vm-5dS3Q==",
+      "kid": "77209104ccd890a5aedd6733e0252f54e882f13c",
+      "alg": "RS256"
+    },
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0",
+      "alg": "RS256",
+      "e": "AQAB",
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj
+6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2R
+USoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIq
+AJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw=="
+    }
+  ]
+}
+
+---------------------
+Trying to verify...
+Token Verified (Server Side)!
+Adding User to Database...
+Trying query:  BEGIN IF NOT EXISTS (SELECT 1 FROM dbo.users13 WHERE userid = 111
+622524594841484108) BEGIN INSERT INTO dbo.users13 (id, name, email, ip, userid,
+picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE
+ FOR dbo.MySequenceusers13, 'Russell R.', 'rdoubleoc@gmail.com', '5.5.5.5', '111
+622524594841484108', 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-
+eLsPiA8e2pougK0ujtogwGy=s96-c', 'true', 'true', '1620556937') END END
+tedious deprecated The default value for `config.options.enableArithAbort` will
+change from `false` to `true` in the next major version of `tedious`. Set the va
+lue to `true` or `false` explicitly to silence this message. node_modules\mssql\
+lib\tedious\connection-pool.js:61:23
+{
+  id_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5ZWQ1N2Y0MjQ0OTEyODJhMTgwMjBmZDU4NTk
+1NGI3MGJiNDVhZTAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpw
+IjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN2I2Zzl2cnZsOW11NmdwYTc0MDQ0cDYuYXBwcy5nb29nbGV1
+c2VyY29udGVudC5jb20iLCJhdWQiOiIyNjMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3Bh
+NzQwNDRwNi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4
+NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJh
+dF9oYXNoIjoibkk5VXN6T2dmVl9JcDRxV3hHYlVyZyIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVy
+ZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJ
+Yy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHeT1zOTYtYyIsImdpdmVuX25hbWUiOiJSdXNzZWxsIiwiZmFt
+aWx5X25hbWUiOiJSLiIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNjIwNTUzMzM3LCJleHAiOjE2MjA1NTY5
+MzcsImp0aSI6IjdkODJhMDMxZTJkM2U5ZDY4OWNjMzBkNDBjNmEyZGZlNTJkNzBkN2EifQ.gPdxqbJqY
+mARfr8AFI1vy7wozs0YtM-F1Rj0RCZNrDMu_lho_aJImq_yfTZGxb1VIaZzTLMvDLbIwStDKqDSzepcV
+YWoJ-QDaQl87mvmPR1lSKRAgXKk0pvyVbad2dt-Ok80TLK4lZRKukpoOO4ITTakKPbZ-Me3V9LgoEfYg
+1qT56eoVDO4Utz6dZOPjHUlwurrXeZot0yntOX4acqun9ZvtRK-xX-suhUPYcHFiXfgddOjBTr4LxgcX
+P5KUk7ot34CqBvrJM5PCW0RU-UaerPCXiTsJ19-V6RjMgrh6mR3IO4N33wQIPpmaUrwt7FmEUllB_eLK
+UOD-0IEuqyZow'
+}
+parts: [
+  'eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5ZWQ1N2Y0MjQ0OTEyODJhMTgwMjBmZDU4NTk1NGI3MGJiN
+DVhZTAiLCJ0eXAiOiJKV1QifQ',
+  'eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN
+2I2Zzl2cnZsOW11NmdwYTc0MDQ0cDYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyN
+jMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3BhNzQwNDRwNi5hcHBzLmdvb2dsZXVzZXJjb
+250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQ
+GdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoibkk5VXN6T2dmVl9JcDRxV
+3hHYlVyZyIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZ
+XJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJYy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHe
+T1zOTYtYyIsImdpdmVuX25hbWUiOiJSdXNzZWxsIiwiZmFtaWx5X25hbWUiOiJSLiIsImxvY2FsZSI6I
+mVuIiwiaWF0IjoxNjIwNTUzMzM3LCJleHAiOjE2MjA1NTY5MzcsImp0aSI6IjdkODJhMDMxZTJkM2U5Z
+DY4OWNjMzBkNDBjNmEyZGZlNTJkNzBkN2EifQ',
+  'gPdxqbJqYmARfr8AFI1vy7wozs0YtM-F1Rj0RCZNrDMu_lho_aJImq_yfTZGxb1VIaZzTLMvDLbIw
+StDKqDSzepcVYWoJ-QDaQl87mvmPR1lSKRAgXKk0pvyVbad2dt-Ok80TLK4lZRKukpoOO4ITTakKPbZ-
+Me3V9LgoEfYg1qT56eoVDO4Utz6dZOPjHUlwurrXeZot0yntOX4acqun9ZvtRK-xX-suhUPYcHFiXfgd
+dOjBTr4LxgcXP5KUk7ot34CqBvrJM5PCW0RU-UaerPCXiTsJ19-V6RjMgrh6mR3IO4N33wQIPpmaUrwt
+7FmEUllB_eLKUOD-0IEuqyZow'
+]
+---------------------
+header:  {
+  alg: 'RS256',
+  kid: '69ed57f424491282a18020fd585954b70bb45ae0',
+  typ: 'JWT'
+}
+---------------------
+body:  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'nI9UszOgfV_Ip4qWxGbUrg',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2p
+ougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1620553337,
+  exp: 1620556937,
+  jti: '7d82a031e2d3e9d689cc30d40c6a2dfe52d70d7a'
+}
+---------------------
+Keys from Request:  {
+  "keys": [
+    {
+      "e": "AQAB",
+      "kty": "RSA",
+      "use": "sig",
+      "n": "x7--mXPc9umyDBi1pOK4kKHonfa7-mNmKo10W1iAyHVjAfdM8NDPDRbwazZLLQhBvyAe
+2DotMbgVFYSWQMhT883w9Kn-2dzoTHlYB1qyd82Coc7jKeHcde54Zjay-8Pzjioa7-Dj7vuNyIHojtJc
+qDqslWCDfi-Tm-g67cqxaoZ34gDSlhTKFlzoLYufUaVG4lSxNWxV6YiwZshabmngwKFcYJGL4zWhA48o
+B8cVf9fFT-gtnk1hUJ95VD41jpzWCXPupIQvPRDmiY_mKcmc6GE2YAqABAx30oCflV-UznmlymLGqsUT
+nJ26OiiIe5zpbivW0Qi7bLwHs-vm-5dS3Q==",
+      "kid": "77209104ccd890a5aedd6733e0252f54e882f13c",
+      "alg": "RS256"
+    },
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0",
+      "alg": "RS256",
+      "e": "AQAB",
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj
+6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2R
+USoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIq
+AJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw=="
+    }
+  ]
+}
+
+---------------------
+SO FAR SO GOOD, BUT FUCK JS
+Cannot read property 'header' of null
+ERROR!
+request.query(q) [insertUserIntoDB]: Promise { <pending> }
+Query Result: Promise { <pending> }
+Result after inserting user into DB:  [
+  {
+    recordsets: [],
+    recordset: undefined,
+    output: {},
+    rowsAffected: []
+  }
+]
+Trying next() function:
+Next function successfully called! (from /loggedin)
+Trying to render node-dopple-login-success (from /loggedin)...
+/loggedin2 GET called...
+{
+  id_token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5ZWQ1N2Y0MjQ0OTEyODJhMTgwMjBmZDU4NTk
+1NGI3MGJiNDVhZTAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpw
+IjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN2I2Zzl2cnZsOW11NmdwYTc0MDQ0cDYuYXBwcy5nb29nbGV1
+c2VyY29udGVudC5jb20iLCJhdWQiOiIyNjMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3Bh
+NzQwNDRwNi5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4
+NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJh
+dF9oYXNoIjoibkk5VXN6T2dmVl9JcDRxV3hHYlVyZyIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVy
+ZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJ
+Yy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHeT1zOTYtYyIsImdpdmVuX25hbWUiOiJSdXNzZWxsIiwiZmFt
+aWx5X25hbWUiOiJSLiIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNjIwNTUzMzM3LCJleHAiOjE2MjA1NTY5
+MzcsImp0aSI6IjdkODJhMDMxZTJkM2U5ZDY4OWNjMzBkNDBjNmEyZGZlNTJkNzBkN2EifQ.gPdxqbJqY
+mARfr8AFI1vy7wozs0YtM-F1Rj0RCZNrDMu_lho_aJImq_yfTZGxb1VIaZzTLMvDLbIwStDKqDSzepcV
+YWoJ-QDaQl87mvmPR1lSKRAgXKk0pvyVbad2dt-Ok80TLK4lZRKukpoOO4ITTakKPbZ-Me3V9LgoEfYg
+1qT56eoVDO4Utz6dZOPjHUlwurrXeZot0yntOX4acqun9ZvtRK-xX-suhUPYcHFiXfgddOjBTr4LxgcX
+P5KUk7ot34CqBvrJM5PCW0RU-UaerPCXiTsJ19-V6RjMgrh6mR3IO4N33wQIPpmaUrwt7FmEUllB_eLK
+UOD-0IEuqyZow'
+}
+parts: [
+  'eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5ZWQ1N2Y0MjQ0OTEyODJhMTgwMjBmZDU4NTk1NGI3MGJiN
+DVhZTAiLCJ0eXAiOiJKV1QifQ',
+  'eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN
+2I2Zzl2cnZsOW11NmdwYTc0MDQ0cDYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyN
+jMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3BhNzQwNDRwNi5hcHBzLmdvb2dsZXVzZXJjb
+250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQ
+GdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoibkk5VXN6T2dmVl9JcDRxV
+3hHYlVyZyIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZ
+XJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJYy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHe
+T1zOTYtYyIsImdpdmVuX25hbWUiOiJSdXNzZWxsIiwiZmFtaWx5X25hbWUiOiJSLiIsImxvY2FsZSI6I
+mVuIiwiaWF0IjoxNjIwNTUzMzM3LCJleHAiOjE2MjA1NTY5MzcsImp0aSI6IjdkODJhMDMxZTJkM2U5Z
+DY4OWNjMzBkNDBjNmEyZGZlNTJkNzBkN2EifQ',
+  'gPdxqbJqYmARfr8AFI1vy7wozs0YtM-F1Rj0RCZNrDMu_lho_aJImq_yfTZGxb1VIaZzTLMvDLbIw
+StDKqDSzepcVYWoJ-QDaQl87mvmPR1lSKRAgXKk0pvyVbad2dt-Ok80TLK4lZRKukpoOO4ITTakKPbZ-
+Me3V9LgoEfYg1qT56eoVDO4Utz6dZOPjHUlwurrXeZot0yntOX4acqun9ZvtRK-xX-suhUPYcHFiXfgd
+dOjBTr4LxgcXP5KUk7ot34CqBvrJM5PCW0RU-UaerPCXiTsJ19-V6RjMgrh6mR3IO4N33wQIPpmaUrwt
+7FmEUllB_eLKUOD-0IEuqyZow'
+]
+---------------------
+header:  {
+  alg: 'RS256',
+  kid: '69ed57f424491282a18020fd585954b70bb45ae0',
+  typ: 'JWT'
+}
+---------------------
+body:  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'nI9UszOgfV_Ip4qWxGbUrg',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2p
+ougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1620553337,
+  exp: 1620556937,
+  jti: '7d82a031e2d3e9d689cc30d40c6a2dfe52d70d7a'
+}
+---------------------
+Keys from Request:  {
+  "keys": [
+    {
+      "use": "sig",
+      "alg": "RS256",
+      "kty": "RSA",
+      "kid": "77209104ccd890a5aedd6733e0252f54e882f13c",
+      "e": "AQAB",
+      "n": "x7--mXPc9umyDBi1pOK4kKHonfa7-mNmKo10W1iAyHVjAfdM8NDPDRbwazZLLQhBvyAe
+2DotMbgVFYSWQMhT883w9Kn-2dzoTHlYB1qyd82Coc7jKeHcde54Zjay-8Pzjioa7-Dj7vuNyIHojtJc
+qDqslWCDfi-Tm-g67cqxaoZ34gDSlhTKFlzoLYufUaVG4lSxNWxV6YiwZshabmngwKFcYJGL4zWhA48o
+B8cVf9fFT-gtnk1hUJ95VD41jpzWCXPupIQvPRDmiY_mKcmc6GE2YAqABAx30oCflV-UznmlymLGqsUT
+nJ26OiiIe5zpbivW0Qi7bLwHs-vm-5dS3Q=="
+    },
+    {
+      "e": "AQAB",
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj
+6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2R
+USoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIq
+AJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw==",
+      "kty": "RSA",
+      "alg": "RS256",
+      "use": "sig",
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0"
+    }
+  ]
+}
+
+---------------------
+SO FAR SO GOOD, BUT FUCK JS
+Cannot read property 'header' of null
+ERROR!
+
+
