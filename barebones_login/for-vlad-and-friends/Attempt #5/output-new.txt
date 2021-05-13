@@ -1,0 +1,195 @@
+C:\Users\Administrator\Desktop\_Root\_facemash>node index-stripped-5.js
+Starting...
+/login called
+/initialVerify POST called...
+/reVerifyAndLoadPage GET called...
+req.query (from /reVerifyAndLoadPage): [object Object]
+---------------------
+parts: [
+  'eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5ZWQ1N2Y0MjQ0OTEyODJhMTgwMjBmZDU4NTk1NGI3MGJiN
+DVhZTAiLCJ0eXAiOiJKV1QifQ',
+  'eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN
+2I2Zzl2cnZsOW11NmdwYTc0MDQ0cDYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyN
+jMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3BhNzQwNDRwNi5hcHBzLmdvb2dsZXVzZXJjb
+250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQ
+GdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiZmVHbE1paEVncnBTNDZ5W
+UlmX3dHdyIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZ
+XJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJYy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHe
+T1zOTYtYyIsImdpdmVuX25hbWUiOiJSdXNzZWxsIiwiZmFtaWx5X25hbWUiOiJSLiIsImxvY2FsZSI6I
+mVuIiwiaWF0IjoxNjIwODgxOTE1LCJleHAiOjE2MjA4ODU1MTUsImp0aSI6IjcyMGViMTcyNjQ0MmRlO
+DhjM2RiNzBiODZlMjUyYTNhYmY4ZjMwZTUifQ',
+  'iO2lvIIA11qMfOulTp1n6CbKf5ndK5KljYMlz196Tjcd9MF6oea-3VZBnH-RQVeJBDlxAahCXCL-8
+RiDpRIJn_07LUdcpUKecq0jtFPBTc5cSGxYa40tUYGkBdwcXfW5Fk_PbNVRP5NPwES6sT99gKB8RttFU
+E00j_oH40y_Q6Pk7SgXbaqYeCejD7Qt1C2HnzxWlI0HtRYVarFvbXHTLQnJNokSdh9EclAq19WmCD7d0
+AXKlZGXWqMD-6XQORe39Z1_2088hEWvgRv8pNr73BSiLMdHrP_-reZodcWpWnlws7ZkAvi_efeZ4jhJA
+76yAW6PDS61wPBZGhVDNGPu-A'
+]
+---------------------
+header (from /reVerifyAndLoadPage):  {
+  alg: 'RS256',
+  kid: '69ed57f424491282a18020fd585954b70bb45ae0',
+  typ: 'JWT'
+}
+---------------------
+body (from /reVerifyAndLoadPage):  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'feGlMihEgrpS46yYIf_wGw',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2p
+ougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1620881915,
+  exp: 1620885515,
+  jti: '720eb1726442de88c3db70b86e252a3abf8f30e5'
+}
+---------------------
+Keys from Request (from /reVerifyAndLoadPage):  {
+  "keys": [
+    {
+      "alg": "RS256",
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj
+6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2R
+USoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIq
+AJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw==",
+      "use": "sig",
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0",
+      "e": "AQAB",
+      "kty": "RSA"
+    },
+    {
+      "n": "z8eiKUkFeJeFWXxqDCCR7R3FATnahlIWPY-drXFv0DOY_GCwmQCZArvNhHjtbJkbpPO9
+isHykrEkov1B0T8RhsMWalfmOuUCMTGvcc_gJgTtlfTkgY10FOayh0QRQiyW7DfW4SeJijOMrw7JpIyu
+Q5tHGZEC1L2Y0_-TFSwvWjOhbb8zbNWmI4RnyFtLreHonUM9QUPsjFWJpyLFmCFlu0WqcWDnmnjZTjlA
+lkm-iWeqfvNs1q3EsDDc9YtNnoy_h8ipi5g-ThG9LIw5KCzMY_C-2BrS9Sa-DsegOht2Y8rew4nEgcqk
+SokQZpXtDSkSKCkbcaT_rXY7vK13uXg14w==",
+      "kty": "RSA",
+      "kid": "d3ffbb8ade01bb4fa2f25cfb108cceb883406dac",
+      "e": "AQAB",
+      "alg": "RS256",
+      "use": "sig"
+    }
+  ]
+}
+
+---------------------
+SO FAR SO GOOD, BUT FUCK JS
+SO FAR SO GOOD, BUT FUCK JS 2
+obj (from /reVerifyAndLoadPage):[object Object]
+Result is (from /reVerifyAndLoadPage): true
+Token Verified (Server Side) (from /reVerifyAndLoadPage)!
+Adding User to Database...(from /reVerifyAndLoadPage)
+Trying query (from /reVerifyAndLoadPage):  BEGIN IF NOT EXISTS (SELECT 1 FROM db
+o.users13 WHERE userid = 111622524594841484108) BEGIN INSERT INTO dbo.users13 (i
+d, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT I
+NSERTED.* VALUES (NEXT VALUE FOR dbo.MySequenceusers13, 'Russell R.', 'rdoubleoc
+@gmail.com', '76.111.77.55', '111622524594841484108', 'https://lh3.googleusercon
+tent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2pougK0ujtogwGy=s96-c', 'true', 'true',
+ '1620885515') END END
+tedious deprecated The default value for `config.options.enableArithAbort` will
+change from `false` to `true` in the next major version of `tedious`. Set the va
+lue to `true` or `false` explicitly to silence this message. node_modules\mssql\
+lib\tedious\connection-pool.js:61:23
+---------------------
+header (from /initialVerify):  {
+  alg: 'RS256',
+  kid: '69ed57f424491282a18020fd585954b70bb45ae0',
+  typ: 'JWT'
+}
+---------------------
+body (from /initialVerify):  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'feGlMihEgrpS46yYIf_wGw',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2p
+ougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1620881915,
+  exp: 1620885515,
+  jti: '720eb1726442de88c3db70b86e252a3abf8f30e5'
+}
+---------------------
+Keys from Request (from /initialVerify):  {
+  "keys": [
+    {
+      "alg": "RS256",
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj
+6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2R
+USoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIq
+AJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw==",
+      "use": "sig",
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0",
+      "e": "AQAB",
+      "kty": "RSA"
+    },
+    {
+      "n": "z8eiKUkFeJeFWXxqDCCR7R3FATnahlIWPY-drXFv0DOY_GCwmQCZArvNhHjtbJkbpPO9
+isHykrEkov1B0T8RhsMWalfmOuUCMTGvcc_gJgTtlfTkgY10FOayh0QRQiyW7DfW4SeJijOMrw7JpIyu
+Q5tHGZEC1L2Y0_-TFSwvWjOhbb8zbNWmI4RnyFtLreHonUM9QUPsjFWJpyLFmCFlu0WqcWDnmnjZTjlA
+lkm-iWeqfvNs1q3EsDDc9YtNnoy_h8ipi5g-ThG9LIw5KCzMY_C-2BrS9Sa-DsegOht2Y8rew4nEgcqk
+SokQZpXtDSkSKCkbcaT_rXY7vK13uXg14w==",
+      "kty": "RSA",
+      "kid": "d3ffbb8ade01bb4fa2f25cfb108cceb883406dac",
+      "e": "AQAB",
+      "alg": "RS256",
+      "use": "sig"
+    }
+  ]
+}
+
+---------------------
+Trying to verify...
+Token Verified (Server Side)!
+Adding User to Database...
+Trying query:  BEGIN IF NOT EXISTS (SELECT 1 FROM dbo.users13 WHERE userid = 111
+622524594841484108) BEGIN INSERT INTO dbo.users13 (id, name, email, ip, userid,
+picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE
+ FOR dbo.MySequenceusers13, 'Russell R.', 'rdoubleoc@gmail.com', '5.5.5.5', '111
+622524594841484108', 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-
+eLsPiA8e2pougK0ujtogwGy=s96-c', 'true', 'true', '1620885515') END END
+request.query(q) [insertUserIntoDB] (from /reVerifyAndLoadPage): Promise { <pend
+ing> }
+Query Result (from /reVerifyAndLoadPage): Promise { <pending> }
+request.query(q) [insertUserIntoDB]: Promise { <pending> }
+Query Result: Promise { <pending> }
+Result after inserting user into DB (from /reVerifyAndLoadPage):  [
+  {
+    recordsets: [],
+    recordset: undefined,
+    output: {},
+    rowsAffected: []
+  }
+]
+Trying next() function (from /reVerifyAndLoadPage):
+Next function successfully called! (from /reVerifyAndLoadPage)
+Trying to render node-dopple-login-success...(from /reVerifyAndLoadPage)
+Result after inserting user into DB:  [
+  {
+    recordsets: [],
+    recordset: undefined,
+    output: {},
+    rowsAffected: []
+  }
+]
+Trying next() function:
+Next function successfully called! (from /initialVerify)
+Trying to render node-dopple-login-success (from /initialVerify)...

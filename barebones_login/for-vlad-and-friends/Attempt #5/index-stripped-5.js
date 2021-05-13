@@ -153,15 +153,18 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				// console.log(JSON.parse(body));
 				console.log("req.query (from /reVerifyAndLoadPage): " + req.query);
 				
-				
-				
 				// let parts = req.body.userIDToken.split('.');
 				let parts = req.query.id_token.split('.');
-				console.log("parts:", parts);
+				// user_ID_token = 
+				
 				let headerBuf2 = new Buffer.from(parts[0], 'base64');
+				
 				let bodyBuf = new Buffer.from(parts[1], 'base64');
+				
 				let header = JSON.parse(headerBuf2.toString());
 				let body = JSON.parse(bodyBuf.toString());
+				
+				
 				let keysFromRequest = newbody;
 
 				
@@ -169,6 +172,8 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				
 				// Display User ID Token
 				if(debugVAR === true){
+					console.log("---------------------");
+					console.log("parts:", parts);
 					console.log("---------------------");
 					console.log("header (from /reVerifyAndLoadPage): ", header);
 					console.log("---------------------");
@@ -186,7 +191,8 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 					}else{
 						cb(false);
 					}
-				}(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
+				// }(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
+				}(jws.verify(req.query.id_token, JSON.parse(keysFromRequest)), function (result) {
 					console.log("SO FAR SO GOOD, BUT FUCK JS 2");
 					let obj = {
 						// email: req.body.emailAddress,
@@ -209,11 +215,11 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 							console.log("Trying query (from /reVerifyAndLoadPage): ", q);
 							await sql.connect(sqlConfig); 
 							let request2 = new sql.Request();
-							console.log("request.query(q) [insertUserIntoDB] (from /reVerifyAndLoadPage):", request.query(q));
-							let theQuery2 = request.query(q);
+							console.log("request.query(q) [insertUserIntoDB] (from /reVerifyAndLoadPage):", request2.query(q));
+							let theQuery2 = request2.query(q);
 							// let theQuery = obj;
-							console.log("Query Result (from /reVerifyAndLoadPage):", theQuery);
-							return theQuery;
+							console.log("Query Result (from /reVerifyAndLoadPage):", theQuery2);
+							return theQuery2;
 						})();
 						
 						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
