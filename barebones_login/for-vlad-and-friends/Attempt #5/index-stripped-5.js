@@ -64,11 +64,11 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 				// Display User ID Token
 				if(debugVAR === true){
 					console.log("---------------------");
-					console.log("header: ", header);
+					console.log("header (from /initialVerify): ", header);
 					console.log("---------------------");
-					console.log("body: ", body);
+					console.log("body (from /initialVerify): ", body);
 					console.log("---------------------");
-					console.log("Keys from Request: ", newbody);
+					console.log("Keys from Request (from /initialVerify): ", newbody);
 					console.log("---------------------");
 				}
 				let currentTime = Math.floor(Date.now() / 1000);
@@ -127,8 +127,8 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 	});
 
 }, function(req, res){
-	console.log("Next function successfully called! (from /loggedin)");
-	console.log("Trying to render node-dopple-login-success (from /loggedin)...");
+	console.log("Next function successfully called! (from /initialVerify)");
+	console.log("Trying to render node-dopple-login-success (from /initialVerify)...");
     // res.set('Content-Type', 'text/html');
     res.set('Content-Type', 'application/json');
 	// return res.render("node-dopple-login-success", {}); 
@@ -168,11 +168,11 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				// Display User ID Token
 				if(debugVAR === true){
 					console.log("---------------------");
-					console.log("header: ", header);
+					console.log("header (from /reVerifyAndLoadPage): ", header);
 					console.log("---------------------");
-					console.log("body: ", body);
+					console.log("body (from /reVerifyAndLoadPage): ", body);
 					console.log("---------------------");
-					console.log("Keys from Request: ", newbody);
+					console.log("Keys from Request (from /reVerifyAndLoadPage): ", newbody);
 					console.log("---------------------");
 				}
 				let currentTime = Math.floor(Date.now() / 1000);
@@ -233,8 +233,8 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 	});
 
 }, function(req, res){
-	console.log("Next function successfully called!");
-	console.log("Trying to render node-dopple-login-success...");
+	console.log("Next function successfully called! (from /reVerifyAndLoadPage)");
+	console.log("Trying to render node-dopple-login-success...(from /reVerifyAndLoadPage)");
     res.set('Content-Type', 'text/html');
 	// return res.render("node-dopple-login-success", {}); 
 	return res.render("node-dopple-login-success");
