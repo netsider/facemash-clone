@@ -195,7 +195,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 						email: body.email,
 						// imageURL: body.imageURL,
 						imageURL: body.picture,
-						tokenVerified: "true"
+						tokenVerified: result
 					}
 					
 					// Array.from(Object.keys(obj)).forEach(function(key){
@@ -248,8 +248,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 }, function(req, res){
 	console.log("Next function successfully called! (from /reVerifyAndLoadPage)");
 	console.log("Trying to render node-dopple-login-success...(from /reVerifyAndLoadPage)");
-    res.set('Content-Type', 'text/html');
-	// return res.render("node-dopple-login-success", {}); 
+   res.set('Content-Type', 'text/html');
 	return res.render("node-dopple-login-success");
 	res.render("node-dopple-login-success");
 });
