@@ -86,8 +86,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 						tokenVerified: result
 					}
 					
-					console.log(obj);
-					
+					console.log("obj (from /initialVerify):", obj);
 					// Array.from(Object.keys(obj)).forEach(function(key){
 						// console.log("obj (from /initialVerify):" + key + ":" + obj[key]);
 					// });
@@ -136,11 +135,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 }, function(req, res){
 	console.log("Next function successfully called! (from /initialVerify)");
 	console.log("Trying to render node-dopple-login-success (from /initialVerify)...");
-    // res.set('Content-Type', 'text/html');
     res.set('Content-Type', 'application/json');
-	// return res.render("node-dopple-login-success", {}); 
-	//return res.render("node-dopple-login-success");
-	//res.render("node-dopple-login-success");
 	res.json(obj); // Return JSON at first to satisfy XHR request.
 });
 
@@ -163,16 +158,10 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				
 				// let parts = req.body.userIDToken.split('.');
 				let parts = req.query.id_token.split('.');
-				// user_ID_token = 
-				
 				let headerBuf2 = new Buffer.from(parts[0], 'base64');
-				
 				let bodyBuf = new Buffer.from(parts[1], 'base64');
-				
 				let header = JSON.parse(headerBuf2.toString());
 				let body = JSON.parse(bodyBuf.toString());
-				
-				
 				let keysFromRequest = newbody;
 				let IDTOKEN = req.query.id_token;
 				
@@ -191,7 +180,6 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 					console.log("---------------------");
 				}
 				let currentTime = Math.floor(Date.now() / 1000);
-				console.log("SO FAR SO GOOD, BUT FUCK JS");
 				
 				(function IIFE(func, cb) { 
 					if (func){
@@ -214,7 +202,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 						// console.log("obj (from /reVerifyAndLoadPage):" + key + ":" + obj[key]);
 					// });
 					
-					console.log(obj);
+					console.log("obj (from /reVerifyAndLoadPage):", obj);
 					console.log("Result is (from /reVerifyAndLoadPage): " + result);
 					
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
