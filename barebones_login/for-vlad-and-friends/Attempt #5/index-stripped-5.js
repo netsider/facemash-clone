@@ -35,11 +35,11 @@ console.log("Starting...");
 	
 app.get('/login', function(req, res){
 	console.log("/login called");
-	res.render("node-dopple-login", {});
+	res.render("node-dopple-login-2", {});
 });
 
-app.post('/loggedin', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
-	console.log("/loggedin POST called...");
+app.post('/initialVerify', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
+	console.log("/initialVerify POST called...");
 	
 	// Get JWK Keys and perform token verifcation
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
@@ -134,13 +134,13 @@ app.post('/loggedin', function(req, res, next){ // Milddeware token vertificatio
 	// return res.render("node-dopple-login-success", {}); 
 	//return res.render("node-dopple-login-success");
 	//res.render("node-dopple-login-success");
-	res.json(obj);
+	res.json(obj); // Return JSON at first to satisfy XHR request.
 });
 
 
 
-app.get('/loggedin2', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
-	console.log("/loggedin2 GET called...");
+app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
+	console.log("/reVerifyAndLoadPage GET called...");
 	
 	// Get JWK Keys and perform token verifcation
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
@@ -177,6 +177,7 @@ app.get('/loggedin2', function(req, res, next){ // Milddeware token vertificatio
 				}
 				let currentTime = Math.floor(Date.now() / 1000);
 				console.log("SO FAR SO GOOD, BUT FUCK JS");
+				
 				(function IIFE(func, cb) { 
 					if (func){
 						cb(true);
