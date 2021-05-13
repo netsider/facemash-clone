@@ -85,6 +85,14 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 						imageURL: req.body.imageURL,
 						tokenVerified: result
 					}
+					
+					console.log(obj);
+					
+					// Array.from(Object.keys(obj)).forEach(function(key){
+						// console.log("obj (from /initialVerify):" + key + ":" + obj[key]);
+					// });
+					// console.log("Result is (from /initialVerify): " + result);
+					
 					console.log("Trying to verify...");
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
 						console.log("Token Verified (Server Side)!");
@@ -166,7 +174,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				
 				
 				let keysFromRequest = newbody;
-
+				let IDTOKEN = req.query.id_token;
 				
 				let debugVAR = true;
 				
@@ -192,17 +200,23 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 						cb(false);
 					}
 				// }(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
-				}(jws.verify(req.query.id_token, JSON.parse(keysFromRequest)), function (result) {
-					console.log("SO FAR SO GOOD, BUT FUCK JS 2");
+				}(jws.verify(IDTOKEN, JSON.parse(keysFromRequest)), function (result) {
+					console.log("Running verifcation process (on /reVerifyAndLoadPage)... ");
 					let obj = {
 						// email: req.body.emailAddress,
-						email: body.emailAddress,
-						imageURL: body.imageURL,
-						// imageURL: req.body.imageURL,
+						email: body.email,
+						// imageURL: body.imageURL,
+						imageURL: body.picture,
 						tokenVerified: "true"
 					}
-					console.log("obj (from /reVerifyAndLoadPage):" + obj);
+					
+					// Array.from(Object.keys(obj)).forEach(function(key){
+						// console.log("obj (from /reVerifyAndLoadPage):" + key + ":" + obj[key]);
+					// });
+					
+					console.log(obj);
 					console.log("Result is (from /reVerifyAndLoadPage): " + result);
+					
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
 						console.log("Token Verified (Server Side) (from /reVerifyAndLoadPage)!");
 						
