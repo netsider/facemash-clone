@@ -50,7 +50,6 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 		});
 		res2.on("end", () => {
 			try {
-				// console.log(JSON.parse(body));
 				
 				let parts = req.body.userIDToken.split('.');
 				let headerBuf = new Buffer.from(parts[0], 'base64');
@@ -118,12 +117,12 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 				
 			} catch (error) {
 				console.error(error.message);
-				console.log("ERROR!");
+				console.log("ERROR 1!");
 			};
 		});
 	}).on("error", (error) => {
 		console.error(error.message);
-		console.log("ERROR!");
+		console.log("ERROR 2!");
 	});
 
 }, function(req, res){
@@ -152,7 +151,9 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 		res2.on("end", () => {
 			try {
 				// console.log(JSON.parse(body));
-				console.log(req.query);
+				console.log("req.query (from /reVerifyAndLoadPage): " + req.query);
+				
+				
 				
 				// let parts = req.body.userIDToken.split('.');
 				let parts = req.query.id_token.split('.');
@@ -162,6 +163,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				let header = JSON.parse(headerBuf2.toString());
 				let body = JSON.parse(bodyBuf.toString());
 				let keysFromRequest = newbody;
+
 				
 				let debugVAR = true;
 				
@@ -187,49 +189,52 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				}(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
 					console.log("SO FAR SO GOOD, BUT FUCK JS 2");
 					let obj = {
-						email: req.body.emailAddress,
-						imageURL: req.body.imageURL,
-						tokenVerified: result
+						// email: req.body.emailAddress,
+						email: body.emailAddress,
+						imageURL: body.imageURL,
+						// imageURL: req.body.imageURL,
+						tokenVerified: "true"
 					}
-							
+					console.log("obj (from /reVerifyAndLoadPage):" + obj);
+					console.log("Result is (from /reVerifyAndLoadPage): " + result);
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
-						console.log("Token Verified (Server Side) (GET)!");
+						console.log("Token Verified (Server Side) (from /reVerifyAndLoadPage)!");
 						
 						let insertUserIntoDB = (async function() {
-							console.log("Adding User to Database...");
+							console.log("Adding User to Database...(from /reVerifyAndLoadPage)");
 							let userIP = req.headers['x-forwarded-for'];
 							// let userIP = "5.5.5.5";
 
 							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
-							console.log("Trying query: ", q);
+							console.log("Trying query (from /reVerifyAndLoadPage): ", q);
 							await sql.connect(sqlConfig); 
 							let request2 = new sql.Request();
-							console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
+							console.log("request.query(q) [insertUserIntoDB] (from /reVerifyAndLoadPage):", request.query(q));
 							let theQuery2 = request.query(q);
 							// let theQuery = obj;
-							console.log("Query Result:", theQuery);
+							console.log("Query Result (from /reVerifyAndLoadPage):", theQuery);
 							return theQuery;
 						})();
 						
 						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
-							console.log("Result after inserting user into DB: ", values);
-							console.log("Trying next() function: ");
+							console.log("Result after inserting user into DB (from /reVerifyAndLoadPage): ", values);
+							console.log("Trying next() function (from /reVerifyAndLoadPage): ");
 							return next();
 						});
 						
 					}else{
-						console.log("Token Failed Verification!");
+						console.log("Token Failed Verification! (from /reVerifyAndLoadPage)");
 					}
 				}));
 				
 			} catch (error) {
 				console.error(error.message);
-				console.log("ERROR!");
+				console.log("ERROR 3!");
 			};
 		});
 	}).on("error", (error) => {
 		console.error(error.message);
-		console.log("ERROR!");
+		console.log("ERROR 4!");
 	});
 
 }, function(req, res){
