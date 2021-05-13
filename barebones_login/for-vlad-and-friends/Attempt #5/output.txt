@@ -1,0 +1,252 @@
+C:\Users\Administrator\Desktop\_Root\_facemash>node index-stripped-5.js
+Starting...
+/login called
+/initialVerify POST called...
+/reVerifyAndLoadPage GET called...
+---------------------
+header (from /initialVerify):  {
+  alg: 'RS256',
+  kid: '69ed57f424491282a18020fd585954b70bb45ae0',
+  typ: 'JWT'
+}
+---------------------
+body (from /initialVerify):  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'p4dzU3A0Dw-g8A26h0hK9Q',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2p
+ougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1620880822,
+  exp: 1620884422,
+  jti: '2a47e61b7b42f53036b5296d6f1ee3be1e670555'
+}
+---------------------
+Keys from Request (from /initialVerify):  {
+  "keys": [
+    {
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0",
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj
+6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2R
+USoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIq
+AJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw==",
+      "kty": "RSA",
+      "use": "sig",
+      "alg": "RS256",
+      "e": "AQAB"
+    },
+    {
+      "alg": "RS256",
+      "kty": "RSA",
+      "use": "sig",
+      "kid": "d3ffbb8ade01bb4fa2f25cfb108cceb883406dac",
+      "e": "AQAB",
+      "n": "z8eiKUkFeJeFWXxqDCCR7R3FATnahlIWPY-drXFv0DOY_GCwmQCZArvNhHjtbJkbpPO9
+isHykrEkov1B0T8RhsMWalfmOuUCMTGvcc_gJgTtlfTkgY10FOayh0QRQiyW7DfW4SeJijOMrw7JpIyu
+Q5tHGZEC1L2Y0_-TFSwvWjOhbb8zbNWmI4RnyFtLreHonUM9QUPsjFWJpyLFmCFlu0WqcWDnmnjZTjlA
+lkm-iWeqfvNs1q3EsDDc9YtNnoy_h8ipi5g-ThG9LIw5KCzMY_C-2BrS9Sa-DsegOht2Y8rew4nEgcqk
+SokQZpXtDSkSKCkbcaT_rXY7vK13uXg14w=="
+    }
+  ]
+}
+
+---------------------
+Trying to verify...
+Token Verified (Server Side)!
+Adding User to Database...
+Trying query:  BEGIN IF NOT EXISTS (SELECT 1 FROM dbo.users13 WHERE userid = 111
+622524594841484108) BEGIN INSERT INTO dbo.users13 (id, name, email, ip, userid,
+picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE
+ FOR dbo.MySequenceusers13, 'Russell R.', 'rdoubleoc@gmail.com', '5.5.5.5', '111
+622524594841484108', 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-
+eLsPiA8e2pougK0ujtogwGy=s96-c', 'true', 'true', '1620884422') END END
+tedious deprecated The default value for `config.options.enableArithAbort` will
+change from `false` to `true` in the next major version of `tedious`. Set the va
+lue to `true` or `false` explicitly to silence this message. node_modules\mssql\
+lib\tedious\connection-pool.js:61:23
+req.query (from /reVerifyAndLoadPage): [object Object]
+parts: [
+  'eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5ZWQ1N2Y0MjQ0OTEyODJhMTgwMjBmZDU4NTk1NGI3MGJiN
+DVhZTAiLCJ0eXAiOiJKV1QifQ',
+  'eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN
+2I2Zzl2cnZsOW11NmdwYTc0MDQ0cDYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyN
+jMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3BhNzQwNDRwNi5hcHBzLmdvb2dsZXVzZXJjb
+250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQ
+GdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoicDRkelUzQTBEdy1nOEEyN
+mgwaEs5USIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZ
+XJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJYy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHe
+T1zOTYtYyIsImdpdmVuX25hbWUiOiJSdXNzZWxsIiwiZmFtaWx5X25hbWUiOiJSLiIsImxvY2FsZSI6I
+mVuIiwiaWF0IjoxNjIwODgwODIyLCJleHAiOjE2MjA4ODQ0MjIsImp0aSI6IjJhNDdlNjFiN2I0MmY1M
+zAzNmI1Mjk2ZDZmMWVlM2JlMWU2NzA1NTUifQ',
+  'MYVHPwhdeg6KDJM0YZ5t2fGVoO-Tem5HV05xhFhFGq7M7ecRJbUa6yeq4nrvy3EccVTJ0yBAC7rww
+oRo0XsUH39589fN3X4dEhRXjh3VTE_atlv5vSi3-S83Zqi5kGV5q09A9GnbM5wyAYiDtuFOzBN98RG04
+wq03MWL5Tu8eELrUEanHL4c7Ki5xQjo7p6L5Ya0ZdQfXmFQHT6CDcDzrHA_N9gYQ62bJwW8bIuz0B8-a
+Mob1kcyYC0Zcx7tcJRk0OeIzcZ_HD4czvN6J3lGmWUNebjb9O1Hdgu3hEPY4W_JGTInIJfbXSC96ZiXe
+DncDEqmCyJdgdrCUqFdL7U9vw'
+]
+---------------------
+header (from /reVerifyAndLoadPage):  {
+  alg: 'RS256',
+  kid: '69ed57f424491282a18020fd585954b70bb45ae0',
+  typ: 'JWT'
+}
+---------------------
+body (from /reVerifyAndLoadPage):  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'p4dzU3A0Dw-g8A26h0hK9Q',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2p
+ougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1620880822,
+  exp: 1620884422,
+  jti: '2a47e61b7b42f53036b5296d6f1ee3be1e670555'
+}
+---------------------
+Keys from Request (from /reVerifyAndLoadPage):  {
+  "keys": [
+    {
+      "kty": "RSA",
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj
+6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2R
+USoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIq
+AJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw==",
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0",
+      "e": "AQAB",
+      "use": "sig",
+      "alg": "RS256"
+    },
+    {
+      "kid": "d3ffbb8ade01bb4fa2f25cfb108cceb883406dac",
+      "n": "z8eiKUkFeJeFWXxqDCCR7R3FATnahlIWPY-drXFv0DOY_GCwmQCZArvNhHjtbJkbpPO9
+isHykrEkov1B0T8RhsMWalfmOuUCMTGvcc_gJgTtlfTkgY10FOayh0QRQiyW7DfW4SeJijOMrw7JpIyu
+Q5tHGZEC1L2Y0_-TFSwvWjOhbb8zbNWmI4RnyFtLreHonUM9QUPsjFWJpyLFmCFlu0WqcWDnmnjZTjlA
+lkm-iWeqfvNs1q3EsDDc9YtNnoy_h8ipi5g-ThG9LIw5KCzMY_C-2BrS9Sa-DsegOht2Y8rew4nEgcqk
+SokQZpXtDSkSKCkbcaT_rXY7vK13uXg14w==",
+      "alg": "RS256",
+      "e": "AQAB",
+      "kty": "RSA",
+      "use": "sig"
+    }
+  ]
+}
+
+---------------------
+SO FAR SO GOOD, BUT FUCK JS
+Cannot read property 'header' of null
+ERROR 3!
+request.query(q) [insertUserIntoDB]: Promise { <pending> }
+Query Result: Promise { <pending> }
+Result after inserting user into DB:  [
+  {
+    recordsets: [],
+    recordset: undefined,
+    output: {},
+    rowsAffected: []
+  }
+]
+Trying next() function:
+Next function successfully called! (from /initialVerify)
+Trying to render node-dopple-login-success (from /initialVerify)...
+/reVerifyAndLoadPage GET called...
+req.query (from /reVerifyAndLoadPage): [object Object]
+parts: [
+  'eyJhbGciOiJSUzI1NiIsImtpZCI6IjY5ZWQ1N2Y0MjQ0OTEyODJhMTgwMjBmZDU4NTk1NGI3MGJiN
+DVhZTAiLCJ0eXAiOiJKV1QifQ',
+  'eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN
+2I2Zzl2cnZsOW11NmdwYTc0MDQ0cDYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyN
+jMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3BhNzQwNDRwNi5hcHBzLmdvb2dsZXVzZXJjb
+250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQ
+GdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoicDRkelUzQTBEdy1nOEEyN
+mgwaEs5USIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZ
+XJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJYy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHe
+T1zOTYtYyIsImdpdmVuX25hbWUiOiJSdXNzZWxsIiwiZmFtaWx5X25hbWUiOiJSLiIsImxvY2FsZSI6I
+mVuIiwiaWF0IjoxNjIwODgwODIyLCJleHAiOjE2MjA4ODQ0MjIsImp0aSI6IjJhNDdlNjFiN2I0MmY1M
+zAzNmI1Mjk2ZDZmMWVlM2JlMWU2NzA1NTUifQ',
+  'MYVHPwhdeg6KDJM0YZ5t2fGVoO-Tem5HV05xhFhFGq7M7ecRJbUa6yeq4nrvy3EccVTJ0yBAC7rww
+oRo0XsUH39589fN3X4dEhRXjh3VTE_atlv5vSi3-S83Zqi5kGV5q09A9GnbM5wyAYiDtuFOzBN98RG04
+wq03MWL5Tu8eELrUEanHL4c7Ki5xQjo7p6L5Ya0ZdQfXmFQHT6CDcDzrHA_N9gYQ62bJwW8bIuz0B8-a
+Mob1kcyYC0Zcx7tcJRk0OeIzcZ_HD4czvN6J3lGmWUNebjb9O1Hdgu3hEPY4W_JGTInIJfbXSC96ZiXe
+DncDEqmCyJdgdrCUqFdL7U9vw'
+]
+---------------------
+header (from /reVerifyAndLoadPage):  {
+  alg: 'RS256',
+  kid: '69ed57f424491282a18020fd585954b70bb45ae0',
+  typ: 'JWT'
+}
+---------------------
+body (from /reVerifyAndLoadPage):  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'p4dzU3A0Dw-g8A26h0hK9Q',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2p
+ougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1620880822,
+  exp: 1620884422,
+  jti: '2a47e61b7b42f53036b5296d6f1ee3be1e670555'
+}
+---------------------
+Keys from Request (from /reVerifyAndLoadPage):  {
+  "keys": [
+    {
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj
+6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2R
+USoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIq
+AJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw==",
+      "kty": "RSA",
+      "alg": "RS256",
+      "e": "AQAB",
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0",
+      "use": "sig"
+    },
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "alg": "RS256",
+      "kid": "d3ffbb8ade01bb4fa2f25cfb108cceb883406dac",
+      "n": "z8eiKUkFeJeFWXxqDCCR7R3FATnahlIWPY-drXFv0DOY_GCwmQCZArvNhHjtbJkbpPO9
+isHykrEkov1B0T8RhsMWalfmOuUCMTGvcc_gJgTtlfTkgY10FOayh0QRQiyW7DfW4SeJijOMrw7JpIyu
+Q5tHGZEC1L2Y0_-TFSwvWjOhbb8zbNWmI4RnyFtLreHonUM9QUPsjFWJpyLFmCFlu0WqcWDnmnjZTjlA
+lkm-iWeqfvNs1q3EsDDc9YtNnoy_h8ipi5g-ThG9LIw5KCzMY_C-2BrS9Sa-DsegOht2Y8rew4nEgcqk
+SokQZpXtDSkSKCkbcaT_rXY7vK13uXg14w==",
+      "e": "AQAB"
+    }
+  ]
+}
+
+---------------------
+SO FAR SO GOOD, BUT FUCK JS
+Cannot read property 'header' of null
+ERROR 3!
