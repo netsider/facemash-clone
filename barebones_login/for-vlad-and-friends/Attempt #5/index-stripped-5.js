@@ -153,8 +153,8 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 		});
 		res2.on("end", () => {
 			try {
-				// console.log(JSON.parse(body));
-				console.log("req.query (from /reVerifyAndLoadPage): " + req.query);
+				// console.log("JSON.parse(body) (from /reVerifyAndLoadPage): ", JSON.parse(body));
+				// console.log("req.query (from /reVerifyAndLoadPage): " + req.query);
 				
 				// let parts = req.body.userIDToken.split('.');
 				let parts = req.query.id_token.split('.');
