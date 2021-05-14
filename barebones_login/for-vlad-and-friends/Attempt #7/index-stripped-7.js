@@ -21,12 +21,10 @@ app.use(express.static(__dirname + "/" + publicDir));
 app.set("view engine", "ejs");
 app.listen(3000);
 
-const k = 32;
-const startingScore = "1500";
-const scorePath = publicDir + "/Selfie_Score/";
-const photoPath = publicDir + "/Selfies/";
-const dlength = fs.readdirSync(photoPath).length - 1;
-const obj = fs.readdirSync(photoPath);
+// const scorePath = publicDir + "/Selfie_Score/";
+// const photoPath = publicDir + "/Selfies/";
+// const dlength = fs.readdirSync(photoPath).length - 1;
+// const obj = fs.readdirSync(photoPath);
 
 const sqlConfig = config.configFunc();
 const currentTable = "users13";
@@ -40,11 +38,6 @@ app.get('/login', function(req, res){
 	res.render("node-dopple-login-2", {});
 });
 
-app.get('/anotherPage', function(req, res, next){ // Secure page to stay logged in for
-
-}, function(req, res){
-	res.render("node-dopple-login-3", {});
-});
 
 app.post('/initialVerify', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
 	console.log("/initialVerify POST called...");
@@ -111,7 +104,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 							// let userIP = '5.5.5.5';
 
 							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
-							console.log("Trying query: ", q);
+							// console.log("Trying query: ", q);
 							await sql.connect(sqlConfig); 
 							let request = new sql.Request();
 							console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
@@ -122,7 +115,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 						
 						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
 							console.log("Result after inserting user into DB: ", values);
-							console.log("Trying next() function: ");
+							// console.log("Trying next() function: ");
 							res.locals.obj = obj;
 							return next();
 						});
@@ -144,7 +137,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 
 }, function(req, res){
 	console.log("Next function successfully called! (from /initialVerify)");
-	console.log("Trying to render node-dopple-login-success (from /initialVerify)...");
+	// console.log("Trying to render node-dopple-login-success (from /initialVerify)...");
    res.set('Content-Type', 'application/json');
 	// console.log("res.locals.obj: ", res.locals.obj);
 	res.json(res.locals.obj); // Return JSON to satisfy XHR request.
@@ -346,6 +339,12 @@ app.get("/private2", (req, res) => {
 		});
 });
 
+app.get("/anotherPage", function(req, res, next){ // Secure page to stay logged in for
+	console.log("/anotherPage called...");
+}, function(req, res){
+	res.render("node-dopple-login-3", {});
+});
+
 app.get("/setcookie", function (req, res) { // Figure out how to do it this way
 	console.log("/setcookie called...");
 	// res.writeHead(200, {
@@ -353,3 +352,7 @@ app.get("/setcookie", function (req, res) { // Figure out how to do it this way
       // "Access-Control-Allow-Credentials": "true"
     // }).send(); 
 });
+
+app.get("/getcooks", function (req, res) {
+    res.send(req.cookies);
+})
