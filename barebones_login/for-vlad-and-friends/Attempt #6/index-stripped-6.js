@@ -9,9 +9,11 @@ const jws = require("jws-jwk");
 const https = require("https");
 const sql = require("mssql"); // https://www.npmjs.com/package/mssql
 const config = require("../config.js");
+const cookieParser = require('cookie-parser');
 
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(express.json());
+app.use(cookieParser());
 
 const publicDir = "files";
 
@@ -38,6 +40,12 @@ app.get('/login', function(req, res){
 	res.render("node-dopple-login-2", {});
 });
 
+app.get('/anotherPage', function(req, res, next){ // Secure page to stay logged in for
+
+}, function(req, res){
+	res.render("node-dopple-login-3", {});
+});
+
 app.post('/initialVerify', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
 	console.log("/initialVerify POST called...");
 	
@@ -62,7 +70,8 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 				
 				// Display User ID Token
 				if(debugVAR === true){
-					console.log("req.params (from /initialVerify): ", req.params);
+					console.log("---------------------");
+					console.log("req.query.id_token (from /initialVerify): ", req.query.id_token);
 					console.log("---------------------");
 					console.log("header (from /initialVerify): ", header);
 					console.log("---------------------");
@@ -167,13 +176,14 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				let body = JSON.parse(bodyBuf.toString());
 				let keysFromRequest = newbody;
 				let IDTOKEN = req.query.id_token;
+				res.locals.id_token = IDTOKEN;
 				
 				let debugVAR = true;
 				
 				// Display User ID Token
 				if(debugVAR === true){
 					console.log("---------------------");
-					console.log("req.params (from /reVerifyAndLoadPage): ", req.params);
+					console.log("req.query.id_token (from /reVerifyAndLoadPage): ", req.query.id_token);
 					console.log("---------------------");
 					console.log("parts:", parts);
 					console.log("---------------------");
@@ -253,6 +263,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 	console.log("Next function successfully called! (from /reVerifyAndLoadPage)");
 	console.log("Trying to render node-dopple-login-success...(from /reVerifyAndLoadPage)");
    res.set('Content-Type', 'text/html');
+	res.cookie("user_cookie_id", res.locals.id_token);
 	return res.render("node-dopple-login-success");
 	res.render("node-dopple-login-success");
 });
