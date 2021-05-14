@@ -277,5 +277,5 @@ app.get("/setcookie", function (req, res) {
 	res.writeHead(200, {
       "Set-Cookie": "user_cookie_id=" + res.locals.id_token + "; HttpOnly",
       "Access-Control-Allow-Credentials": "true"
-    }).send();
+    }).send(); 
 });
