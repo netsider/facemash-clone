@@ -105,9 +105,6 @@ function onSignIn(googleUser){
 		"userIDToken": id_token,
 	};
 	
-	<!-- console.log("Attempting redirect with token included (1)..."); -->
-	<!-- document.location.href = '/reVerifyAndLoadPage' + '?id_token=' + id_token; -->
-	
 	//console.log(userObject);
 	
 	console.log("Sending Ajax request for token verification...");
@@ -115,8 +112,6 @@ function onSignIn(googleUser){
         url: "/initialVerify",
 		headers: {
 			'Content-Type':'application/json',
-			//'Content-Type':'text/html', // doesn't help anything
-			//'Content-Type':'application/javascript', // doesn't help anything
 		},
 		data: JSON.stringify(userObject),
 		//data: userObject,
@@ -130,9 +125,6 @@ function onSignIn(googleUser){
 				
 				console.log("Attempting redirect with token included (2)...");
 				document.location.href = '/reVerifyAndLoadPage' + '?id_token=' + id_token;
-				
-				//console.log("Redirecting to..." + " /loggedin");
-				//window.location.replace("/loggedin");
 				//window.location.replace("/facemash"); //working
 			}
         },
