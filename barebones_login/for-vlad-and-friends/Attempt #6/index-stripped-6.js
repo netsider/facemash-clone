@@ -139,7 +139,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 	console.log("Trying to render node-dopple-login-success (from /initialVerify)...");
    res.set('Content-Type', 'application/json');
 	// console.log("res.locals.obj: ", res.locals.obj);
-	res.json(res.locals.obj); // Return JSON at first to satisfy XHR request.
+	res.json(res.locals.obj); // Return JSON to satisfy XHR request.
 });
 
 
@@ -224,8 +224,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 							let request2 = new sql.Request();
 							console.log("request.query(q) [insertUserIntoDB] (from /reVerifyAndLoadPage):", request2.query(q));
 							let theQuery2 = request2.query(q);
-							// let theQuery = obj;
-							console.log("Query Result (from /reVerifyAndLoadPage):", theQuery2);
+							console.log("Query Result - theQuery2 - (from /reVerifyAndLoadPage):", theQuery2);
 							return theQuery2;
 						})();
 						
