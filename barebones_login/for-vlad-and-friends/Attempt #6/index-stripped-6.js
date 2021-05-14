@@ -66,7 +66,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 				let body = JSON.parse(bodyBuf.toString());
 				let keysFromRequest = newbody;
 				
-				let debugVAR = true;
+				let debugVAR = false;
 				
 				// Display User ID Token
 				if(debugVAR === true){
@@ -80,7 +80,6 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 					console.log("Keys from Request (from /initialVerify): ", newbody);
 					console.log("---------------------");
 				}
-				let currentTime = Math.floor(Date.now() / 1000);
 				
 				(function IIFE(func, cb) { 
 					if (func){
@@ -108,8 +107,8 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 						
 						let insertUserIntoDB = (async function() {
 							console.log("Adding User to Database...");
-							// let userIP = req.headers['x-forwarded-for'];
-							let userIP = '5.5.5.5';
+							let userIP = req.headers['x-forwarded-for'];
+							// let userIP = '5.5.5.5';
 
 							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
 							console.log("Trying query: ", q);
@@ -178,7 +177,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				let IDTOKEN = req.query.id_token;
 				res.locals.id_token = IDTOKEN;
 				
-				let debugVAR = true;
+				let debugVAR = false;
 				
 				// Display User ID Token
 				if(debugVAR === true){
@@ -194,7 +193,6 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 					console.log("Keys from Request (from /reVerifyAndLoadPage): ", newbody);
 					console.log("---------------------");
 				}
-				let currentTime = Math.floor(Date.now() / 1000);
 				
 				(function IIFE(func, cb) { 
 					if (func){
@@ -268,7 +266,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 	res.render("node-dopple-login-success");
 });
 
-app.get("/private", (req, res) => { // works, but doesn't revalidate token.
+app.get("/private", (req, res) => { // works if cookie set, but doesn't revalidate token (insecure).
   if (!req.cookies.user_cookie_id) return res.status(401).send();
   res.render("node-dopple-login-success-2", {});
 });
@@ -276,21 +274,28 @@ app.get("/private", (req, res) => { // works, but doesn't revalidate token.
 app.get("/private2", (req, res) => {
   if (!req.cookies.user_cookie_id) return res.status(401).send();
   
-  				let parts = req.cookies.user_cookie_id.split('.');
+	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
+			let newbody = "";
+			res2.on("data", (chunk) => {
+				newbody += chunk;
+				// console.log("body: ", body);
+			});
+			res2.on("end", () => {	
+					
+				let parts = req.cookies.user_cookie_id.split('.');
 				let headerBuf2 = new Buffer.from(parts[0], 'base64');
 				let bodyBuf = new Buffer.from(parts[1], 'base64');
 				let header = JSON.parse(headerBuf2.toString());
 				let body = JSON.parse(bodyBuf.toString());
 				let keysFromRequest = newbody;
 				let IDTOKEN = req.cookies.user_cookie_id;
-				// res.locals.id_token = IDTOKEN;
 				
 				let debugVAR = true;
 				
 				// Display User ID Token
 				if(debugVAR === true){
 					console.log("---------------------");
-					console.log("req.query.id_token (from /P2): ", req.query.id_token);
+					console.log("req.cookies.user_cookie_id (from /P2): ", req.cookies.user_cookie_id);
 					console.log("---------------------");
 					console.log("parts:", parts);
 					console.log("---------------------");
@@ -301,7 +306,6 @@ app.get("/private2", (req, res) => {
 					console.log("Keys from Request (from /P2): ", newbody);
 					console.log("---------------------");
 				}
-				let currentTime = Math.floor(Date.now() / 1000);
 				
 				(function IIFE(func, cb) { 
 					if (func){
@@ -309,7 +313,6 @@ app.get("/private2", (req, res) => {
 					}else{
 						cb(false);
 					}
-				// }(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
 				}(jws.verify(IDTOKEN, JSON.parse(keysFromRequest)), function (result) {
 					console.log("Running verifcation process (on /P2)... ");
 					let obj = {
@@ -329,18 +332,24 @@ app.get("/private2", (req, res) => {
 					
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
 						console.log("Token Verified (Server Side) (from /P2)!");
+						res.set('Content-Type', 'text/html');
 						res.render("node-dopple-login-success-2", {});
 						
 					}else{
 						console.log("Token Failed Verification! (from /P2)");
 					}
-				
 				}));
+				
+				
+				
+			});
+		});
 });
 
 app.get("/setcookie", function (req, res) {
-	res.writeHead(200, {
-      "Set-Cookie": "user_cookie_id=" + res.locals.id_token + "; HttpOnly",
-      "Access-Control-Allow-Credentials": "true"
-    }).send(); 
+	console.log("/setcookie called...");
+	// res.writeHead(200, {
+      // "Set-Cookie": "user_cookie_id=" + app.locals.id_token + "; HttpOnly",
+      // "Access-Control-Allow-Credentials": "true"
+    // }).send(); 
 });
