@@ -20,3 +20,5 @@ Attempt #4: I forget, but probably just a less buggy version of #3.
 Attempt #5: The first one to actually work, but it still only logs the user in and doesn't keep them logged in through/after page reloads/changes.
 
 Attempt #6: The first one to actually work semi-properly.  It uses an initial XHR request to an express enpoint which then perform initial verification.  On success, that XHR request redirects to another page which passes in the just-verified token as data, which then renders the page (and sets a cookie, containing the ID token) if it's verified again.  Another route (/private2) checks the userID in the cookie and renders a page if it's successfully verified.  What's missing/next?  The expiration date on the cookie needs to be checked, and if it's past the time, it should be rejected.
+
+JUST MAKE A STUPID PASSPORT VERSION LIKE EVERYONE ELSE.  
