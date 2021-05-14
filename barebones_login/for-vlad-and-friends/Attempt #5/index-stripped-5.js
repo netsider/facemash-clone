@@ -62,6 +62,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 				
 				// Display User ID Token
 				if(debugVAR === true){
+					console.log("req.params (from /initialVerify): ", req.params);
 					console.log("---------------------");
 					console.log("header (from /initialVerify): ", header);
 					console.log("---------------------");
@@ -114,6 +115,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
 							console.log("Result after inserting user into DB: ", values);
 							console.log("Trying next() function: ");
+							res.locals.obj = obj;
 							return next();
 						});
 						
@@ -135,8 +137,9 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 }, function(req, res){
 	console.log("Next function successfully called! (from /initialVerify)");
 	console.log("Trying to render node-dopple-login-success (from /initialVerify)...");
-    res.set('Content-Type', 'application/json');
-	res.json(obj); // Return JSON at first to satisfy XHR request.
+   res.set('Content-Type', 'application/json');
+	// console.log("res.locals.obj: ", res.locals.obj);
+	res.json(res.locals.obj); // Return JSON at first to satisfy XHR request.
 });
 
 
@@ -169,6 +172,8 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				
 				// Display User ID Token
 				if(debugVAR === true){
+					console.log("---------------------");
+					console.log("req.params (from /reVerifyAndLoadPage): ", req.params);
 					console.log("---------------------");
 					console.log("parts:", parts);
 					console.log("---------------------");
