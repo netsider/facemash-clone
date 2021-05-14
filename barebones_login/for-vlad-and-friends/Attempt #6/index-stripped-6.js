@@ -9,7 +9,7 @@ const jws = require("jws-jwk");
 const https = require("https");
 const sql = require("mssql"); // https://www.npmjs.com/package/mssql
 const config = require("../config.js");
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(express.json());
@@ -266,4 +266,16 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 	res.cookie("user_cookie_id", res.locals.id_token);
 	return res.render("node-dopple-login-success");
 	res.render("node-dopple-login-success");
+});
+
+app.get("/private", (req, res) => {
+  if (!req.cookies.user_cookie_id) return res.status(401).send();
+  res.render("node-dopple-login-success-2", {});
+});
+
+app.get("/setcookie", function (req, res) {
+	res.writeHead(200, {
+      "Set-Cookie": "user_cookie_id=" + res.locals.id_token + "; HttpOnly",
+      "Access-Control-Allow-Credentials": "true"
+    }).send();
 });
