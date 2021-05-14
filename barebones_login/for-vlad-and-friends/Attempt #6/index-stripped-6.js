@@ -268,9 +268,74 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 	res.render("node-dopple-login-success");
 });
 
-app.get("/private", (req, res) => {
+app.get("/private", (req, res) => { // works, but doesn't revalidate token.
   if (!req.cookies.user_cookie_id) return res.status(401).send();
   res.render("node-dopple-login-success-2", {});
+});
+
+app.get("/private2", (req, res) => {
+  if (!req.cookies.user_cookie_id) return res.status(401).send();
+  
+  				let parts = req.cookies.user_cookie_id.split('.');
+				let headerBuf2 = new Buffer.from(parts[0], 'base64');
+				let bodyBuf = new Buffer.from(parts[1], 'base64');
+				let header = JSON.parse(headerBuf2.toString());
+				let body = JSON.parse(bodyBuf.toString());
+				let keysFromRequest = newbody;
+				let IDTOKEN = req.cookies.user_cookie_id;
+				// res.locals.id_token = IDTOKEN;
+				
+				let debugVAR = true;
+				
+				// Display User ID Token
+				if(debugVAR === true){
+					console.log("---------------------");
+					console.log("req.query.id_token (from /P2): ", req.query.id_token);
+					console.log("---------------------");
+					console.log("parts:", parts);
+					console.log("---------------------");
+					console.log("header (from /P2): ", header);
+					console.log("---------------------");
+					console.log("body (from /P2): ", body);
+					console.log("---------------------");
+					console.log("Keys from Request (from /P2): ", newbody);
+					console.log("---------------------");
+				}
+				let currentTime = Math.floor(Date.now() / 1000);
+				
+				(function IIFE(func, cb) { 
+					if (func){
+						cb(true);
+					}else{
+						cb(false);
+					}
+				// }(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
+				}(jws.verify(IDTOKEN, JSON.parse(keysFromRequest)), function (result) {
+					console.log("Running verifcation process (on /P2)... ");
+					let obj = {
+						// email: req.body.emailAddress,
+						email: body.email,
+						// imageURL: body.imageURL,
+						imageURL: body.picture,
+						tokenVerified: result
+					}
+					
+					// Array.from(Object.keys(obj)).forEach(function(key){
+						// console.log("obj (from /reVerifyAndLoadPage):" + key + ":" + obj[key]);
+					// });
+					
+					console.log("obj (from /P2):", obj);
+					console.log("Result is (from /P2): " + result);
+					
+					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
+						console.log("Token Verified (Server Side) (from /P2)!");
+						res.render("node-dopple-login-success-2", {});
+						
+					}else{
+						console.log("Token Failed Verification! (from /P2)");
+					}
+				
+				}));
 });
 
 app.get("/setcookie", function (req, res) {
