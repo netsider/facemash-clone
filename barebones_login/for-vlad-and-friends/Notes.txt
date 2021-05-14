@@ -14,3 +14,5 @@ After visiting /login, the rendered view file sends an XHR request to /loggedin,
 
 Attempt #3:
 This is the most successful attempt, but after verifying the token, it still doesn't render the login page.  No idea.
+
+Attempt #5: The first one to actually work, but it still only logs the user in and doesn't keep them logged in.
