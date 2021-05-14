@@ -1,0 +1,89 @@
+PS C:\Users\Administrator\Desktop\_Root\_facemash> node index-stripped-6.js
+Starting...
+Attempting to verify userID token via cookie (cookie not empty)...
+---------------------
+req.cookies.user_cookie_id (from /P2):  eyJhbGciOiJSUzI1NiIsImtpZCI6ImQzZmZiYjhhZGUwMWJiNGZhMmYyNWNmYjEwOGNjZWI4ODM0MDZk
+YWMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN2I2Zzl2cnZsOW11NmdwY
+Tc0MDQ0cDYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyNjMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3BhNzQwNDRwNi5hc
+HBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQGdtYWlsLmNvbSIsImVtY
+WlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoib1c1ZHVVNXVFWm9xZUdnbHJQVmNsQSIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVyZSI6Imh0dHBzO
+i8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJYy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHeT1zOTYtYyIsImdpdmVuX
+25hbWUiOiJSdXNzZWxsIiwiZmFtaWx5X25hbWUiOiJSLiIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNjIwOTYxOTAyLCJleHAiOjE2MjA5NjU1MDIsImp0aSI6I
+mRmMmNjYzg2MDFiNmMyNzBiNjZiYTRhNDNlNThlZGMxMmMwYjBlYjMifQ.K1J2TR5BAUUr5-jLUtiYKH1uVBI9KHc67kQajBd0YeAiWn6mJrP2vhQOqDe4d9
+r28Oqi9yh55S2peyRse1ozrn_mJefOKpE6-hXrx_nLBzgo4Oz1uWblyDWtQT-FCD0rC5_XLk7uOhZlMGWwO5wPfZp9tPXsgn9Gtx7jYsGmPbSM1xn2wsUbHf
+XYcvSNziq7xhvSsg-Wed_GFyDySqMwUVw19-zSz35qRlLsxxUlo2s1KeP_vzBKJRUtaHeJKmh0SmfRESmnjRRsjhhHJ0tJotfSTJGzqHu9Vt5snvZyJ84384
+RumdWKOxWKTmDuj79Reh0fi1m3An909yNaxCSfuQ
+---------------------
+parts: [
+  'eyJhbGciOiJSUzI1NiIsImtpZCI6ImQzZmZiYjhhZGUwMWJiNGZhMmYyNWNmYjEwOGNjZWI4ODM0MDZkYWMiLCJ0eXAiOiJKV1QifQ',
+  'eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN2I2Zzl2cnZsOW11NmdwYTc0MDQ0cDYuYXBwcy5nb
+29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyNjMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3BhNzQwNDRwNi5hcHBzLmdvb2dsZXVzZXJjb
+250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0c
+nVlLCJhdF9oYXNoIjoib1c1ZHVVNXVFWm9xZUdnbHJQVmNsQSIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZ
+XJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJYy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHeT1zOTYtYyIsImdpdmVuX25hbWUiOiJSdXNzZWxsI
+iwiZmFtaWx5X25hbWUiOiJSLiIsImxvY2FsZSI6ImVuIiwiaWF0IjoxNjIwOTYxOTAyLCJleHAiOjE2MjA5NjU1MDIsImp0aSI6ImRmMmNjYzg2MDFiNmMyN
+zBiNjZiYTRhNDNlNThlZGMxMmMwYjBlYjMifQ',
+  'K1J2TR5BAUUr5-jLUtiYKH1uVBI9KHc67kQajBd0YeAiWn6mJrP2vhQOqDe4d9r28Oqi9yh55S2peyRse1ozrn_mJefOKpE6-hXrx_nLBzgo4Oz1uWbly
+DWtQT-FCD0rC5_XLk7uOhZlMGWwO5wPfZp9tPXsgn9Gtx7jYsGmPbSM1xn2wsUbHfXYcvSNziq7xhvSsg-Wed_GFyDySqMwUVw19-zSz35qRlLsxxUlo2s1K
+eP_vzBKJRUtaHeJKmh0SmfRESmnjRRsjhhHJ0tJotfSTJGzqHu9Vt5snvZyJ84384RumdWKOxWKTmDuj79Reh0fi1m3An909yNaxCSfuQ'
+]
+---------------------
+header (from /P2):  {
+  alg: 'RS256',
+  kid: 'd3ffbb8ade01bb4fa2f25cfb108cceb883406dac',
+  typ: 'JWT'
+}
+---------------------
+body (from /P2):  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com',
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com',
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'oW5duU5uEZoqeGglrPVclA',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2pougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1620961902,
+  exp: 1620965502,
+  jti: 'df2ccc8601b6c270b66ba4a43e58edc12c0b0eb3'
+}
+---------------------
+Keys from Request (from /P2):  {
+  "keys": [
+    {
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0",
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3
+CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2RUSoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIqAJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw==",
+      "alg": "RS256",
+      "use": "sig",
+      "e": "AQAB",
+      "kty": "RSA"
+    },
+    {
+      "e": "AQAB",
+      "kid": "d3ffbb8ade01bb4fa2f25cfb108cceb883406dac",
+      "kty": "RSA",
+      "n": "z8eiKUkFeJeFWXxqDCCR7R3FATnahlIWPY-drXFv0DOY_GCwmQCZArvNhHjtbJkbpPO9isHykrEkov1B0T8RhsMWalfmOuUCMTGvcc_gJgTt
+lfTkgY10FOayh0QRQiyW7DfW4SeJijOMrw7JpIyuQ5tHGZEC1L2Y0_-TFSwvWjOhbb8zbNWmI4RnyFtLreHonUM9QUPsjFWJpyLFmCFlu0WqcWDnmnjZTjlA
+lkm-iWeqfvNs1q3EsDDc9YtNnoy_h8ipi5g-ThG9LIw5KCzMY_C-2BrS9Sa-DsegOht2Y8rew4nEgcqkSokQZpXtDSkSKCkbcaT_rXY7vK13uXg14w==",
+      "alg": "RS256",
+      "use": "sig"
+    }
+  ]
+}
+
+---------------------
+Running verifcation process (on /P2)...
+obj (from /P2): {
+  email: 'rdoubleoc@gmail.com',
+  imageURL: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2pougK0ujtogwGy=s96-c',
+  tokenVerified: true
+}
+Result is (from /P2): true
+Token Verified (Server Side) (from /P2)!
+Rendering secure page...
