@@ -256,7 +256,6 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
    res.set('Content-Type', 'text/html');
 	res.cookie("user_cookie_id", res.locals.id_token);
 	return res.render("node-dopple-login-success");
-	// res.render("node-dopple-login-success");
 });
 
 app.get("/private", (req, res) => { // works if cookie set, but doesn't revalidate token (insecure).
@@ -268,7 +267,7 @@ app.get("/private2", (req, res) => {
 	if (!req.cookies.user_cookie_id){
 		return res.status(401).send(); // Reject connection if cookie not set at all.
 	}
-	console.log("Attempting to verify userID token via cookie (cookie not empty)...");
+	console.log("Attempting to verify userID via cookie (cookie not empty)...");
 	
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
 		let newbody = "";
@@ -288,11 +287,7 @@ app.get("/private2", (req, res) => {
 			
 			
 			let debugVAR = true;
-			
-			// Display User ID Token
 			if(debugVAR === true){
-				// console.log("---------------------");
-				// console.log("req.cookies.user_cookie_id (from /P2): ", req.cookies.user_cookie_id);
 				console.log("---------------------");
 				console.log("parts:", parts);
 				console.log("---------------------");
