@@ -89,15 +89,16 @@
 </center>
 
 <script>
+console.log("Checking GAPI...");
 let auth2 = gapi.auth2.getAuthInstance();
 console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
 		
-let profile = googleUser.getBasicProfile();	
 let id_token = googleUser.getAuthResponse().id_token;
 console.log("id_token: ", id_token);
 
 let idPromise = gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
 
+console.log("Checking GAPI.reloadAuthResponse()...");
 Promise.all([idPromise]).then((values) => {
 	console.log("idPromise (values:)", values);
 });
