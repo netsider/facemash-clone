@@ -61,10 +61,9 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 				
 				let debugVAR = false;
 				
-				// Display User ID Token
 				if(debugVAR === true){
 					console.log("---------------------");
-					console.log("req.query.id_token (from /initialVerify): ", req.query.id_token);
+					console.log("req.query.id_token (from /initialVerify): ", req.query.id_token); // ????
 					console.log("---------------------");
 					console.log("header (from /initialVerify): ", header);
 					console.log("---------------------");
@@ -87,7 +86,6 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 						imageURL: req.body.imageURL,
 						tokenVerified: result
 					}
-					
 					console.log("obj (from /initialVerify):", obj);
 					// Array.from(Object.keys(obj)).forEach(function(key){
 						// console.log("obj (from /initialVerify):" + key + ":" + obj[key]);
