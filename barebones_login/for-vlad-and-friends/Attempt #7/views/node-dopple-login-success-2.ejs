@@ -89,18 +89,21 @@
 </center>
 
 <script>
+
 console.log("Checking GAPI...");
 let auth2 = gapi.auth2.getAuthInstance();
-console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
-		
 let id_token = googleUser.getAuthResponse().id_token;
-console.log("id_token: ", id_token);
-
 let idPromise = gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
+
+console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
+console.log("id_token: ", id_token);
 
 console.log("Checking GAPI.reloadAuthResponse()...");
 Promise.all([idPromise]).then((values) => {
 	console.log("idPromise (values:)", values);
+	// set/check cookie (clientside) and set/check new id_token here, each page load?
+	// OR
+	// send XHR (?) request (with new token and old token, expire date, etc.?), and set/check new cookie on server?  That way, any subsequent requests will include the newest token.
 });
 
 
