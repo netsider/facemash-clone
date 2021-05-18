@@ -142,7 +142,6 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 });
 
 
-
 app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
 	console.log("/reVerifyAndLoadPage GET called...");
 	
@@ -261,7 +260,7 @@ app.get("/private", (req, res) => { // works if cookie set, but doesn't revalida
   res.render("node-dopple-login-success-2", {});
 });
 
-app.get("/private2", (req, res) => {
+app.get("/private2", (req, res) => { // Successfully checks cookie for id_token
 	if (!req.cookies.user_cookie_id){
 		return res.status(401).send(); // Reject connection if cookie not set at all.
 	}
