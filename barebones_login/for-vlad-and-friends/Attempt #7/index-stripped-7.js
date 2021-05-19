@@ -266,6 +266,8 @@ app.get("/private2", (req, res) => { // Successfully checks cookie for id_token
 	}
 	console.log("Attempting to verify userID via cookie (cookie not empty)...");
 	
+	// check cookie expiration date (here?)
+	
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
 		let newbody = "";
 		res2.on("data", (chunk) => {
