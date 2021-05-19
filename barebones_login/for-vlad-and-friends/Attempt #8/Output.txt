@@ -1,0 +1,107 @@
+C:\Users\Administrator\Desktop\_Root\_facemash>node index-stripped-8.js
+Starting...
+Attempting to verify userID via cookie (cookie not empty)...
+---------------------
+parts: [
+  'eyJhbGciOiJSUzI1NiIsImtpZCI6ImQzZmZiYjhhZGUwMWJiNGZhMmYyNWNmYjEwOGNjZWI4ODM0M
+DZkYWMiLCJ0eXAiOiJKV1QifQ',
+  'eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMjYzMDkyNjQzMDItNjh1Ym9zb2NhN
+2I2Zzl2cnZsOW11NmdwYTc0MDQ0cDYuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyN
+jMwOTI2NDMwMi02OHVib3NvY2E3YjZnOXZydmw5bXU2Z3BhNzQwNDRwNi5hcHBzLmdvb2dsZXVzZXJjb
+250ZW50LmNvbSIsInN1YiI6IjExMTYyMjUyNDU5NDg0MTQ4NDEwOCIsImVtYWlsIjoicmRvdWJsZW9jQ
+GdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiUS1BRUYtQnNOcUMxOTI0Q
+jVtQmVlZyIsIm5hbWUiOiJSdXNzZWxsIFIuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZ
+XJjb250ZW50LmNvbS9hLS9BT2gxNEdnOXMzY0pQXy1JTHBJYy1lTHNQaUE4ZTJwb3VnSzB1anRvZ3dHe
+T1zOTYtYyIsImdpdmVuX25hbWUiOiJSdXNzZWxsIiwiZmFtaWx5X25hbWUiOiJSLiIsImxvY2FsZSI6I
+mVuIiwiaWF0IjoxNjIxNDA4Nzc1LCJleHAiOjE2MjE0MTIzNzUsImp0aSI6IjVhMTA1YmMwZmNhMDE5O
+TgzYTVmNzZjMDEyM2NhZWE3NDM2YTQxOTcifQ',
+  'LQyVU293yjCLB_XU5dVvxVJsL-9cA8lIC5Npp74O0ERNvyFgzz0Y31aJ7Srk1ciknLN3eXLrvkd4P
+0mCCcUQBd0Rv3diWuk9El78B_4Bh7dWtucM0-bkc1XDOXuBEbw_tdkHyCaguK2IZNygZhFa4BIFRi_Q2
+seKAEpOP0U66jKxvj0FC6sR7Xv81tkv7D1ScxG-XoXBwh4xeGg0Mw3r_-i8TZEMLfwWM_S9VHJuCX7Gi
+ERMWldaWsUjV0ERg2anZhGlbebntRiGSqhrKaOIUe6CSMuGvQTI-6-bJHY4Q3DU27RiE1UwdfvSMher2
+zsqYYGzuJtu0K4kmVry1du2qw'
+]
+---------------------
+header (from /P2):  {
+  alg: 'RS256',
+  kid: 'd3ffbb8ade01bb4fa2f25cfb108cceb883406dac',
+  typ: 'JWT'
+}
+---------------------
+body (from /P2):  {
+  iss: 'accounts.google.com',
+  azp: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  aud: '26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com'
+,
+  sub: '111622524594841484108',
+  email: 'rdoubleoc@gmail.com',
+  email_verified: true,
+  at_hash: 'Q-AEF-BsNqC1924B5mBeeg',
+  name: 'Russell R.',
+  picture: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2p
+ougK0ujtogwGy=s96-c',
+  given_name: 'Russell',
+  family_name: 'R.',
+  locale: 'en',
+  iat: 1621408775,
+  exp: 1621412375,
+  jti: '5a105bc0fca019983a5f76c0123caea7436a4197'
+}
+---------------------
+Keys from Request (from /P2):  {
+  "keys": [
+    {
+      "use": "sig",
+      "kid": "d3ffbb8ade01bb4fa2f25cfb108cceb883406dac",
+      "kty": "RSA",
+      "n": "z8eiKUkFeJeFWXxqDCCR7R3FATnahlIWPY-drXFv0DOY_GCwmQCZArvNhHjtbJkbpPO9
+isHykrEkov1B0T8RhsMWalfmOuUCMTGvcc_gJgTtlfTkgY10FOayh0QRQiyW7DfW4SeJijOMrw7JpIyu
+Q5tHGZEC1L2Y0_-TFSwvWjOhbb8zbNWmI4RnyFtLreHonUM9QUPsjFWJpyLFmCFlu0WqcWDnmnjZTjlA
+lkm-iWeqfvNs1q3EsDDc9YtNnoy_h8ipi5g-ThG9LIw5KCzMY_C-2BrS9Sa-DsegOht2Y8rew4nEgcqk
+SokQZpXtDSkSKCkbcaT_rXY7vK13uXg14w==",
+      "e": "AQAB",
+      "alg": "RS256"
+    },
+    {
+      "kid": "cd49b2ab16e1e9a496c8239dac0dadd09d443012",
+      "n": "koT6VAUmOwqXQoyMQkk0F1JJd81H7ksx7FHfKtqXvdrDt9LLr1IDJ-CFpbbn4SuJeYQc
+Uo-lHA1_vbbtgCBSyd_H86WGGARlPrsqFF-hbBBauhUQuXMxFxJKAiQS0WIbFvDkwRaNiGIMYQvzwDKb
+ms5tCqZ04T5Qez9v64i3RlU8-upJxG9duzeXQjrnC5uJeeG-9fwE06RRZ1Y8Uul63Lpxicw5Alyd5HQI
+zF5vSSwjqdVrBUJAToxuTIqIHR24omrz1f7Jf97wy2U7KUoSnytauyaZtph7RmsUPVMFr9fGMxNVU8tK
+EVeOYJv-piOc0gfPvIahbv2en0DhOax6OQ==",
+      "e": "AQAB",
+      "kty": "RSA",
+      "use": "sig",
+      "alg": "RS256"
+    },
+    {
+      "alg": "RS256",
+      "use": "sig",
+      "n": "vFRvKlxctMszRPK6iZ9TGW3lLLIvun157Lgb_M3LDBZpNcmnMDgswiIjEODSdclMv_gj
+6UWpoX7qWFHA-PNi_KQtyZMaDSrpNL3eA5zjbPA3CV6fGaWCBzallSjHo9Z7E9-Kqtn0IMmIcNxADo2R
+USoYxb3n8ivjA38m8cnJ_yFEm99LXqBy5ZPhFiPOxNcxGwkkVsjiTUbCcaIb4mk2owD1XjPGmV4EJdIC
+XbyG7e4Lp4jX7MegzEJrDQKoq4mMqVt6fHLuma_GSG7W1gV_Zs71SZ6RufB2LJQMPChg2qyfWeetwsIq
+AJoxtTxEipjlCT-8-QHV_QQw56MmiK_Txw==",
+      "e": "AQAB",
+      "kid": "69ed57f424491282a18020fd585954b70bb45ae0",
+      "kty": "RSA"
+    }
+  ]
+}
+
+---------------------
+Running verifcation process (on /P2)...
+obj (from /P2): {
+  email: 'rdoubleoc@gmail.com',
+  imageURL: 'https://lh3.googleusercontent.com/a-/AOh14Gg9s3cJP_-ILpIc-eLsPiA8e2
+pougK0ujtogwGy=s96-c',
+  tokenVerified: true
+}
+Result is (from /P2): true
+body.iat (/P2):  1621408775
+currentTime (/P2):  1621409004
+body.exp (/P2):  1621412375
+Token Verified (Server Side) (from /P2)!
+Rendering secure page...
+
