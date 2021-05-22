@@ -74,7 +74,6 @@
 	console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
 	console.log("auth2: " + auth2);
 	
-	
 	let refreshPromise = gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
 	console.log("refreshPromise: ", refreshPromise);
 	
