@@ -79,7 +79,8 @@
 </div>
 
 <div class="wrapper fullWidth">
-	<center><h1>You are STILL signed in!</h1></center>
+	<center><h1>You are STILL signed in!</h1></center><br>
+	<center><div id="userBox"></div></center><br>
 </div>
 
 <div class="wrapper fullWidth center">
@@ -91,8 +92,7 @@
 
 <script>
 function onSignIn(googleUser){
-
-	console.log("Beginning Script...");
+	<!-- console.log("onSignIn()..."); -->
 
 	console.log("Checking GAPI...");
 	let auth2 = gapi.auth2.init();
@@ -109,9 +109,8 @@ function onSignIn(googleUser){
 	};
 
 	console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
-	console.log("auth2: " + auth2);	
+	console.log("auth2: ", auth2);	
 	console.log("idPromise (values:)", idPromise);
-	console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
 	console.log("id_token: ", id_token);
 	console.log("userObject: ", userObject);
 
@@ -134,7 +133,7 @@ function onSignIn(googleUser){
 				console.log("response.tokenVerified", response.tokenVerified);
 				console.log("response.id_token", response.id_token);
 				console.log("response.email", response.email);
-				console.log("response.picture", response.picture);
+				console.log("response.picture", response.imageURL);
 				
 				
 				if(response.tokenVerified === true){
@@ -144,7 +143,8 @@ function onSignIn(googleUser){
 					document.cookie = "user_cookie_id=" + response.id_token;
 					document.cookie = "user_id_token=" + response.id_token;
 					document.cookie = "user_email=" + response.email;
-					document.cookie = "user_picture=" + response.imageURL;
+					document.cookie = "user_imageURL=" + response.imageURL;
+					document.getElementById("userBox").innerHTML = '<center>Hello ' + response.email + '!<br><img src="' + response.imageURL + '"></center>';
 				}
 			},
 			error: function (error) {
@@ -157,7 +157,7 @@ function onSignIn(googleUser){
 
 };
 
-//document.getElementById("menu").innerHTML = '<center>You are signed in as: ' + profile.getName() + '! (<a href="#" onclick="signOut();">Sign out</a>)</center>';
+
 function onFailure(error) {
      console.log(error);
 };
