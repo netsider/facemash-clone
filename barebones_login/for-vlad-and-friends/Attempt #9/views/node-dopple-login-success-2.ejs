@@ -92,12 +92,14 @@
 </center>
 
 <script>
-window.onLoadCallback = function(){
+<!-- window.onLoadCallback = function(){ -->
+function onSignIn(googleUser){
 
 	console.log("Beginning Script...");
 
 	console.log("Checking GAPI...");
-	let auth2 = gapi.auth2.getAuthInstance();	
+	let auth2 = gapi.auth2.init();
+	auth2 = gapi.auth2.getAuthInstance();	
 	let profile = googleUser.getBasicProfile();	
 	let id_token = googleUser.getAuthResponse().id_token;
 	let idPromise = gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
