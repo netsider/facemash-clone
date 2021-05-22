@@ -190,7 +190,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 						cb(false);
 					}
 				// }(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
-				}(jws.verify(IDTOKEN, JSON.parse(keysFromRequest)), function (result) {
+				}(jws.verify(req.query.id_token, JSON.parse(keysFromRequest)), function (result) {
 					console.log("Running verifcation process (on /reVerifyAndLoadPage)... ");
 					let obj = {
 						// email: req.body.emailAddress,
