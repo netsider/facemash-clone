@@ -423,7 +423,7 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 				
 			});
 		});
-	// res.writeHead(200, {
+	// res.writeHead(200, { // find out how to do it this way
       // "Set-Cookie": "user_cookie_id=" + id_token + "; HttpOnly",
       // "Access-Control-Allow-Credentials": "true"
     // }).send(); 
