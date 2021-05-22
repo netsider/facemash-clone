@@ -66,12 +66,27 @@
 		}
 	</style>
 	<script>
-	console.log("Sending Ajax request for TOKEN REFRESH...");
+	let auth2 = gapi.auth2.getAuthInstance();
+	let profile = googleUser.getBasicProfile();	
+	let id_token = googleUser.getAuthResponse().id_token;
+	
+	
+	console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
+	console.log("auth2: " + auth2);
+	
+	
+	let refreshPromise = gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
+	console.log("refreshPromise: ", refreshPromise);
+	
+	
+	console.log("Creating user object...");
 	let userObject = {
 		"emailAddress": profile.getEmail(),
 		"imageURL": profile.getImageUrl(),
 		"userIDToken": id_token,
 	};
+	
+	console.log("Sending Ajax request for TOKEN REFRESH...");
 	$.ajax({
         url: "/refreshToken",
 		headers: {
@@ -85,11 +100,8 @@
 			console.log("response.tokenVerified", response.tokenVerified);
 			
 			if(response.tokenVerified === true){
-				console.log("Token Verified (response received!)");
+				console.log("Token Refreshed (response received!)");
 				
-				console.log("Attempting redirect with token included (2)...");
-				document.location.href = '/reVerifyAndLoadPage' + '?id_token=' + id_token;
-				//window.location.replace("/facemash"); //working
 			}
         },
 		error: function (error) {
