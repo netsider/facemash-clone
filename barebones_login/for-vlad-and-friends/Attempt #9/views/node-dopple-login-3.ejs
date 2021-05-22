@@ -65,6 +65,39 @@
 			visibility: visible;
 		}
 	</style>
+	<script>
+	console.log("Sending Ajax request for TOKEN REFRESH...");
+	let userObject = {
+		"emailAddress": profile.getEmail(),
+		"imageURL": profile.getImageUrl(),
+		"userIDToken": id_token,
+	};
+	$.ajax({
+        url: "/refreshToken",
+		headers: {
+			'Content-Type':'application/json',
+		},
+		data: JSON.stringify(userObject),
+		//data: userObject,
+        type: 'POST',
+        success: function (response){
+			console.log("Response Received!: ", response);
+			console.log("response.tokenVerified", response.tokenVerified);
+			
+			if(response.tokenVerified === true){
+				console.log("Token Verified (response received!)");
+				
+				console.log("Attempting redirect with token included (2)...");
+				document.location.href = '/reVerifyAndLoadPage' + '?id_token=' + id_token;
+				//window.location.replace("/facemash"); //working
+			}
+        },
+		error: function (error) {
+			console.log("TOKEN NOT Verified!")
+			console.log(error);
+		}
+    });
+	</script>
 </head>
 <body>
 

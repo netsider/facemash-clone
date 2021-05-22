@@ -358,12 +358,18 @@ app.get("/anotherPage", function(req, res, next){ // Secure page to stay logged 
 	res.render("node-dopple-login-3", {});
 });
 
-app.get("/setcookie", function (req, res) { // Figure out how to do it this way
+app.post("/refeshToken", function (req, res) { // Figure out how to do it this way
 	console.log("/setcookie called...");
-	// res.writeHead(200, {
-      // "Set-Cookie": "user_cookie_id=" + app.locals.id_token + "; HttpOnly",
-      // "Access-Control-Allow-Credentials": "true"
-    // }).send(); 
+	
+	
+	
+	
+	
+	let id_token = 555;
+	res.writeHead(200, {
+      "Set-Cookie": "user_cookie_id=" + id_token + "; HttpOnly",
+      "Access-Control-Allow-Credentials": "true"
+    }).send(); 
 });
 
 app.get("/getcooks", function (req, res) {
