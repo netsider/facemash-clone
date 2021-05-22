@@ -343,7 +343,7 @@ app.get("/private2", (req, res) => { // Successfully checks cookie for id_token
 		});
 });
 
-app.post("/refeshToken", function (req, res) { // Figure out how to do it this way
+app.post("/refreshToken", function (req, res) { // Figure out how to do it this way
 	console.log("/refeshToken called...");
 	
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
