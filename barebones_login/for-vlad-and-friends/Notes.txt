@@ -27,6 +27,8 @@ Attempt #8: Expired tokens will now be rejected (at least on the first route I d
 
 Attempt #9: Expired tokens will now be rejected.  Lines will be added to refresh the token after it expires, somehow.  Add /refreshToken node?
 
+https://bugs.chromium.org/p/chromium/issues/detail?id=954323
+
 Solution Not in Google Database:
 https://stackoverflow.com/questions/32150845/how-to-refresh-expired-google-sign-in-logins?rq=1
 https://pasteboard.co/K30MlPG.png
