@@ -25,7 +25,7 @@ Attempt #7: The first one to work almost fully.  Uses cookies, but doesn't verif
 
 Attempt #8: Expired tokens will now be rejected (at least on the first route I did it on).  Now I must make it re-verify and set cookie once one expires.
 
-Attempt #9: Expired tokens will now be rejected.  Lines will be added to refresh the token after it expires, somehow.
+Attempt #9: Expired tokens will now be rejected.  Lines will be added to refresh the token after it expires, somehow.  Add /refreshToken node?
 
 Solution Not in Google Database:
 https://stackoverflow.com/questions/32150845/how-to-refresh-expired-google-sign-in-logins?rq=1
