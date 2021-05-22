@@ -130,12 +130,21 @@ function onSignIn(googleUser){
 			//data: userObject,
 			type: 'POST',
 			success: function (response){
-				console.log("Response Received!: ", response);
+				console.log("Response: ", response);
 				console.log("response.tokenVerified", response.tokenVerified);
-			
-				if(response.tokenVerified === true){
-					console.log("Token Refreshed (response received!)");
+				console.log("response.id_token", response.id_token);
+				console.log("response.email", response.email);
+				console.log("response.picture", response.picture);
 				
+				
+				if(response.tokenVerified === true){
+					console.log("Token Verified (& response received!)");
+					
+					console.log("Setting new cookie...");
+					document.cookie = "user_cookie_id=" + response.id_token;
+					document.cookie = "user_id_token=" + response.id_token;
+					document.cookie = "user_email=" + response.email;
+					document.cookie = "user_picture=" + response.imageURL;
 				}
 			},
 			error: function (error) {

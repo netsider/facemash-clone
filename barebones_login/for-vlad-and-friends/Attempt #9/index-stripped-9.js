@@ -392,7 +392,7 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 					console.log("Token Verified (on /refeshToken)!");
 					
 					if(checkTime(body.exp) === true){ // issue new token
-						console.log("Token passed Verification (on /refeshToken).  Rendering secure page...");
+						console.log("Token passed Verification (on /refeshToken).");
 						let obj = {
 							email: body.email,
 							imageURL: body.picture,
@@ -403,7 +403,7 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 						res.set('Content-Type', 'application/json');
 						return res.json(obj);
 					}else{ // don't issue new token
-						console.log("Token passed verification, but is expired");	
+						console.log("Token passed verification, BUT IS EXPIRED");	
 						let obj = {
 							email: body.email,
 							imageURL: body.picture,
