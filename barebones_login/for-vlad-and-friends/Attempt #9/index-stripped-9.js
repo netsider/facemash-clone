@@ -344,28 +344,11 @@ app.get("/private2", (req, res) => { // Successfully checks cookie for id_token
 		});
 });
 
-function checkTime(time){
-	if(time >= Math.floor(Date.now() / 1000)){
-		return true;
-	}else{
-		return false;
-	}
-}
-
-app.get("/anotherPage", function(req, res, next){ // Secure page to stay logged in for
-	console.log("/anotherPage called...");
-}, function(req, res){
-	res.render("node-dopple-login-3", {});
-});
 
 app.post("/refeshToken", function (req, res) { // Figure out how to do it this way
-	console.log("/setcookie called...");
+	console.log("/refeshToken called...");
 	
 	
-	
-	
-	
-	let id_token = 555;
 	res.writeHead(200, {
       "Set-Cookie": "user_cookie_id=" + id_token + "; HttpOnly",
       "Access-Control-Allow-Credentials": "true"
@@ -375,3 +358,20 @@ app.post("/refeshToken", function (req, res) { // Figure out how to do it this w
 app.get("/getcooks", function (req, res) {
     res.send(req.cookies);
 })
+
+app.get("/anotherPage", function(req, res, next){ // Secure page to stay logged in for
+	console.log("/anotherPage called...");
+}, function(req, res){
+	res.render("node-dopple-login-3", {});
+});
+
+
+
+// Functions
+function checkTime(time){
+	if(time >= Math.floor(Date.now() / 1000)){
+		return true;
+	}else{
+		return false;
+	}
+}
