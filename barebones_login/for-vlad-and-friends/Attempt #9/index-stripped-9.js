@@ -353,7 +353,8 @@ app.post("/refeshToken", function (req, res) { // Figure out how to do it this w
 		// console.log("body: ", body);
 	});
 	res2.on("end", () => {	
-			
+		console.log("Got keys (on /refeshToken)");
+		
 		let parts = req.body.userIDToken.split('.');
 		let headerBuf2 = new Buffer.from(parts[0], 'base64');
 		let bodyBuf = new Buffer.from(parts[1], 'base64');
@@ -376,6 +377,7 @@ app.post("/refeshToken", function (req, res) { // Figure out how to do it this w
 				// console.log("body.exp (/P2): ", body.exp);
 			}
 			
+			console.log("Trying verification (on /refeshToken)...");
 			(function IIFE(func, cb) {
 				if (func){
 					cb(true);
@@ -387,10 +389,10 @@ app.post("/refeshToken", function (req, res) { // Figure out how to do it this w
 				console.log("Result is (from /refreshToken): " + result);
 				
 				if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
-					console.log("Token Verified (Server Side) (from /refeshToken)!");
+					console.log("Token Verified (on /refeshToken)!");
 					
 					if(checkTime(body.exp) === true){ // issue new token
-						console.log("Token passed Verification.  Rendering secure page...");
+						console.log("Token passed Verification (on /refeshToken).  Rendering secure page...");
 						let obj = {
 							email: body.email,
 							imageURL: body.picture,
