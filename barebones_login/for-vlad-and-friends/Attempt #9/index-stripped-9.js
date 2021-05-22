@@ -344,10 +344,83 @@ app.get("/private2", (req, res) => { // Successfully checks cookie for id_token
 		});
 });
 
-
 app.post("/refeshToken", function (req, res) { // Figure out how to do it this way
 	console.log("/refeshToken called...");
 	
+	//verify token, and then set cookie?
+		https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
+		let newbody = "";
+		res2.on("data", (chunk) => {
+			newbody += chunk;
+			// console.log("body: ", body);
+		});
+		res2.on("end", () => {	
+			
+			let parts = req.body.userIDToken.split('.');
+			let headerBuf2 = new Buffer.from(parts[0], 'base64');
+			let bodyBuf = new Buffer.from(parts[1], 'base64');
+			let header = JSON.parse(headerBuf2.toString());
+			let body = JSON.parse(bodyBuf.toString());
+			let keysFromRequest = newbody;
+			let cTime = Math.floor(Date.now() / 1000);
+			
+			let debugVAR = true;
+			if(debugVAR === true){
+				console.log("---------------------");
+				console.log("parts:", parts);
+				console.log("---------------------");
+				console.log("header (from /P2): ", header);
+				console.log("---------------------");
+				console.log("body (from /P2): ", body);
+				console.log("---------------------");
+				console.log("Keys from Request (from /P2): ", newbody);
+				console.log("---------------------");
+				console.log("cTime (/P2): ", cTime);
+				console.log("---------------------");
+				// console.log("body.iat (/P2): ", body.iat);
+				// console.log("body.exp (/P2): ", body.exp);
+			}
+			
+			(function IIFE(func, cb) {
+				if (func){
+					cb(true);
+				}else{
+					cb(false);
+				}
+			}(jws.verify(req.cookies.user_cookie_id, JSON.parse(keysFromRequest)), function (result) {
+				console.log("Running verifcation process (on /P2)... ");
+				let obj = {
+					email: body.email,
+					imageURL: body.picture,
+					tokenVerified: result
+				}
+					
+				console.log("obj (from /P2):", obj);
+				// console.log("Result is (from /P2): " + result);
+				
+				if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
+					console.log("Token Verified (Server Side) (from /P2)!");
+					
+					// if(body.exp > Math.floor(Date.now() / 1000)){
+					if(checkTime(body.exp) === true){
+						console.log("Rendering secure page...");
+						res.set('Content-Type', 'text/html');
+						return res.render("node-dopple-login-success-2", {});
+					}else{
+						console.log("Token passed verification, but is expired");	
+						return res.status(401).send();
+					}
+						
+				}else{
+					console.log("Token Failed Verification! (from /P2)");
+					return res.status(401).send();
+				}
+			}));
+				
+				
+				
+			});
+		});
 	
 	res.writeHead(200, {
       "Set-Cookie": "user_cookie_id=" + id_token + "; HttpOnly",
