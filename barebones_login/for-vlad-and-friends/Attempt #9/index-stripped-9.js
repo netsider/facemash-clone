@@ -135,7 +135,6 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 
 }, function(req, res){
 	console.log("Next function successfully called! (from /initialVerify)");
-	// console.log("Trying to render node-dopple-login-success (from /initialVerify)...");
    res.set('Content-Type', 'application/json');
 	// console.log("res.locals.obj: ", res.locals.obj);
 	res.json(res.locals.obj); // Return JSON to satisfy XHR request.
@@ -347,35 +346,31 @@ app.get("/private2", (req, res) => { // Successfully checks cookie for id_token
 app.post("/refeshToken", function (req, res) { // Figure out how to do it this way
 	console.log("/refeshToken called...");
 	
-	//verify token, and then set cookie?
-		https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
+	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
 		let newbody = "";
-		res2.on("data", (chunk) => {
-			newbody += chunk;
-			// console.log("body: ", body);
-		});
-		res2.on("end", () => {	
+	res2.on("data", (chunk) => {
+		newbody += chunk;
+		// console.log("body: ", body);
+	});
+	res2.on("end", () => {	
 			
-			let parts = req.body.userIDToken.split('.');
-			let headerBuf2 = new Buffer.from(parts[0], 'base64');
-			let bodyBuf = new Buffer.from(parts[1], 'base64');
-			let header = JSON.parse(headerBuf2.toString());
-			let body = JSON.parse(bodyBuf.toString());
-			let keysFromRequest = newbody;
-			let cTime = Math.floor(Date.now() / 1000);
+		let parts = req.body.userIDToken.split('.');
+		let headerBuf2 = new Buffer.from(parts[0], 'base64');
+		let bodyBuf = new Buffer.from(parts[1], 'base64');
+		let header = JSON.parse(headerBuf2.toString());
+		let body = JSON.parse(bodyBuf.toString());
+		let keysFromRequest = newbody;
 			
 			let debugVAR = true;
 			if(debugVAR === true){
 				console.log("---------------------");
 				console.log("parts:", parts);
 				console.log("---------------------");
-				console.log("header (from /P2): ", header);
+				console.log("header (from /refeshToken): ", header);
 				console.log("---------------------");
-				console.log("body (from /P2): ", body);
+				console.log("body (from /refeshToken): ", body);
 				console.log("---------------------");
-				console.log("Keys from Request (from /P2): ", newbody);
-				console.log("---------------------");
-				console.log("cTime (/P2): ", cTime);
+				console.log("Keys from Request (from /refeshToken): ", newbody);
 				console.log("---------------------");
 				// console.log("body.iat (/P2): ", body.iat);
 				// console.log("body.exp (/P2): ", body.exp);
@@ -387,32 +382,37 @@ app.post("/refeshToken", function (req, res) { // Figure out how to do it this w
 				}else{
 					cb(false);
 				}
-			}(jws.verify(req.cookies.user_cookie_id, JSON.parse(keysFromRequest)), function (result) {
-				console.log("Running verifcation process (on /P2)... ");
-				let obj = {
-					email: body.email,
-					imageURL: body.picture,
-					tokenVerified: result
-				}
-					
-				console.log("obj (from /P2):", obj);
-				// console.log("Result is (from /P2): " + result);
+			}(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
+				console.log("Running verifcation process (on /refeshToken)... ");
+				console.log("Result is (from /refreshToken): " + result);
 				
 				if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
-					console.log("Token Verified (Server Side) (from /P2)!");
+					console.log("Token Verified (Server Side) (from /refeshToken)!");
 					
-					// if(body.exp > Math.floor(Date.now() / 1000)){
-					if(checkTime(body.exp) === true){
-						console.log("Rendering secure page...");
-						res.set('Content-Type', 'text/html');
-						return res.render("node-dopple-login-success-2", {});
-					}else{
+					if(checkTime(body.exp) === true){ // issue new token
+						console.log("Token passed Verification.  Rendering secure page...");
+						let obj = {
+							email: body.email,
+							imageURL: body.picture,
+							tokenVerified: true,
+							id_token: req.body.userIDToken
+						}
+						console.log("obj (from /refeshToken):", obj);
+						res.set('Content-Type', 'application/json');
+						return res.json(obj);
+					}else{ // don't issue new token
 						console.log("Token passed verification, but is expired");	
+						let obj = {
+							email: body.email,
+							imageURL: body.picture,
+							tokenVerified: false
+						}
+						console.log("obj (from /refeshToken):", obj);
 						return res.status(401).send();
 					}
 						
 				}else{
-					console.log("Token Failed Verification! (from /P2)");
+					console.log("Token Failed Verification! (from /refeshToken)");
 					return res.status(401).send();
 				}
 			}));
@@ -421,11 +421,10 @@ app.post("/refeshToken", function (req, res) { // Figure out how to do it this w
 				
 			});
 		});
-	
-	res.writeHead(200, {
-      "Set-Cookie": "user_cookie_id=" + id_token + "; HttpOnly",
-      "Access-Control-Allow-Credentials": "true"
-    }).send(); 
+	// res.writeHead(200, {
+      // "Set-Cookie": "user_cookie_id=" + id_token + "; HttpOnly",
+      // "Access-Control-Allow-Credentials": "true"
+    // }).send(); 
 });
 
 app.get("/getcooks", function (req, res) {
