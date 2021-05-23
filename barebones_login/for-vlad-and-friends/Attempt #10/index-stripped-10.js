@@ -8,13 +8,13 @@ const app = express();
 const jws = require("jws-jwk");
 const https = require("https");
 const sql = require("mssql"); // https://www.npmjs.com/package/mssql
-const config = require("../config.js");
 const cookieParser = require("cookie-parser");
 
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(express.json());
 app.use(cookieParser());
 
+const config = require("../config.js");
 const publicDir = "files";
 
 app.use(express.static(__dirname + "/" + publicDir));
@@ -54,7 +54,6 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 				let keysFromRequest = newbody;
 				
 				let debugVAR = false;
-				
 				if(debugVAR === true){
 					console.log("---------------------");
 					console.log("req.query.id_token (from /initialVerify): ", req.query.id_token);
@@ -95,9 +94,9 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 							// console.log("Trying Query: ", q);
 							await sql.connect(sqlConfig); 
 							let request = new sql.Request();
-							console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
+							// console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
 							let theQuery = request.query(q);
-							console.log("Query Result:", theQuery);
+							// console.log("Query Result:", theQuery);
 							return theQuery;
 						})();
 						
@@ -149,8 +148,8 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				let header = JSON.parse(headerBuf2.toString());
 				let body = JSON.parse(bodyBuf.toString());
 				let keysFromRequest = newbody;
-				let IDTOKEN = req.query.id_token;
-				res.locals.id_token = IDTOKEN;
+				// let IDTOKEN = req.query.id_token;
+				res.locals.id_token = req.query.id_token;
 				
 				let debugVAR = false;
 				if(debugVAR === true){
@@ -176,9 +175,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				}(jws.verify(req.query.id_token, JSON.parse(keysFromRequest)), function (result) {
 					console.log("Running verifcation process (on /reVerifyAndLoadPage)... ");
 					let obj = {
-						// email: req.body.emailAddress,
 						email: body.email,
-						// imageURL: body.imageURL,
 						imageURL: body.picture,
 						tokenVerified: result
 					}
@@ -203,7 +200,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 							return theQuery2;
 						})();
 						
-						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
+						Promise.all([insertUserIntoDB]).then((values) => {
 							console.log("Result after inserting user into DB (from /reVerifyAndLoadPage): ", values);
 							console.log("Trying next() function (from /reVerifyAndLoadPage): ");
 							return next();
@@ -233,11 +230,6 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 	console.log("Trying to render node-dopple-login-success...(from /reVerifyAndLoadPage)");
 	res.set('Content-Type', 'text/html');
 	return res.render("node-dopple-login-success");
-});
-
-app.get("/private", (req, res) => { // works if cookie set, but doesn't revalidate token (insecure).
-  if (!req.cookies.user_cookie_id) return res.status(401).send();
-  res.render("node-dopple-login-success-2", {});
 });
 
 app.get("/private2", (req, res) => {
@@ -293,19 +285,17 @@ app.get("/private2", (req, res) => {
 				}
 					
 				console.log("obj (from /P2):", obj);
-				// console.log("Result is (from /P2): " + result);
 				
 				if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
 					console.log("Token Verified (Server Side) (from /P2)!");
 					
-					// if(body.exp > Math.floor(Date.now() / 1000)){
 					if(checkTime(body.exp) === true){
 						console.log("Rendering secure page...");
 						res.set('Content-Type', 'text/html');
 						// Why can't I just set a cookie with a new id token each time, right here?  Can I? (instead of doing it via AJAX?)
 						return res.render("node-dopple-login-success-2", {});
 					}else{
-						console.log("Token passed verification, but is expired");	
+						console.log("Token passed verification, but is expired!");	
 						return res.status(401).send();
 					}
 						
@@ -328,7 +318,6 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 		let newbody = "";
 	res2.on("data", (chunk) => {
 		newbody += chunk;
-		// console.log("body: ", body);
 	});
 	res2.on("end", () => {	
 		console.log("Got keys (on /refeshToken)");
@@ -351,8 +340,6 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 				console.log("---------------------");
 				console.log("Keys from Request (from /refeshToken): ", newbody);
 				console.log("---------------------");
-				// console.log("body.iat (/P2): ", body.iat);
-				// console.log("body.exp (/P2): ", body.exp);
 			}
 			
 			console.log("Trying verification (on /refeshToken)...");
@@ -381,13 +368,12 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 						res.set('Content-Type', 'application/json');
 						return res.json(obj);
 					}else{ // don't issue new token
-						console.log("Token passed verification, BUT IS EXPIRED!");	
+						console.log("Token passed verification, BUT IS EXPIRED! (on /refeshToken)");	
 						let obj = {
 							email: body.email,
 							imageURL: body.picture,
 							tokenVerified: false
 						}
-						console.log("obj (from /refeshToken):", obj);
 						return res.status(401).send();
 					}
 						
@@ -414,9 +400,9 @@ app.get("/anotherPage", function(req, res, next){ // Secure page to stay logged 
 	res.render("node-dopple-login-3", {});
 });
 
-// Functions
-function checkTime(time){
-	if(time >= Math.floor(Date.now() / 1000)){
+// Developer Functions
+function checkTime(t){
+	if(t >= Math.floor(Date.now() / 1000)){
 		return true;
 	}else{
 		return false;
@@ -434,3 +420,8 @@ function checkTime(time){
 // console.log("obj (from /initialVerify):" + key + ":" + obj[key]);
 // });
 // console.log("Result is (from /initialVerify): " + result);
+
+// app.get("/private", (req, res) => { // works if cookie set, but doesn't revalidate token (insecure).
+  // if (!req.cookies.user_cookie_id) return res.status(401).send();
+  // res.render("node-dopple-login-success-2", {});
+// });
