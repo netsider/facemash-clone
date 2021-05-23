@@ -19,7 +19,6 @@ const publicDir = "files";
 
 app.use(express.static(__dirname + "/" + publicDir));
 app.set("view engine", "ejs");
-app.listen(3000);
 
 const sqlConfig = config.configFunc();
 const currentTable = "users13";
@@ -27,6 +26,7 @@ const clientID = "26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleuserco
 const workingTable = "facemash_clone_3";
 
 console.log("Starting...");
+app.listen(3000);
 	
 app.get('/login', function(req, res){
 	console.log("/login called");
@@ -37,8 +37,7 @@ app.get('/login', function(req, res){
 app.post('/initialVerify', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
 	console.log("/initialVerify POST called...");
 	
-	// Get JWK Keys and perform token verifcation
-	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
+	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => { // Get JWK keys
 		let newbody = "";
 		res2.on("data", (chunk) => {
 			newbody += chunk;
@@ -58,7 +57,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 				
 				if(debugVAR === true){
 					console.log("---------------------");
-					console.log("req.query.id_token (from /initialVerify): ", req.query.id_token); // ????
+					console.log("req.query.id_token (from /initialVerify): ", req.query.id_token);
 					console.log("---------------------");
 					console.log("header (from /initialVerify): ", header);
 					console.log("---------------------");
@@ -82,22 +81,18 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 						tokenVerified: result
 					}
 					console.log("obj (from /initialVerify):", obj);
-					// Array.from(Object.keys(obj)).forEach(function(key){
-						// console.log("obj (from /initialVerify):" + key + ":" + obj[key]);
-					// });
-					// console.log("Result is (from /initialVerify): " + result);
+					
 					
 					console.log("Trying to verify...");
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
-						console.log("Token Verified (Server Side)!");
+						console.log("Token Verified! (on /initialVerify)!");
 						
 						let insertUserIntoDB = (async function() {
 							console.log("Adding User to Database...");
 							let userIP = req.headers['x-forwarded-for'];
-							// let userIP = '5.5.5.5';
 
 							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
-							// console.log("Trying query: ", q);
+							// console.log("Trying Query: ", q);
 							await sql.connect(sqlConfig); 
 							let request = new sql.Request();
 							console.log("request.query(q) [insertUserIntoDB]:", request.query(q));
@@ -106,7 +101,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 							return theQuery;
 						})();
 						
-						Promise.all([insertUserIntoDB]).then((values) => { // After promise fulfilled, send object we created earlier.
+						Promise.all([insertUserIntoDB]).then((values) => {
 							console.log("Result after inserting user into DB: ", values);
 							// console.log("Trying next() function: ");
 							res.locals.obj = obj;
@@ -132,25 +127,22 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 	console.log("Next function successfully called! (from /initialVerify)");
    res.set('Content-Type', 'application/json');
 	// console.log("res.locals.obj: ", res.locals.obj);
-	res.json(res.locals.obj); // Return JSON to satisfy XHR request.
+	res.json(res.locals.obj);
 });
 
 app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
 	console.log("/reVerifyAndLoadPage GET called...");
 	
-	// Get JWK Keys and perform token verifcation
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
 		let newbody = "";
 		res2.on("data", (chunk) => {
 			newbody += chunk;
-			// console.log("body: ", body);
 		});
 		res2.on("end", () => {
 			try {
 				// console.log("JSON.parse(body) (from /reVerifyAndLoadPage): ", JSON.parse(body));
 				// console.log("req.query (from /reVerifyAndLoadPage): " + req.query);
 				
-				// let parts = req.body.userIDToken.split('.');
 				let parts = req.query.id_token.split('.');
 				let headerBuf2 = new Buffer.from(parts[0], 'base64');
 				let bodyBuf = new Buffer.from(parts[1], 'base64');
@@ -161,8 +153,6 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				res.locals.id_token = IDTOKEN;
 				
 				let debugVAR = false;
-				
-				// Display User ID Token
 				if(debugVAR === true){
 					console.log("---------------------");
 					console.log("req.query.id_token (from /reVerifyAndLoadPage): ", req.query.id_token);
@@ -183,7 +173,6 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 					}else{
 						cb(false);
 					}
-				// }(jws.verify(req.body.userIDToken, JSON.parse(keysFromRequest)), function (result) {
 				}(jws.verify(req.query.id_token, JSON.parse(keysFromRequest)), function (result) {
 					console.log("Running verifcation process (on /reVerifyAndLoadPage)... ");
 					let obj = {
@@ -194,28 +183,23 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 						tokenVerified: result
 					}
 					
-					// Array.from(Object.keys(obj)).forEach(function(key){
-						// console.log("obj (from /reVerifyAndLoadPage):" + key + ":" + obj[key]);
-					// });
-					
 					console.log("obj (from /reVerifyAndLoadPage):", obj);
 					console.log("Result is (from /reVerifyAndLoadPage): " + result);
 					
 					if(result === true && body.aud === clientID && body.iss === "accounts.google.com"){
-						console.log("Token Verified (Server Side) (from /reVerifyAndLoadPage)!");
+						console.log("Token Verified! (/reVerifyAndLoadPage)");
 						
 						let insertUserIntoDB = (async function() {
 							console.log("Adding User to Database...(from /reVerifyAndLoadPage)");
 							let userIP = req.headers['x-forwarded-for'];
-							// let userIP = "5.5.5.5";
 
 							let q = "BEGIN IF NOT EXISTS (SELECT 1 FROM dbo." + currentTable + " WHERE userid = " + body.sub + ") BEGIN INSERT INTO dbo." + currentTable + " (id, name, email, ip, userid, picture, emailVerified, tokenVerified, exp) OUTPUT INSERTED.* VALUES (NEXT VALUE FOR dbo.MySequence" + currentTable +", '" + body.name +"', '" + body.email +"', '" + userIP + "', '" + body.sub + "', '" + body.picture + "', '" + body.email_verified + "', '" + obj.tokenVerified + "', '" + body.exp + "') END END";
 							console.log("Trying query (from /reVerifyAndLoadPage): ", q);
 							await sql.connect(sqlConfig); 
 							let request2 = new sql.Request();
-							console.log("request.query(q) [insertUserIntoDB] (from /reVerifyAndLoadPage):", request2.query(q));
+							// console.log("request.query(q) [insertUserIntoDB] (from /reVerifyAndLoadPage):", request2.query(q));
 							let theQuery2 = request2.query(q);
-							console.log("Query Result - theQuery2 - (from /reVerifyAndLoadPage):", theQuery2);
+							// console.log("Query Result - theQuery2 - (from /reVerifyAndLoadPage):", theQuery2);
 							return theQuery2;
 						})();
 						
@@ -242,9 +226,12 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 
 }, function(req, res){
 	console.log("Next function successfully called! (from /reVerifyAndLoadPage)");
-	console.log("Trying to render node-dopple-login-success...(from /reVerifyAndLoadPage)");
-   res.set('Content-Type', 'text/html');
+	
+   console.log("Setting User Cookie...");
 	res.cookie("user_cookie_id", res.locals.id_token);
+	
+	console.log("Trying to render node-dopple-login-success...(from /reVerifyAndLoadPage)");
+	res.set('Content-Type', 'text/html');
 	return res.render("node-dopple-login-success");
 });
 
@@ -253,30 +240,27 @@ app.get("/private", (req, res) => { // works if cookie set, but doesn't revalida
   res.render("node-dopple-login-success-2", {});
 });
 
-app.get("/private2", (req, res) => { // Successfully checks cookie for id_token
+app.get("/private2", (req, res) => {
+	console.log("/private2 called...");
 	if (!req.cookies.user_cookie_id){
-		return res.status(401).send(); // Reject connection if cookie not set at all.
+		console.log("Cookie not found!");
+		return res.status(401).send();
 	}
-	console.log("Attempting to verify userID via cookie (cookie not empty)...");
-	
-	// check token expiration date (here?)
 	
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
 		let newbody = "";
 		res2.on("data", (chunk) => {
 			newbody += chunk;
-			// console.log("body: ", body);
 		});
 		res2.on("end", () => {	
 			
-			let IDTOKEN = req.cookies.user_cookie_id;
-			let parts = IDTOKEN.split('.');
+			let id_token = req.cookies.user_cookie_id;
+			let parts = id_token.split('.');
 			let headerBuf2 = new Buffer.from(parts[0], 'base64');
 			let bodyBuf = new Buffer.from(parts[1], 'base64');
 			let header = JSON.parse(headerBuf2.toString());
 			let body = JSON.parse(bodyBuf.toString());
 			let keysFromRequest = newbody;
-			let cTime = Math.floor(Date.now() / 1000);
 			
 			let debugVAR = true;
 			if(debugVAR === true){
@@ -289,10 +273,9 @@ app.get("/private2", (req, res) => { // Successfully checks cookie for id_token
 				console.log("---------------------");
 				console.log("Keys from Request (from /P2): ", newbody);
 				console.log("---------------------");
-				console.log("cTime (/P2): ", cTime);
+				console.log("Current Time (/P2): ", Math.floor(Date.now() / 1000));
 				console.log("---------------------");
 				// console.log("body.iat (/P2): ", body.iat);
-				// console.log("body.exp (/P2): ", body.exp);
 			}
 			
 			(function IIFE(func, cb) {
@@ -319,6 +302,7 @@ app.get("/private2", (req, res) => { // Successfully checks cookie for id_token
 					if(checkTime(body.exp) === true){
 						console.log("Rendering secure page...");
 						res.set('Content-Type', 'text/html');
+						// Why can't I just set a cookie with a new id token each time, right here?  Can I? (instead of doing it via AJAX?)
 						return res.render("node-dopple-login-success-2", {});
 					}else{
 						console.log("Token passed verification, but is expired");	
@@ -441,3 +425,9 @@ function checkTime(time){
 		return false;
 	}
 }
+
+// Removed Code:
+// Array.from(Object.keys(obj)).forEach(function(key){
+						// console.log("obj (from /initialVerify):" + key + ":" + obj[key]);
+					// });
+					// console.log("Result is (from /initialVerify): " + result);
