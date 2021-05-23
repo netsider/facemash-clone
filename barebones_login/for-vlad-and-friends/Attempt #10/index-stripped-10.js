@@ -10,6 +10,10 @@ const https = require("https");
 const sql = require("mssql"); // https://www.npmjs.com/package/mssql
 const cookieParser = require("cookie-parser");
 
+// 1621747322
+// 1621750922
+// Diff = 
+
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 app.use(express.json());
 app.use(cookieParser());
@@ -35,7 +39,7 @@ app.get('/login', function(req, res){
 
 
 app.post('/initialVerify', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
-	console.log("/initialVerify POST called...");
+	console.log("/initialVerify (POST) called...");
 	
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => { // Get JWK keys
 		let newbody = "";
@@ -76,7 +80,8 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 					
 					let obj = {
 						email: req.body.emailAddress,
-						imageURL: req.body.imageURL,
+						// imageURL: req.body.imageURL,
+						imageURL: body.picture, // Use the one from the server/token (instead of line above) so user can't mess with it.
 						tokenVerified: result
 					}
 					console.log("obj (from /initialVerify):", obj);
@@ -129,8 +134,8 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 	res.json(res.locals.obj);
 });
 
-app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
-	console.log("/reVerifyAndLoadPage GET called...");
+app.get('/reVerifyAndLoadPage', function(req, res, next){
+	console.log("/reVerifyAndLoadPage (GET) called...");
 	
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
 		let newbody = "";
@@ -148,7 +153,6 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 				let header = JSON.parse(headerBuf2.toString());
 				let body = JSON.parse(bodyBuf.toString());
 				let keysFromRequest = newbody;
-				// let IDTOKEN = req.query.id_token;
 				res.locals.id_token = req.query.id_token;
 				
 				let debugVAR = false;
@@ -233,7 +237,7 @@ app.get('/reVerifyAndLoadPage', function(req, res, next){ // Milddeware token ve
 });
 
 app.get("/private2", (req, res) => {
-	console.log("/private2 called...");
+	console.log("/private2 (GET) called...");
 	if (!req.cookies.user_cookie_id){
 		console.log("Cookie not found!");
 		return res.status(401).send();
@@ -263,11 +267,10 @@ app.get("/private2", (req, res) => {
 				console.log("---------------------");
 				console.log("body (from /P2): ", body);
 				console.log("---------------------");
-				console.log("Keys from Request (from /P2): ", newbody);
+				console.log("Keys from Request (from /P2): ", JSON.parse(newbody));
 				console.log("---------------------");
 				console.log("Current Time (/P2): ", Math.floor(Date.now() / 1000));
 				console.log("---------------------");
-				// console.log("body.iat (/P2): ", body.iat);
 			}
 			
 			(function IIFE(func, cb) {
@@ -303,12 +306,9 @@ app.get("/private2", (req, res) => {
 					console.log("Token Failed Verification! (from /P2)");
 					return res.status(401).send();
 				}
-			}));
-				
-				
-				
-			});
+			}));	
 		});
+	});
 });
 
 app.post("/refreshToken", function (req, res) { // Figure out how to do it this way
@@ -381,23 +381,13 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 					console.log("Token Failed Verification! (from /refeshToken)");
 					return res.status(401).send();
 				}
-			}));
-				
-				
-				
-			});
+			}));			
 		});
-
+	});
 });
 
 app.get("/getcooks", function (req, res) {
     res.send(req.cookies);
-})
-
-app.get("/anotherPage", function(req, res, next){ // Secure page to stay logged in for
-	console.log("/anotherPage called...");
-}, function(req, res){
-	res.render("node-dopple-login-3", {});
 });
 
 // Developer Functions
@@ -407,7 +397,7 @@ function checkTime(t){
 	}else{
 		return false;
 	}
-}
+};
 
 // Removed Code: ---------
 
@@ -416,12 +406,21 @@ function checkTime(t){
 // "Access-Control-Allow-Credentials": "true"
 // }).send(); 
 
+
 // Array.from(Object.keys(obj)).forEach(function(key){
 // console.log("obj (from /initialVerify):" + key + ":" + obj[key]);
 // });
 // console.log("Result is (from /initialVerify): " + result);
 
+
 // app.get("/private", (req, res) => { // works if cookie set, but doesn't revalidate token (insecure).
   // if (!req.cookies.user_cookie_id) return res.status(401).send();
   // res.render("node-dopple-login-success-2", {});
+// });
+
+
+// app.get("/anotherPage", function(req, res, next){ // Secure page to stay logged in for
+	// console.log("/anotherPage called...");
+// }, function(req, res){
+	// res.render("node-dopple-login-3", {});
 // });
