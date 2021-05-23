@@ -401,10 +401,7 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 				
 			});
 		});
-	// res.writeHead(200, { // find out how to do it this way
-      // "Set-Cookie": "user_cookie_id=" + id_token + "; HttpOnly",
-      // "Access-Control-Allow-Credentials": "true"
-    // }).send(); 
+
 });
 
 app.get("/getcooks", function (req, res) {
@@ -426,8 +423,14 @@ function checkTime(time){
 	}
 }
 
-// Removed Code:
+// Removed Code: ---------
+
+// res.writeHead(200, { // find out how to do it this way
+// "Set-Cookie": "user_cookie_id=" + id_token + "; HttpOnly",
+// "Access-Control-Allow-Credentials": "true"
+// }).send(); 
+
 // Array.from(Object.keys(obj)).forEach(function(key){
-						// console.log("obj (from /initialVerify):" + key + ":" + obj[key]);
-					// });
-					// console.log("Result is (from /initialVerify): " + result);
+// console.log("obj (from /initialVerify):" + key + ":" + obj[key]);
+// });
+// console.log("Result is (from /initialVerify): " + result);
