@@ -1,70 +1,8 @@
 <html>
 <head>
-	<title>Russell's Facemash Clone</title>
+	<title>Russell's Login System</title>
 	<meta name="google-signin-client_id" content="26309264302-68ubosoca7b6g9vrvl9mu6gpa74044p6.apps.googleusercontent.com">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="font-awesome.min.css">
-	<style>
-		button {
-			width: 65px;
-			height: 65px;
-			cursor: pointer; // doesn't work
-		}
-		.wrapper {
-			border: 0px solid black;
-		}
-		.fullWidth {
-			width: 100%;
-		}
-		.playerImage {
-			width: 50%;
-		}
-		.center {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-		.hidden {
-			display: none;
-			visibility: hidden;
-		}
-		.likeBtn {
-			border: none;
-		}
-		#menu {
-			vertical-align: middle;
-		}
-		#russBox{
-			visibility: hidden;
-			position: fixed;
-			left: 1%;
-			bottom: -100px;
-			z-index: 10;
-			height: 25%;
-		}
-		#russImage{
-			width: 25%;
-			height: 75%;
-		}
-		.tooltip .tooltiptext {
-			visibility: hidden;
-			width: 120px;
-			background-color: #FFF;
-			color: #000;
-			text-align: center;
-			border-radius: 6px;
-			padding: 5px 0;
-			position: absolute;
-			z-index: 11;
-			border: 1px solid black;
-		}
-		.tooltip:hover .tooltiptext {
-			
-		}
-		.tooltip:onclick .tooltiptext {
-			visibility: visible;
-		}
-	</style>
 </head>
 <body>
 
@@ -79,15 +17,13 @@
 
 <div class="wrapper fullWidth">
 	<center><h1>You are STILL signed in!</h1></center><br>
+	<center><h2>You would not be able to see this page unless you were a verified user!</h2></center><br>
 	<center><div id="userBox"></div></center><br>
 </div>
 
 <div class="wrapper fullWidth center">
 
 </div>
-
-
-</center>
 
 <script>
 function onSignIn(googleUser){
@@ -115,8 +51,8 @@ function onSignIn(googleUser){
 
 	console.log("Trying Promise.all...");
 	Promise.all([idPromise]).then((values) => {
-		console.log("idPromise (values:)", values);
 	
+		console.log("idPromise (values:)", values);
 		console.log("Sending Ajax request for TOKEN REFRESH...");
 		
 		$.ajax({
@@ -125,7 +61,7 @@ function onSignIn(googleUser){
 				'Content-Type':'application/json',
 			},
 			data: JSON.stringify(userObject),
-			//data: userObject,
+			//data: userObject, // See why this doesn't work, again -- I shouldn't need it.
 			type: 'POST',
 			success: function (response){
 				console.log("Response: ", response);
