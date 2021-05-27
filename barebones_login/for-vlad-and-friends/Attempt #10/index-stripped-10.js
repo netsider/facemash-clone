@@ -37,8 +37,7 @@ app.get('/login', function(req, res){
 	res.render("node-dopple-login-2", {});
 });
 
-
-app.post('/initialVerify', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
+app.post('/initialVerify', function(req, res, next){
 	console.log("/initialVerify (POST) called...");
 	
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => { // Get JWK keys
@@ -81,7 +80,7 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 					let obj = {
 						email: req.body.emailAddress,
 						// imageURL: req.body.imageURL,
-						imageURL: body.picture, // Use the one from the server/token (instead of line above) so user can't mess with it.
+						imageURL: body.picture, // Use the one from token (instead of the request) so user can't mess with it.
 						tokenVerified: result
 					}
 					console.log("obj (from /initialVerify):", obj);
@@ -116,7 +115,6 @@ app.post('/initialVerify', function(req, res, next){ // Milddeware token vertifi
 						console.log("Token Failed Verification!");
 					}
 				}));
-				
 			} catch (error) {
 				console.error(error.message);
 				console.log("ERROR 1!");
@@ -295,7 +293,7 @@ app.get("/private2", (req, res) => {
 					if(checkTime(body.exp) === true){
 						console.log("Rendering secure page...");
 						res.set('Content-Type', 'text/html');
-						// Why can't I just set a cookie with a new id token each time, right here?  Can I? (instead of doing it via AJAX?)
+						// Why can't I just set a cookie with a new id token each time, right here?  Can I? (instead of doing it via AJAX?).  It would make a lot more sense just to do it right here, now that I think about it.
 						return res.render("node-dopple-login-success-2", {});
 					}else{
 						console.log("Token passed verification, but is expired!");	
@@ -386,7 +384,7 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 	});
 });
 
-app.get("/getcooks", function (req, res) {
+app.get("/getcookies", function (req, res) {
     res.send(req.cookies);
 });
 
