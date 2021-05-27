@@ -79,7 +79,7 @@ function onSignIn(googleUser){
 					document.cookie = "user_id_token=" + response.id_token;
 					document.cookie = "user_email=" + response.email;
 					document.cookie = "user_imageURL=" + response.imageURL;
-					document.getElementById("userBox").innerHTML = '<center>Hello ' + response.email + '!<br><img src="' + response.imageURL + '"></center>';
+					document.getElementById("userBox").innerHTML = '<center>Hello <font color="red">' + response.email + '!</font><br><img src="' + response.imageURL + '"></center>';
 				}
 			},
 			error: function (error) {
