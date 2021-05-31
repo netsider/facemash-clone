@@ -312,12 +312,12 @@ app.get("/private2", (req, res) => {
 app.post("/refreshToken", function (req, res) { // Figure out how to do it this way
 	console.log("/refeshToken called...");
 	
-	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
+	https.get("https://www.googleapis.com/oauth2/v2/certs", (res2) => {
 		let newbody = "";
-	res2.on("data", (chunk) => {
-		newbody += chunk;
-	});
-	res2.on("end", () => {	
+		res2.on("data", (chunk) => {
+			newbody += chunk;
+		});
+		res2.on("end", () => {
 			console.log("Got keys (on /refeshToken)");
 		
 			let parts = req.body.userIDToken.split('.');
