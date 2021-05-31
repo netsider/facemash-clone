@@ -17,7 +17,7 @@
 
 <div class="wrapper fullWidth">
 	<center><h1>You are STILL signed in!</h1></center><br>
-	<center><h2>You would not be able to see this page unless you were a verified user!</h2></center><br>
+	<center><h2>You would NOT be able to see this page unless you were a verified user!</h2></center><br>
 	<center><div id="userBox"></div></center><br>
 </div>
 
@@ -27,7 +27,7 @@
 
 <script>
 function onSignIn(googleUser){
-	<!-- console.log("onSignIn()..."); -->
+	console.log("onSignIn()...");
 
 	console.log("Checking GAPI...");
 	let auth2 = gapi.auth2.init();
@@ -43,10 +43,11 @@ function onSignIn(googleUser){
 		"userIDToken": id_token,
 	};
 
-	console.log("auth2.isSignedIn.get(): " + auth2.isSignedIn.get());
+	console.log("auth2.isSignedIn.get(): ", auth2.isSignedIn.get());
 	console.log("auth2: ", auth2);	
-	console.log("idPromise (values:)", idPromise);
+	console.log("idPromise:", idPromise);
 	console.log("id_token: ", id_token);
+	console.log("profile", profile);
 	console.log("userObject: ", userObject);
 
 	console.log("Trying Promise.all...");
@@ -64,12 +65,8 @@ function onSignIn(googleUser){
 			//data: userObject, // See why this doesn't work, again -- I shouldn't need it.
 			type: 'POST',
 			success: function (response){
-				console.log("Response: ", response);
-				console.log("response.tokenVerified", response.tokenVerified);
-				console.log("response.id_token", response.id_token);
-				console.log("response.email", response.email);
-				console.log("response.picture", response.imageURL);
-				
+				console.log("XHR SUCCESS!");
+				console.log("Response: ", response);				
 				
 				if(response.tokenVerified === true){
 					console.log("Token Verified (& response received!)");
@@ -84,14 +81,14 @@ function onSignIn(googleUser){
 			},
 			error: function (error) {
 				console.log("TOKEN NOT Verified!")
-				console.log(error);
+				console.log("ERROR: ", error);
 			}
 		});
+		
 	});
 
 
 };
-
 
 function onFailure(error) {
      console.log(error);
