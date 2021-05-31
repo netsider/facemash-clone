@@ -367,11 +367,11 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 						return res.json(obj);
 					}else{ // don't issue new token
 						console.log("Token passed verification, BUT IS EXPIRED! (on /refeshToken)");
-						return res.status(401).send();
+						return res.status(467).send();
 					}
 				}else{
 					console.log("Token Failed JWS Verification! (from /refeshToken)");
-					return res.status(401).send();
+					return res.status(467).send();
 				}
 			}));			
 		});
