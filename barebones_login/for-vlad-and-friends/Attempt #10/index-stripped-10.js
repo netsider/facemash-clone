@@ -318,14 +318,14 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 		newbody += chunk;
 	});
 	res2.on("end", () => {	
-		console.log("Got keys (on /refeshToken)");
+			console.log("Got keys (on /refeshToken)");
 		
-		let parts = req.body.userIDToken.split('.');
-		let headerBuf2 = new Buffer.from(parts[0], 'base64');
-		let bodyBuf = new Buffer.from(parts[1], 'base64');
-		let header = JSON.parse(headerBuf2.toString());
-		let body = JSON.parse(bodyBuf.toString());
-		let keysFromRequest = newbody;
+			let parts = req.body.userIDToken.split('.');
+			let headerBuf2 = new Buffer.from(parts[0], 'base64');
+			let bodyBuf = new Buffer.from(parts[1], 'base64');
+			let header = JSON.parse(headerBuf2.toString());
+			let body = JSON.parse(bodyBuf.toString());
+			let keysFromRequest = newbody;
 			
 			let debugVAR = true;
 			if(debugVAR === true){
@@ -366,17 +366,11 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 						res.set('Content-Type', 'application/json');
 						return res.json(obj);
 					}else{ // don't issue new token
-						console.log("Token passed verification, BUT IS EXPIRED! (on /refeshToken)");	
-						let obj = {
-							email: body.email,
-							imageURL: body.picture,
-							tokenVerified: false
-						}
+						console.log("Token passed verification, BUT IS EXPIRED! (on /refeshToken)");
 						return res.status(401).send();
 					}
-						
 				}else{
-					console.log("Token Failed Verification! (from /refeshToken)");
+					console.log("Token Failed JWS Verification! (from /refeshToken)");
 					return res.status(401).send();
 				}
 			}));			
@@ -388,7 +382,7 @@ app.get("/getcookies", function (req, res) {
     res.send(req.cookies);
 });
 
-// Developer Functions
+// Functions
 function checkTime(t){
 	if(t >= Math.floor(Date.now() / 1000)){
 		return true;
