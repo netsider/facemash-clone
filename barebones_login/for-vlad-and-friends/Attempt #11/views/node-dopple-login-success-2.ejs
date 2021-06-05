@@ -35,6 +35,7 @@ function onSignIn(googleUser){
 	let idPromise = gapi.auth2.getAuthInstance().currentUser.get().reloadAuthResponse();
 	let profile = googleUser.getBasicProfile();
 	let id_token = googleUser.getAuthResponse().id_token;
+	let getIDtest = googleUser.getId();
 	let isSignedIn = auth2.isSignedIn.get();
 
 	console.log("Creating user object...");
@@ -49,6 +50,7 @@ function onSignIn(googleUser){
 	console.log("idPromise:", idPromise);
 	console.log("id_token: ", id_token);
 	console.log("profile", profile);
+	console.log("getIDtest", getIDtest);
 	console.log("userObject: ", userObject);
 
 	console.log("Trying Promise.all...");
