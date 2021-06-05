@@ -31,13 +31,18 @@ const workingTable = "facemash_clone_3";
 
 console.log("Starting...");
 app.listen(3000);
-	
+
+app.get('/', function(req, res){
+    res.sendFile('index.html', { root: __dirname + "/" } );
+});
+
 app.get('/login', function(req, res){
 	console.log("/login called");
 	res.render("node-dopple-login-2", {});
 });
 
-app.post('/initialVerify', function(req, res, next){
+
+app.post('/initialVerify', function(req, res, next){ // Milddeware token vertification directly in express route/endpoint.
 	console.log("/initialVerify (POST) called...");
 	
 	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => { // Get JWK keys
@@ -80,7 +85,7 @@ app.post('/initialVerify', function(req, res, next){
 					let obj = {
 						email: req.body.emailAddress,
 						// imageURL: req.body.imageURL,
-						imageURL: body.picture, // Use the one from token (instead of the request) so user can't mess with it.
+						imageURL: body.picture, // Use the one from the server/token (instead of line above) so user can't mess with it.
 						tokenVerified: result
 					}
 					console.log("obj (from /initialVerify):", obj);
@@ -115,6 +120,7 @@ app.post('/initialVerify', function(req, res, next){
 						console.log("Token Failed Verification!");
 					}
 				}));
+				
 			} catch (error) {
 				console.error(error.message);
 				console.log("ERROR 1!");
@@ -293,16 +299,16 @@ app.get("/private2", (req, res) => {
 					if(checkTime(body.exp) === true){
 						console.log("Rendering secure page...");
 						res.set('Content-Type', 'text/html');
-						// Why can't I just set a cookie with a new id token each time, right here?  Can I? (instead of doing it via AJAX?).  It would make a lot more sense just to do it right here, now that I think about it.
+						// Why can't I just set a cookie with a new id token each time, right here?  Can I? (instead of doing it via AJAX?)
 						return res.render("node-dopple-login-success-2", {});
 					}else{
 						console.log("Token passed verification, but is expired!");	
-						return res.status(401).send();
+						return res.status(403).send();
 					}
 						
 				}else{
 					console.log("Token Failed Verification! (from /P2)");
-					return res.status(401).send();
+					return res.status(403).send();
 				}
 			}));	
 		});
@@ -312,20 +318,20 @@ app.get("/private2", (req, res) => {
 app.post("/refreshToken", function (req, res) { // Figure out how to do it this way
 	console.log("/refeshToken called...");
 	
-	https.get("https://www.googleapis.com/oauth2/v2/certs", (res2) => {
+	https.get("https://www.googleapis.com/oauth2/v2/certs",(res2) => {
 		let newbody = "";
-		res2.on("data", (chunk) => {
-			newbody += chunk;
-		});
-		res2.on("end", () => {
-			console.log("Got keys (on /refeshToken)");
+	res2.on("data", (chunk) => {
+		newbody += chunk;
+	});
+	res2.on("end", () => {	
+		console.log("Got keys (on /refeshToken)");
 		
-			let parts = req.body.userIDToken.split('.');
-			let headerBuf2 = new Buffer.from(parts[0], 'base64');
-			let bodyBuf = new Buffer.from(parts[1], 'base64');
-			let header = JSON.parse(headerBuf2.toString());
-			let body = JSON.parse(bodyBuf.toString());
-			let keysFromRequest = newbody;
+		let parts = req.body.userIDToken.split('.');
+		let headerBuf2 = new Buffer.from(parts[0], 'base64');
+		let bodyBuf = new Buffer.from(parts[1], 'base64');
+		let header = JSON.parse(headerBuf2.toString());
+		let body = JSON.parse(bodyBuf.toString());
+		let keysFromRequest = newbody;
 			
 			let debugVAR = true;
 			if(debugVAR === true){
@@ -366,23 +372,29 @@ app.post("/refreshToken", function (req, res) { // Figure out how to do it this 
 						res.set('Content-Type', 'application/json');
 						return res.json(obj);
 					}else{ // don't issue new token
-						console.log("Token passed verification, BUT IS EXPIRED! (on /refeshToken)");
-						return res.status(467).send();
+						console.log("Token passed verification, BUT IS EXPIRED! (on /refeshToken)");	
+						let obj = {
+							email: body.email,
+							imageURL: body.picture,
+							tokenVerified: false
+						}
+						return res.status(403).send();
 					}
+						
 				}else{
-					console.log("Token Failed JWS Verification! (from /refeshToken)");
-					return res.status(467).send();
+					console.log("Token Failed Verification! (from /refeshToken)");
+					return res.status(403).send();
 				}
 			}));			
 		});
 	});
 });
 
-app.get("/getcookies", function (req, res) {
+app.get("/getcooks", function (req, res) {
     res.send(req.cookies);
 });
 
-// Functions
+// Developer Functions
 function checkTime(t){
 	if(t >= Math.floor(Date.now() / 1000)){
 		return true;
