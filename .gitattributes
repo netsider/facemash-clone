@@ -1,2 +1,30 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+#To try to prevent images becoming corrupted by GitHub, like they did.
+*.jpg binary
+*.JPG binary
+*.png binary
+*.PNG binary
+*.gif binary
+*.GIF binary
+*.pdf binary
+*.PDF binary
+*.docx binary
+*.DOCX binary
+*.rtf binary
+*.RTF binary
+*.mhtml binary
+*.MHTML binary
+*.doc binary
+*.DOC binary
+*.zip binary
+*.ZIP binary
+*.7z binary
+*.7Z binary
+*.msi binary
+*.MSI binary
+*.exe binary
+*.EXE binary
+*.svg binary
+*.SVG binary
