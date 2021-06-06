@@ -23,6 +23,7 @@ This project originally began as an experiment into the algorith the original ve
 • Make strict version of one/more of these?. <br>
 • Move/other-versions to own repos?<br>
 • <strike>See how TS version Randy made is any different than regular.</strike> (It's not)<br>
+• <strike>Fix both SSL certificates for domain name(s) this project's server resides on.</strike>.
 
 <br><strong>Recent Changes (NodeJS API version):</strong><br>
 • Sanitize user input (needed?).<br>
