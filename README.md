@@ -23,7 +23,8 @@ This project originally began as an experiment into the algorith the original ve
 • Make strict version of one/more of these?. <br>
 • Move/other-versions to own repos?<br>
 • <strike>See how TS version Randy made is any different than regular.</strike> (It's not)<br>
-• <strike>Fix both SSL certificates for domain name(s) this project's server resides on.</strike>.
+• <strike>Fix both SSL certificates for domain name(s) this project's server resides on.</strike>.<br>
+• <strike>Figure out how to make HTTP version redirect to HTTPS version, and do that for all domains (should I? I did for one already).<br>
 
 <br><strong>Recent Changes (NodeJS API version):</strong><br>
 • Sanitize user input (needed?).<br>
