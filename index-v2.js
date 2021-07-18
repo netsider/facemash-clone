@@ -1,6 +1,6 @@
 // ELO-Node-Regular-Voting-App (see readme)
 // Made by Russell Rounds
-// IN-MEMORY VERSION
+// EARLY IN-MEMORY VERSION
 
 const http = require("http");
 const fs = require("fs");
