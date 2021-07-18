@@ -1,6 +1,7 @@
 // Facemash-clone
 // Made by Russell Rounds
 // Version 0.5 - Promises Version
+// This version contains both index.core.js and index-login-only (before they were each separate, anyway).  To use this, you will need to update the config file location.
 
 // To Do:
 // Make NodeJS SQL Server skeleton/template
