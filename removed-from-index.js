@@ -1,3 +1,4 @@
+// This is login/auth code that was removed from index.js to create index-shaked.js
 
 app.get('/login', function(req, res){
     res.render("node-dopple-login", {});
