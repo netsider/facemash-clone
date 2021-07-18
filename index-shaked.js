@@ -1,6 +1,6 @@
 // Facemash-clone
 // Made by Russell Rounds
-// Version 0.5 - Promises Version
+// Current version without login/auth code (formerly index.js, before login/auth code taken out)
 
 // To Do:
 // Make NodeJS SQL Server skeleton/template
