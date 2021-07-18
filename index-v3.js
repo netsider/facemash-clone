@@ -1,6 +1,6 @@
 // Facemash-clone
 // Made by Russell Rounds
-// DATABASE-BACKED VERSION
+// EARLY DATABASE-BACKED VERSION (Doesn't use promises  yet).
 
 const http = require("http");
 const fs = require("fs");
