@@ -1,6 +1,6 @@
 // ELO-Node-Regular-Voting-App (see readme)
 // Made by Russell Rounds
-// Version 0.2
+// IN-MEMORY VERSION
 
 const http = require("http");
 const fs = require("fs");
@@ -97,8 +97,8 @@ app.post("/submitPlayer", function(req, res){
 	//fs.writeFileSync(winnerScoreFile, String(winnerNewScore)); // Perform batch write on shutdown
 	//fs.writeFileSync(loserScoreFile, String(loserNewScore));
 	
-	playerScoresObj[winner] = winnerNewScore;
-	playerScoresObj[loser] = loserNewScore;
+	playerScoresObj[winner] = winnerNewScore; // write to mem instead of file
+	playerScoresObj[loser] = loserNewScore; // write to mem instead of file
 	
 	let winnerLoserObject = {winner: winner, loser: loser, winnerName: winnerName, loserName: loserName, winnerOldScore: winnerOldScore, loserOldScore: loserOldScore, winnerELO: winnerELO, loserELO: loserELO, winnerNewScore: winnerNewScore, loserNewScore: loserNewScore, winnerNewELO: winnerNewELO, loserNewELO: loserNewELO};
 	

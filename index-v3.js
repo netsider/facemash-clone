@@ -1,6 +1,6 @@
 // Facemash-clone
 // Made by Russell Rounds
-// Version 0.4
+// DATABASE-BACKED VERSION
 
 const http = require("http");
 const fs = require("fs");

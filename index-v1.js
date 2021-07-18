@@ -1,6 +1,6 @@
 // ELO-Node-Regular-Voting-App (see readme)
 // Made by Russell Rounds
-// Version 0.1
+// VERSION THAT WRITES TO FILES
 
 // Node Modules
 const http = require("http");
