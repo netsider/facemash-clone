@@ -29,6 +29,11 @@ Attempt #9: Expired tokens will now be rejected.  Lines will be added to refresh
 
 Attempt #10: Cleaned-up version of #9. Also, there may be some things I'm missing or not doing correctly, but at this point I believe everything is pretty much working fully and there's nothing more I can do (in terms of security), but I will continue to see if this is the case.
 
+Attempt #11: Uses cookies to keep user logged in (no?).
+
+Attempt #12: First version to attempt to send data in HTTP header.
+
+
 https://bugs.chromium.org/p/chromium/issues/detail?id=954323
 
 Solution Not in Google Database:
