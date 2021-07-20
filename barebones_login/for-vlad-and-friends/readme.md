@@ -33,6 +33,11 @@ Attempt #11: Uses cookies to keep user logged in (no?).
 
 Attempt #12: First version to attempt to send data in HTTP header.
 
+	Notes: 
+		https://medium.facilelogin.com/jwt-jws-and-jwe-for-not-so-dummies-b63310d201a3
+		
+		
+
 
 https://bugs.chromium.org/p/chromium/issues/detail?id=954323
 
