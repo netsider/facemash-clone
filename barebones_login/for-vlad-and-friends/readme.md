@@ -29,13 +29,14 @@ Attempt #9: Expired tokens will now be rejected.  Lines will be added to refresh
 
 Attempt #10: Cleaned-up version of #9. Also, there may be some things I'm missing or not doing correctly, but at this point I believe everything is pretty much working fully and there's nothing more I can do (in terms of security), but I will continue to see if this is the case.
 
-Attempt #11: Uses cookies to keep user logged in (no?).
+Attempt #11: Uses cookies and JWT + JWS for authentication + authorization.
 
-Attempt #12: First version to attempt to send data in HTTP header.
+Attempt #12: Attempt to send data in HTTP header (? heard on Youtube JWT tutorial).  Or use passport.js?.  Looks like I need to replace my own middleware function with passport.js?.
 
 	Notes: 
 		https://medium.facilelogin.com/jwt-jws-and-jwe-for-not-so-dummies-b63310d201a3
-		
+		https://www.passportjs.org/packages/passport-jwt/
+		https://www.izertis.com/en/-/refresh-token-with-jwt-authentication-in-node-js - A simple (but odd?) passport.js authentication.
 		
 
 
