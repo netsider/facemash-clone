@@ -29,13 +29,14 @@ Attempt #9: Expired tokens will now be rejected.  Lines will be added to refresh
 
 Attempt #10: Cleaned-up version of #9. Also, there may be some things I'm missing or not doing correctly, but at this point I believe everything is pretty much working fully and there's nothing more I can do (in terms of security), but I will continue to see if this is the case.
 
-Attempt #11: Uses cookies and JWT + JWS for authentication + authorization.
+Attempt #11: Uses cookies (as refresh token, for authorization), and JWT + JWS (for authentication).
 
 Attempt #12: Attempt to send data in HTTP header (? heard on Youtube JWT tutorial).  Or use passport.js?.  Looks like I need to replace my own middleware function with passport.js?, and/or switch to passport.js completely?
 
 	Notes (Add to main notes): 
 		• A signed JWT is known as a JWS (JSON Web Signature).  A JWT has to be either a JWS or JWE [1].
 		• "in most of the cases, the JWT is transported over HTTP under the Authorization Bearer header (like in OAuth 2.0). Authorization: Bearer <jwt-token>" [1].
+		• Proof of Possession
 		
 		Types of Tokens, etc.:
 			JWT = JSON Web Token (basic).
@@ -49,6 +50,7 @@ Attempt #12: Attempt to send data in HTTP header (? heard on Youtube JWT tutoria
 		1. https://medium.facilelogin.com/jwt-jws-and-jwe-for-not-so-dummies-b63310d201a3 - In-depth about everything JWK/JWS/JWE/JWT
 			https://www.passportjs.org/packages/passport-jwt/
 			https://www.izertis.com/en/-/refresh-token-with-jwt-authentication-in-node-js - A simple (but odd?) passport.js authentication.
+			https://www.soapui.org/learn/api/understanding-rest-headers-and-parameters/ - History of some of these technologies, general info.
 		
 
 
