@@ -29,16 +29,44 @@ Attempt #9: Expired tokens will now be rejected.  Lines will be added to refresh
 
 Attempt #10: Cleaned-up version of #9. Also, there may be some things I'm missing or not doing correctly, but at this point I believe everything is pretty much working fully and there's nothing more I can do (in terms of security), but I will continue to see if this is the case.
 
-Attempt #11: Uses cookies (as refresh token, for authorization), and JWT + JWS (for authentication). No?
+Attempt #11: Same as #10. Uses cookies (as refresh token, for authorization), and JWT + JWS (for authentication). No?
 
-Attempt #12: Attempt to send data in HTTP header (? heard on Youtube JWT tutorial).  Or use passport.js?.  Looks like I need to replace my own middleware function with passport.js?, and/or switch to passport.js completely?
+Attempt #12: Attempt to store data in browser localStorage and send in HTTP header (? heard on Youtube JWT tutorial).  Or use passport.js?.  Looks like I need to replace my own middleware function with passport.js?, and/or switch to passport.js completely?  
+
+[ Later on: ]
+• create/sign own JWT for email/password login authentication.
+
+[ Links: ]
 
 	https://stackoverflow.com/questions/10358100/how-to-access-localstorage-in-node-js - Fetch API + post request?
 	
+	https://stackoverflow.com/questions/33246028/save-token-in-local-storage-using-node - Has a basic JWT auth script in an answer.
 
 	Reading:
+	
+		Tuts:
 		https://medium.com/swlh/everything-you-need-to-know-about-the-passport-jwt-passport-js-strategy-8b69f39014b0#ee47
 		https://medium.com/front-end-weekly/learn-using-jwt-with-passport-authentication-9761539c4314
+		
+		https://stackoverflow.com/questions/3498005/user-authentication-libraries-for-node-js
+		
+		https://awesomeopensource.com/projects/social-login
+		https://awesomeopensource.com/projects/passportjs
+		
+		Libs:
+		https://softwareontheroad.com/nodejs-jwt-authentication-oauth/
+		https://github.com/santiq/nodejs-auth
+		https://awesomeopensource.com/project/santiq/nodejs-auth
+		
+	Later:
+	https://github.com/didinj/node-express-mongoose-passport-jwt-rest-api-auth
+		https://auth0.com/docs/flows/call-api-hybrid-flow
+		https://awesomeopensource.com/project/proshoumma/ReForum
+		https://github.com/und3fined-v01d/Friend.ly
+		https://awesomeopensource.com/projects/text-mining
+		https://awesomeopensource.com/projects/nodemailer
+		https://awesomeopensource.com/projects/nodejs
+		
 
 	Notes (Add to main notes): 
 		• A signed JWT is known as a JWS (JSON Web Signature).  A JWT has to be either a JWS or JWE [1].
