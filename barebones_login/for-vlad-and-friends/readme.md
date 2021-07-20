@@ -33,10 +33,19 @@ Attempt #11: Uses cookies and JWT + JWS for authentication + authorization.
 
 Attempt #12: Attempt to send data in HTTP header (? heard on Youtube JWT tutorial).  Or use passport.js?.  Looks like I need to replace my own middleware function with passport.js?.
 
-	Notes: 
-		https://medium.facilelogin.com/jwt-jws-and-jwe-for-not-so-dummies-b63310d201a3
-		https://www.passportjs.org/packages/passport-jwt/
-		https://www.izertis.com/en/-/refresh-token-with-jwt-authentication-in-node-js - A simple (but odd?) passport.js authentication.
+	Notes (Add to main notes): 
+		• A signed JWT is known as a JWS (JSON Web Signature).  A JWT has to be either a JWS or JWE.
+		
+		Types of Tokens:
+			JWT = JSON Web Token
+			JWS = JSON Web Signature
+			JWK = JSON Web Key
+			JWE = JSON Web Encryption
+	
+	Sources:
+		1. https://medium.facilelogin.com/jwt-jws-and-jwe-for-not-so-dummies-b63310d201a3
+			https://www.passportjs.org/packages/passport-jwt/
+			https://www.izertis.com/en/-/refresh-token-with-jwt-authentication-in-node-js - A simple (but odd?) passport.js authentication.
 		
 
 
