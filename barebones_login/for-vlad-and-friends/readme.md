@@ -31,16 +31,19 @@ Attempt #10: Cleaned-up version of #9. Also, there may be some things I'm missin
 
 Attempt #11: Uses cookies and JWT + JWS for authentication + authorization.
 
-Attempt #12: Attempt to send data in HTTP header (? heard on Youtube JWT tutorial).  Or use passport.js?.  Looks like I need to replace my own middleware function with passport.js?.
+Attempt #12: Attempt to send data in HTTP header (? heard on Youtube JWT tutorial).  Or use passport.js?.  Looks like I need to replace my own middleware function with passport.js?, and/or switch to passport.js completely?
 
 	Notes (Add to main notes): 
 		• A signed JWT is known as a JWS (JSON Web Signature).  A JWT has to be either a JWS or JWE.
 		
-		Types of Tokens:
-			JWT = JSON Web Token
-			JWS = JSON Web Signature
+		Types of Tokens, etc.:
+			JWT = JSON Web Token (basic).
+			JWS = JSON Web Signature (this is a signed JWT).
+				• JWS Compact Serialization - main elements separated by periods (.): the JOSE header, the JWS payload and the JWS signature.
+					
 			JWK = JSON Web Key
 			JWE = JSON Web Encryption
+			JOSE Header = First part (with "alg" and "kid").
 	
 	Sources:
 		1. https://medium.facilelogin.com/jwt-jws-and-jwe-for-not-so-dummies-b63310d201a3
