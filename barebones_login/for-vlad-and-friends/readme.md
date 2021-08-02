@@ -34,7 +34,7 @@ Attempt #11: Same as #10. Uses cookies (as refresh token, for authorization), an
 Attempt #12: Attempt to store data in browser localStorage and send in HTTP header (? heard on Youtube JWT tutorial).  Or use passport.js?.  Looks like I need to replace my own middleware function with passport.js?, and/or switch to passport.js completely?  
 
 [ Later on: ]
-• create/sign own JWT for email/password login authentication.
+• Create/sign own JWT for email/password login authentication.
 
 [ Links: ]
 
